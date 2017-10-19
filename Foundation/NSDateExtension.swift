@@ -8,19 +8,19 @@
 
 import Foundation
 
-enum DateType: String {
+public enum DateType: String {
     case OneWeek = "oneWeek", OneMonth = "oneMonth", ThreeMonths = "threeMonths", SixMonths = "sixMonths", None = ""
 }
 
 extension Date {
     
     // init with timestamp in Int
-    init(timeStamp: Int) {
+    public init(timeStamp: Int) {
         self.init(timeIntervalSince1970: Double(timeStamp))
     }
     
     //Convert NSDate to timestamp in Int
-    func toTimeStamp() -> Int {
+    public func toTimeStamp() -> Int {
         return Int(self.timeIntervalSince1970)
     }
     
@@ -40,7 +40,7 @@ extension Date {
 //    }
     
     
-    init(day: Int, month: Int, year: Int) {
+    public init(day: Int, month: Int, year: Int) {
         var comps = DateComponents()
         comps.day = day
         comps.month = month
@@ -52,35 +52,35 @@ extension Date {
         self.init(timeInterval: 0, since: cal.date(from: comps)!)
     }
     
-    var year: Int {
+    public var year: Int {
         get {
             let calendar = Calendar.current
             return (calendar as NSCalendar).component(.year, from: self)
         }
     }
     
-    var month: Int {
+    public var month: Int {
         get {
             let calendar = Calendar.current
             return (calendar as NSCalendar).component(.month, from: self)
         }
     }
     
-    var day: Int {
+    public var day: Int {
         get {
             let calendar = Calendar.current
             return (calendar as NSCalendar).component(.day, from: self)
         }
     }
     
-    static func dateAtMidnight() -> Date {
+    static public func dateAtMidnight() -> Date {
         let today = Date()
         var todayString = today.dateToString("MM dd yyyy")
         todayString.append(" 23:59:59")
         return Date.dateFromString(todayString, format: "MM dd yyyy HH:mm:ss")!
     }
     
-    static func dateFromString(_ string: String, format: String) -> Date? {
+    static public func dateFromString(_ string: String, format: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
@@ -88,11 +88,11 @@ extension Date {
     }
     
     //Convert NSDate to String
-    func dateToString(_ format: String?) -> String {
+    public func dateToString(_ format: String?) -> String {
         let dateFormatter = DateFormatter()
 //        dateFormatter.locale = NSLocale.systemLocale()
         
-        if format != nil && format!.characters.count > 0 {
+        if let format = format, !format.isEmpty {
             dateFormatter.dateFormat = format
         } else {
             dateFormatter.dateFormat = "yyyy MM dd"
@@ -107,32 +107,32 @@ extension Date {
     }
     
     // 1 day before this date
-    func dateByMinusOneDay() -> Date {
+    public func dateByMinusOneDay() -> Date {
         return dateByMinusNumberOfDay(1)
     }
     
     // 30 day before this date
-    func dateByMinusOneMonth() -> Date {
+    public func dateByMinusOneMonth() -> Date {
         return dateByMinusNumberOfDay(30)
     }
     
     // 7 day before this date
-    func dateByMinusOneWeek() -> Date {
+    public func dateByMinusOneWeek() -> Date {
         return dateByMinusNumberOfDay(7)
     }
     
     // 3 month before this date divide with 7 day * 4 week * 3 month
-    func dateByMinusThreeMonth() -> Date {
+    public func dateByMinusThreeMonth() -> Date {
         return dateByMinusNumberOfDay(7*4*3)
     }
     
     // 6 month before this date divide with 30 day * 6 month
-    func dateByMinusSixMonth() -> Date {
+    public func dateByMinusSixMonth() -> Date {
         return dateByMinusNumberOfDay(30*6)
     }
     
     // date with dateType enum
-    func dateByDateType(_ dateType: DateType) -> Date? {
+    public func dateByDateType(_ dateType: DateType) -> Date? {
         switch dateType {
         case .OneWeek:
             return self.dateByMinusOneWeek()
@@ -148,7 +148,7 @@ extension Date {
     }
     
     // Date before this date a period of days
-    func dateByMinusNumberOfDay(_ day: Int) -> Date {
+    public func dateByMinusNumberOfDay(_ day: Int) -> Date {
         var dayComp = DateComponents()
         dayComp.day = -day
         
@@ -157,13 +157,13 @@ extension Date {
         return date!
     }
     
-    static func numberOfDayInYear(fromDate date: Date) -> Int {
+    static public func numberOfDayInYear(fromDate date: Date) -> Int {
         let oneYearFromCurrent = Date(day: date.day, month: date.month, year: date.year-1)
         
         return Date.numberOfDayInPeriod(fromDate: date, toDate: oneYearFromCurrent)
     }
     
-    static func numberOfDayInPeriod(fromDate date: Date, toDate: Date) -> Int {
+    static public func numberOfDayInPeriod(fromDate date: Date, toDate: Date) -> Int {
         
         let numberOfDaysInYear = (Calendar.current as NSCalendar).components(.day, from: date, to: toDate, options: [])
         

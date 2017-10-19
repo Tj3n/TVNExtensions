@@ -88,6 +88,7 @@ extension UILabel {
         });
     }
     
+    /// Change font for whole app, keep size, type, use with UILabel.appearance().substituteFontName
     @objc public var substituteFontName : String {
         get { return self.font.fontName }
         set {

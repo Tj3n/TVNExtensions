@@ -51,6 +51,7 @@ public class KeyboardHandling {
             }
         }
         
+        
         keyboardHeight = deltaHeight
         isKeyboardShow = true
     }

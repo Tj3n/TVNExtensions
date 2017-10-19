@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     
-    subscript (regex: String) -> String? {
+    public subscript (regex: String) -> String? {
         if let range = self.range(of: regex, options: .regularExpression, range: nil, locale: nil) {
             return String(self[range])
         }
@@ -18,20 +18,20 @@ extension String {
     }
     
     // MARK: Common
-    func index(fromStart index: Int) -> Index {
+    public func index(fromStart index: Int) -> Index {
         return self.index(startIndex, offsetBy: index)
     }
     
-    func index(fromEnd index: Int) -> Index {
+    public func index(fromEnd index: Int) -> Index {
         return self.index(endIndex, offsetBy: index >= self.count ? -index : index)
     }
 
-    func replace(in r: Range<Int>, with string: String) -> String {
+    public func replace(in r: Range<Int>, with string: String) -> String {
         return self.replacingCharacters(in: index(fromStart: r.lowerBound)..<index(fromStart: r.upperBound), with: string)
     }
     
-    func firstCharacterUppercase() -> String {
-        if self.characters.count > 0 {
+    public func firstCharacterUppercase() -> String {
+        if !self.isEmpty {
             return replace(in: 0..<1, with: self[...self.index(fromStart: 1)].uppercased())
         } else {
             return self
@@ -39,7 +39,7 @@ extension String {
     }
     
     //Convert nsrange to range
-    func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
+    public func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex)
         let to16 = utf16.index(from16!, offsetBy: nsRange.length, limitedBy: utf16.endIndex)
 
@@ -50,21 +50,16 @@ extension String {
         return nil
     }
     
-    //return string length
-    var length : Int {
-        return self.characters.count
-    }
-    
     //MARK: Validation
     //Validate email
-    func isValidEmail() -> Bool {
+    public func isValidEmail() -> Bool {
         let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluate(with: self)
     }
     
     //Validate URL
-    func isValidURL() -> Bool {
+    public func isValidURL() -> Bool {
         let url = URL(string: self)
         // candidate is a well-formed url with:
         //  - a scheme (like http://)
@@ -77,7 +72,7 @@ extension String {
     }
     
     // MARK: Conversion
-    func toCurrencySymbol() -> String {
+    public func toCurrencySymbol() -> String {
         return findCurrencySymbolByCode(self)
     }
     
@@ -100,11 +95,11 @@ extension String {
         return currencyCode
     }
     
-    func toCountryName() -> String? {
+    public func toCountryName() -> String? {
         return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: self)
     }
     
-    func toFlag() -> String {
+    public func toFlag() -> String {
         let base : UInt32 = 127397
         var s = ""
         for v in self.unicodeScalars {
@@ -126,7 +121,7 @@ extension String {
         return string
     }
     
-    func stringConvertedFromHTML() -> String {
+    public func stringConvertedFromHTML() -> String {
         var text = self.replacingOccurrences(of: "<br>", with: "\n")
         text = text.replacingOccurrences(of: "<br />", with: "\n")
         text = text.replacingOccurrences(of: "<li>", with: "• ")
@@ -141,4 +136,8 @@ extension String {
         
         return text.trimmingCharacters(in: CharacterSet(charactersIn: "\n\(unichar(0x0085))")).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
+    
+//    public static func randomString(numericOnly: Bool, length: Int) -> String {
+//        
+//    }
 }
