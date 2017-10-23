@@ -10,39 +10,39 @@ import Foundation
 import UIKit
 
 extension UINavigationController {
-    func hideNavigationBar() {
+    public func hideNavigationBar() {
         self.topViewController?.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    func showNavigationBar() {
+    public func showNavigationBar() {
         self.topViewController?.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    func setDarkStatusBar() {
+    public func setDarkStatusBar() {
         self.navigationBar.barStyle = .black
         self.setNeedsStatusBarAppearanceUpdate()
     }
     
-    func setDefaultStatusBar() {
+    public func setDefaultStatusBar() {
         self.navigationBar.barStyle = .default
         self.setNeedsStatusBarAppearanceUpdate()
     }
     
-    func setInvisibleNavBar() {
+    public func setInvisibleNavBar() {
         self.navigationBar.isTranslucent = true
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage = UIImage()
         self.navigationBar.backgroundColor = UIColor.clear
     }
     
-    func setDefaultNavBar() {
+    public func setDefaultNavBar() {
         self.navigationBar.isTranslucent     = false
         self.navigationBar.shadowImage     = nil
         self.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationBar.backgroundColor = nil
     }
     
-    func addCustomNavBarView(_ view: UIView) {
+    public func addCustomNavBarView(_ view: UIView) {
         self.setInvisibleNavBar()
         self.view.insertSubview(view, belowSubview: self.navigationBar)
     }
