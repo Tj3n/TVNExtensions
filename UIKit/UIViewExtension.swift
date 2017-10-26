@@ -15,7 +15,7 @@ import UIKit
 // MARK: Some frame value and class func
 extension UIView {
     
-    var width: CGFloat {
+    public var width: CGFloat {
         set {
             var frame = self.frame
             frame.size.width = newValue
@@ -26,7 +26,7 @@ extension UIView {
         }
     }
     
-    var height: CGFloat {
+    public var height: CGFloat {
         set {
             var frame = self.frame
             frame.size.height = newValue
@@ -37,7 +37,7 @@ extension UIView {
         }
     }
     
-    var originX: CGFloat {
+    public var originX: CGFloat {
         set {
             self.frame.origin.x = newValue
         }
@@ -46,7 +46,7 @@ extension UIView {
         }
     }
     
-    var originY: CGFloat {
+    public var originY: CGFloat {
         set {
             self.frame.origin.y = newValue
         }
@@ -58,7 +58,7 @@ extension UIView {
     /**
      Auto create view from same name's nib
      */
-    class func viewWithNib() -> Self? {
+    public class func viewWithNib() -> Self? {
         return viewWithNibHelper()
     }
     
@@ -77,7 +77,7 @@ extension UIView {
      
      - returns: uiview contains snapshot image with shadow
      */
-    func snapshot() -> UIView? {
+    public func snapshot() -> UIView? {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0.0)
         self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
@@ -109,7 +109,7 @@ extension UIView {
      - parameter startPoint: min 0 max 1
      - parameter endPoint:   min 0 max 1
      */
-    func setGradientBackground(color startCol: UIColor, endCol: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
+    public func setGradientBackground(color startCol: UIColor, endCol: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = [startCol.cgColor, endCol.cgColor]
@@ -137,7 +137,7 @@ extension UIView {
      - parameter corner: the corner to be rounded
      - parameter radius: radius
      */
-    func customCornerRadius(_ corner: UIRectCorner, radius: CGSize) {
+    public func customCornerRadius(_ corner: UIRectCorner, radius: CGSize) {
         let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners: corner, cornerRadii: radius)
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath

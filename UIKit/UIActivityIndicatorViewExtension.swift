@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIActivityIndicatorView {
-    class func showInView(_ view: UIView) -> UIActivityIndicatorView {
+    public class func showInView(_ view: UIView) -> UIActivityIndicatorView {
         let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
         activityIndicator.layer.cornerRadius = 30.0
@@ -41,7 +41,7 @@ extension UIActivityIndicatorView {
         return activityIndicator
     }
     
-    func end() {
+    public func end() {
         self.superview?.isUserInteractionEnabled = true
         let center: CGPoint = self.center
         UIView.animate(withDuration: 0.2, animations: {() -> Void in

@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIDevice {
-    var modelName: String {
+    public var modelName: String {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
@@ -47,18 +47,20 @@ extension UIDevice {
         }
     }
     
-    var iPhone: Bool {
+    public var isIPhone: Bool {
         return UIDevice().userInterfaceIdiom == .phone
     }
-    enum ScreenType: String {
+    
+    public enum ScreenType: String {
         case iPhone4
         case iPhone5
         case iPhone6
         case iPhone6Plus
         case Unknown
     }
-    var screenType: ScreenType? {
-        guard iPhone else { return nil }
+    
+    public var screenType: ScreenType? {
+        guard isIPhone else { return nil }
         switch UIScreen.main.nativeBounds.height {
         case 960:
             return .iPhone4
@@ -74,12 +76,12 @@ extension UIDevice {
     }
     
     //Check device version
-    class func SYSTEM_VERSION_EQUAL_TO(_ version: NSString) -> Bool {
+    public class func SYSTEM_VERSION_EQUAL_TO(_ version: NSString) -> Bool {
         return self.current.systemVersion.compare(version as String,
                                                           options: NSString.CompareOptions.numeric) == ComparisonResult.orderedSame
     }
     
-    class func SYSTEM_VERSION_GREATER_THAN(_ version: NSString) -> Bool {
+    public class func SYSTEM_VERSION_GREATER_THAN(_ version: NSString) -> Bool {
         return self.current.systemVersion.compare(version as String,
                                                           options: NSString.CompareOptions.numeric) == ComparisonResult.orderedDescending
     }

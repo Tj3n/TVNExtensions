@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public typealias HandlingClosure = ((_ up: Bool)->())?
+public typealias HandlingClosure = ((_ up: Bool, _ height: CGFloat)->())?
 
 public class KeyboardHandling {
     public static let shared: KeyboardHandling = {
@@ -21,21 +21,25 @@ public class KeyboardHandling {
     public var isKeyboardShow: Bool = false
     private var handlingClosureDict = [String: HandlingClosure]()
     
+    public func addKeyboardHandlingClosure(for vc: UIViewController, closure: HandlingClosure) {
+        let className = String(describing: type(of: vc))
+        handlingClosureDict[className] = closure
+    }
+    
     private func observeKeyboardHandling() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardOffScreen(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    deinit {
+        removeKeyboardHandlingObserver()
     }
     
     private func removeKeyboardHandlingObserver() {
         NotificationCenter.default.removeObserver(self)
     }
     
-    public func addKeyboardHandlingClosure(for vc: UIViewController, closure: HandlingClosure) {
-        let className = String(describing: type(of: vc))
-        handlingClosureDict[className] = closure
-    }
-    
-    @objc func keyboardOnScreen(_ notification: Notification) {
+    @objc private func keyboardOnScreen(_ notification: Notification) {
         let deltaHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
         
         if isKeyboardShow || deltaHeight == keyboardHeight || deltaHeight < 0 {
@@ -47,16 +51,15 @@ public class KeyboardHandling {
         if let topMostVc = UIWindow.getCurrentViewController() {
             let topMostVcClassName = String(describing: type(of: topMostVc))
             if let closure = handlingClosureDict[topMostVcClassName] {
-                closure?(true)
+                closure?(true, keyboardHeight)
             }
         }
-        
         
         keyboardHeight = deltaHeight
         isKeyboardShow = true
     }
     
-    @objc func keyboardOffScreen(_ notification: Notification) {
+    @objc private func keyboardOffScreen(_ notification: Notification) {
         guard isKeyboardShow else {
             return
         }
@@ -67,7 +70,7 @@ public class KeyboardHandling {
         if let topMostVc = UIWindow.getCurrentViewController() {
             let topMostVcClassName = String(describing: type(of: topMostVc))
             if let closure = handlingClosureDict[topMostVcClassName] {
-                closure?(false)
+                closure?(false, keyboardHeight)
             }
         }
     }

@@ -9,15 +9,15 @@
 import Foundation
 
 extension Float {
-    public static func randomFloatBetween(_ small: Float, and big: Float) -> Float {
+    public static func random(between small: Float, and big: Float) -> Float {
         let diff = big - small
         return ((Float(arc4random() % (UInt32(RAND_MAX) + 1))) / (Float(RAND_MAX)) * diff) + small
     }
 }
 
 extension Int {
-    public static func randomIntBetween(_ small: Int, and big: Int) -> Int {
-        return Int(Float.randomFloatBetween(Float(small), and: Float(big)))
+    public static func random(between small: Int, and big: Int) -> Int {
+        return Int(Float.random(between: Float(small), and: Float(big)))
     }
 }
 

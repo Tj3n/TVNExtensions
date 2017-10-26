@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    
+    // MARK: Common
     public subscript (regex: String) -> String? {
         if let range = self.range(of: regex, options: .regularExpression, range: nil, locale: nil) {
             return String(self[range])
@@ -17,13 +17,20 @@ extension String {
         return nil
     }
     
-    // MARK: Common
+    public subscript (range: Range<Int>) -> String {
+        return String(self[index(fromStart: range.lowerBound)..<index(fromStart: range.upperBound)])
+    }
+    
+    public subscript (range: ClosedRange<Int>) -> String {
+        return String(self[index(fromStart: range.lowerBound)...index(fromStart: range.upperBound)])
+    }
+    
     public func index(fromStart index: Int) -> Index {
         return self.index(startIndex, offsetBy: index)
     }
     
     public func index(fromEnd index: Int) -> Index {
-        return self.index(endIndex, offsetBy: index >= self.count ? -index : index)
+        return self.index(endIndex, offsetBy: index)
     }
 
     public func replace(in r: Range<Int>, with string: String) -> String {
@@ -61,9 +68,6 @@ extension String {
     //Validate URL
     public func isValidURL() -> Bool {
         let url = URL(string: self)
-        // candidate is a well-formed url with:
-        //  - a scheme (like http://)
-        //  - a host (like stackoverflow.com)
         if url != nil && url?.scheme != nil && url?.host != nil {
             return true
         } else {
@@ -72,6 +76,13 @@ extension String {
     }
     
     // MARK: Conversion
+    public func toDate(format: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+//        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        return dateFormatter.date(from: self)
+    }
+    
     public func toCurrencySymbol() -> String {
         return findCurrencySymbolByCode(self)
     }
@@ -136,8 +147,4 @@ extension String {
         
         return text.trimmingCharacters(in: CharacterSet(charactersIn: "\n\(unichar(0x0085))")).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
-    
-//    public static func randomString(numericOnly: Bool, length: Int) -> String {
-//        
-//    }
 }

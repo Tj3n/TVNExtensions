@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UILabel {
-    class func showTooltip(_ message: String, fontName: String) {
+    public class func showTooltip(_ message: String, fontName: String) {
         
         guard let font = UIFont(name: fontName, size: 14) else {
             return

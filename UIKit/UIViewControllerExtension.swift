@@ -14,7 +14,7 @@ public extension UIViewController {
     /**
      Create VC from storyboard name and Viewcontrolelr ID
      */
-    public class func instantiateFromStoryboard(storyboardName: String, controllerId: String) -> Self
+    public class func instantiate(from storyboardName: String, controllerId: String) -> Self
     {
         return instantiateFromStoryboardHelper(storyboardName, storyboardId: controllerId)
     }

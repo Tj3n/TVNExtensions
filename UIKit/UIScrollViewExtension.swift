@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum ScrollDirection {
+public enum ScrollDirection {
     case scrollDirectionNone,
     scrollDirectionCrazy,
     scrollDirectionLeft,
@@ -20,7 +20,7 @@ enum ScrollDirection {
 
 extension UIScrollView {
     
-    func determineScrollDirection(_ startOffset: CGPoint, endOffset: CGPoint) -> ScrollDirection {
+    public func determineScrollDirection(_ startOffset: CGPoint, endOffset: CGPoint) -> ScrollDirection {
         var scrollDirection: ScrollDirection
         // If the scrolling direction is changed on both X and Y it means the
         // scrolling started in one corner and goes diagonal. This will be
@@ -48,7 +48,7 @@ extension UIScrollView {
         return scrollDirection
     }
     
-    func killScroll() {
+    public func killScroll() {
         self.isScrollEnabled = false
         self.isScrollEnabled = true
     }}
