@@ -14,10 +14,10 @@ extension UITableView
     /**
      Auto dequeue cell with custom cell class
      */
-    public func dequeueReusableCell<T>(_ type: T.Type) -> T
+    public func dequeueReusableCell<T: UITableViewCell>(_ type: T.Type) -> T
     {
         guard let cell = self.dequeueReusableCell(withIdentifier: String(describing: type)) as? T else {
-            fatalError("(String(type)) cell could not be instantiated because it was not found on the tableView")
+            fatalError("\(String(describing: type)) cell could not be instantiated because it was not found on the tableView")
         }
         return cell
     }

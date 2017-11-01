@@ -21,8 +21,9 @@ public extension RefreshHelper where Self: UIViewController {
     public func setupRefreshControl(_ tableView: UITableView, target: AnyObject, action: Selector) {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(target, action: action, for: .valueChanged)
-        let tableViewController = UITableViewController()
-        tableViewController.tableView = tableView
-        tableViewController.refreshControl = refreshControl
+//        let tableViewController = UITableViewController()
+//        tableViewController.tableView = tableView
+//        tableViewController.refreshControl = refreshControl
+        tableView.addSubview(refreshControl)
     }
 }
