@@ -37,9 +37,13 @@ extension String {
         return self.replacingCharacters(in: index(fromStart: r.lowerBound)..<index(fromStart: r.upperBound), with: string)
     }
     
+    public func replace(in r: ClosedRange<Int>, with string: String) -> String {
+        return self.replacingCharacters(in: index(fromStart: r.lowerBound)...index(fromStart: r.upperBound), with: string)
+    }
+    
     public func firstCharacterUppercase() -> String {
         if !self.isEmpty {
-            return replace(in: 0..<1, with: self[...self.index(fromStart: 1)].uppercased())
+            return replace(in: 0...0, with: self[...self.index(fromStart: 0)].uppercased())
         } else {
             return self
         }
