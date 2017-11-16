@@ -25,6 +25,14 @@ extension String {
         return String(self[index(fromStart: range.lowerBound)...index(fromStart: range.upperBound)])
     }
     
+    public subscript (range: PartialRangeThrough<Int>) -> String {
+        return String(self[...index(fromStart: range.upperBound)])
+    }
+    
+    public subscript (range: CountablePartialRangeFrom<Int>) -> String {
+        return String(self[index(fromStart: range.lowerBound)...])
+    }
+    
     public func index(fromStart index: Int) -> Index {
         return self.index(startIndex, offsetBy: index)
     }
@@ -87,8 +95,21 @@ extension String {
         return dateFormatter.date(from: self)
     }
     
+    //To use with currency code
     public func toCurrencySymbol() -> String {
         return findCurrencySymbolByCode(self)
+    }
+    
+    //To use with number string
+    public func toCurrencyFormatter(with currencyCode: String) -> String {
+        if NSDecimalNumber(string: self) != NSDecimalNumber.notANumber {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.currencyCode = currencyCode
+            guard let formattedStr = formatter.string(from: NSDecimalNumber(string: self)) else { return self }
+            return formattedStr
+        }
+        return self
     }
     
     fileprivate func findLocaleByCurrencyCode(_ currencyCode: String) -> Locale {

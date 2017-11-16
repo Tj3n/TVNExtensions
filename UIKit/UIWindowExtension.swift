@@ -28,7 +28,6 @@ extension UIWindow {
             return navigationController as? UINavigationController
         }
         return nil
-        
     }
     
     public class func changeRootViewController(with viewController: UIViewController) {

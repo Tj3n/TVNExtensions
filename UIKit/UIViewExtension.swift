@@ -14,7 +14,6 @@ import UIKit
 
 // MARK: Some frame value and class func
 extension UIView {
-    
     public var width: CGFloat {
         set {
             var frame = self.frame
@@ -82,7 +81,6 @@ extension UIView {
         self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
         UIGraphicsEndImageContext()
-        
         
         let cellSnapshot : UIView = UIImageView(image: image)
         let snapshotView = UIView(frame: cellSnapshot.frame)

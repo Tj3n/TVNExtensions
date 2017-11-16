@@ -41,6 +41,11 @@ extension UIDevice {
         case "iPad4,7", "iPad4,8", "iPad4,9":           return "iPad Mini 3"
         case "iPad5,1", "iPad5,2":                      return "iPad Mini 4"
         case "iPad6,3", "iPad6,4", "iPad6,7", "iPad6,8":return "iPad Pro"
+        case "iPhone9,1", "iPhone9,3":                  return "iPhone 7"
+        case "iPhone9,2", "iPhone9,4":                  return "iPhone 7 Plus"
+        case "iPhone10,1", "iPhone10,4":                return "iPhone 8"
+        case "iPhone10,2", "iPhone10,5":                return "iPhone 8 Plus"
+        case "iPhone10,3", "iPhone10,6":                return "iPhone X"
         case "AppleTV5,3":                              return "Apple TV"
         case "i386", "x86_64":                          return "Simulator"
         default:                                        return identifier
@@ -56,6 +61,7 @@ extension UIDevice {
         case iPhone5
         case iPhone6
         case iPhone6Plus
+        case iPhoneX
         case Unknown
     }
     
@@ -70,6 +76,8 @@ extension UIDevice {
             return .iPhone6
         case 2208:
             return .iPhone6Plus
+        case 2436:
+            return .iPhoneX
         default:
             return nil
         }
