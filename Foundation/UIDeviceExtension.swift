@@ -94,22 +94,22 @@ extension UIDevice {
                                                           options: NSString.CompareOptions.numeric) == ComparisonResult.orderedDescending
     }
     
-    class func SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(_ version: NSString) -> Bool {
+    public class func SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(_ version: NSString) -> Bool {
         return self.current.systemVersion.compare(version as String,
                                                           options: NSString.CompareOptions.numeric) != ComparisonResult.orderedAscending
     }
     
-    class func SYSTEM_VERSION_LESS_THAN(_ version: NSString) -> Bool {
+    public class func SYSTEM_VERSION_LESS_THAN(_ version: NSString) -> Bool {
         return self.current.systemVersion.compare(version as String,
                                                           options: NSString.CompareOptions.numeric) == ComparisonResult.orderedAscending
     }
     
-    class func SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(_ version: NSString) -> Bool {
+    public class func SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(_ version: NSString) -> Bool {
         return self.current.systemVersion.compare(version as String,
                                                           options: NSString.CompareOptions.numeric) != ComparisonResult.orderedDescending
     }
     
-    class func CURRENT_APP_VERSION() -> String? {
+    public class func CURRENT_APP_VERSION() -> String? {
         if let info = Bundle.main.infoDictionary {
             return info["CFBundleShortVersionString"] as? String
         }
@@ -117,7 +117,7 @@ extension UIDevice {
         return nil
     }
     
-    class func isAppUpdated() -> Bool {
+    public class func isAppUpdated() -> Bool {
         if let oldAppVersion = UserDefaults.standard.value(forKey: "AppVersion") as? String {
             let isUpdated = Double(oldAppVersion)! < Double(CURRENT_APP_VERSION()!)! ? true : false
             if isUpdated { saveAppVersion() }
@@ -128,9 +128,8 @@ extension UIDevice {
         }
     }
     
-    class func saveAppVersion() {
+    private class func saveAppVersion() {
         UserDefaults.standard.setValue(UIDevice.CURRENT_APP_VERSION(), forKey:"AppVersion")
         UserDefaults.standard.synchronize()
     }
-    
 }

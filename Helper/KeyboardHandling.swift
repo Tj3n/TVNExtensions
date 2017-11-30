@@ -21,6 +21,10 @@ public class KeyboardHandling {
     public var isKeyboardShow: Bool = false
     private var handlingClosureDict = [String: HandlingClosure]()
     
+    private init() {
+        
+    }
+    
     public func addKeyboardHandlingClosure(for vc: UIViewController, closure: HandlingClosure) {
         let className = String(describing: type(of: vc))
         handlingClosureDict[className] = closure

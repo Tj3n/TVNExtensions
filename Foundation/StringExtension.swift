@@ -33,6 +33,12 @@ extension String {
         return String(self[index(fromStart: range.lowerBound)...])
     }
     
+    public var isNotEmpty: Bool {
+        get {
+            return !self.isEmpty
+        }
+    }
+    
     public func index(fromStart index: Int) -> Index {
         return self.index(startIndex, offsetBy: index)
     }
