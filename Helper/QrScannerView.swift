@@ -15,16 +15,6 @@ public class QrScannerView: UIView {
     private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate!
     private var scanCompleteBlock: ((_ message: String, _ error: String?)->())!
     private var scanRect: CGRect!
-    private var called = false {
-        didSet {
-            if self.called == true {
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-                    self.called = false
-                }
-            }
-        }
-    }
-    
     private var scanning = false
     
     public var isScanning: Bool {
@@ -32,6 +22,9 @@ public class QrScannerView: UIView {
             return scanning
         }
     }
+    
+    // false will freeze instead of stop scanner
+    // call `resumeReading` if freeze, call `stopReading` if stop
     public var stopAfterRead = false
     
     override init(frame: CGRect) {

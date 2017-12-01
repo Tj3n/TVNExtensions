@@ -9,7 +9,8 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = { "tien.vu" => "tien@paymentwall.com" }
   s.platform     = :ios, "8.0"
-  s.source       = { :git => ".", :tag => String(s.version) }
+  #s.source       = { :git => ".", :tag => String(s.version) }
+  s.source       = { :git => "https://github.com/Tj3n/TVNExtensions", :branch => "master" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
