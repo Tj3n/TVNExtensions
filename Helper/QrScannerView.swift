@@ -15,13 +15,7 @@ public class QrScannerView: UIView {
     private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate!
     private var scanCompleteBlock: ((_ message: String, _ error: String?)->())!
     private var scanRect: CGRect!
-    private var scanning = false
-    
-    public var isScanning: Bool {
-        get {
-            return scanning
-        }
-    }
+    public private(set) var isScanning = false
     
     // false will freeze instead of stop scanner
     // call `resumeReading` if freeze, call `stopReading` if stop
@@ -35,12 +29,14 @@ public class QrScannerView: UIView {
         super.init(coder: aDecoder)
     }
     
+    //Use own AVCaptureMetadataOutputObjectsDelegate delegate
     public init(frame: CGRect = UIScreen.main.bounds, scanRect: CGRect = UIScreen.main.bounds, captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate) {
         super.init(frame: frame)
         self.captureMetadataOutputObjectsDelegate = captureMetadataOutputObjectsDelegate
         self.scanRect = scanRect
     }
     
+    //Use view's AVCaptureMetadataOutputObjectsDelegate with completion closure
     public init(frame: CGRect = UIScreen.main.bounds, scanRect: CGRect = UIScreen.main.bounds, scanCompletion: @escaping (_ message: String, _ error: String?)->() ) {
         super.init(frame: frame)
         self.captureMetadataOutputObjectsDelegate = self
@@ -77,7 +73,7 @@ public class QrScannerView: UIView {
         videoPreviewLayer.videoGravity = .resizeAspectFill
         videoPreviewLayer.frame = self.layer.bounds
         self.layer.addSublayer(videoPreviewLayer)
-        scanning = true
+        isScanning = true
         captureSession.startRunning()
         captureMetadataOutput.rectOfInterest = videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
     }
@@ -89,25 +85,25 @@ public class QrScannerView: UIView {
         
         captureSession.stopRunning()
         self.captureSession = nil
-        scanning = false
+        isScanning = false
         videoPreviewLayer.removeFromSuperlayer()
     }
     
     @objc public func freezeReading() {
         videoPreviewLayer.connection?.isEnabled = false
-        scanning = false
+        isScanning = false
     }
     
     public func resumeReading() {
         videoPreviewLayer.connection?.isEnabled = true
-        scanning = true
+        isScanning = true
     }
 }
 
 extension QrScannerView: AVCaptureMetadataOutputObjectsDelegate {
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
-        guard scanning else { return }
+        guard isScanning else { return }
         
         guard metadataObjects.count > 0 else {
             self.scanCompleteBlock("", "Invalid QR")

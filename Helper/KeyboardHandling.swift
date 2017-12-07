@@ -17,14 +17,15 @@ public class KeyboardHandling {
         return controller
     }()
     
-    public var keyboardHeight: CGFloat = 0
-    public var isKeyboardShow: Bool = false
+    public private(set) var keyboardHeight: CGFloat = 0
+    public private(set) var isKeyboardShow: Bool = false
     private var handlingClosureDict = [String: HandlingClosure]()
     
     private init() {
         
     }
     
+    //Should handle both case of `up`
     public func addKeyboardHandlingClosure(for vc: UIViewController, closure: HandlingClosure) {
         let className = String(describing: type(of: vc))
         handlingClosureDict[className] = closure
