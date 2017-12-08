@@ -19,7 +19,7 @@ extension Date {
         return Int(self.timeIntervalSince1970)
     }
     
-    public init(day: Int = Calendar.current.component(.year, from: Date()) , month: Int = Calendar.current.component(.year, from: Date()), year: Int = Calendar.current.component(.year, from: Date())) {
+    public init(day: Int = Calendar.current.component(.day, from: Date()) , month: Int = Calendar.current.component(.month, from: Date()), year: Int = Calendar.current.component(.year, from: Date())) {
         var comps = DateComponents()
         comps.day = day
         comps.month = month
@@ -29,6 +29,16 @@ extension Date {
         cal.timeZone = TimeZone(abbreviation: "GMT")!
         
         self.init(timeInterval: 0, since: cal.date(from: comps)!)
+    }
+    
+    public init?(from string: String, format: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        if let date = dateFormatter.date(from: string) {
+            self.init(timeInterval: 0, since: date)
+        }
+        return nil
     }
     
     public var year: Int {
@@ -50,17 +60,8 @@ extension Date {
     }
     
     static public func dateAtMidnight() -> Date {
-        let today = Date()
-        var todayString = today.toString("MM dd yyyy")
-        todayString.append(" 23:59:59")
-        return Date.dateFromString(todayString, format: "MM dd yyyy HH:mm:ss")!
-    }
-    
-    static public func dateFromString(_ string: String, format: String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-        return dateFormatter.date(from: string)
+        let todayString = Date().toString("MM dd yyyy")+" 23:59:59"
+        return Date(from: todayString, format: "MM dd yyyy HH:mm:ss")!
     }
     
     //Convert NSDate to String

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension UIImage {
-    public convenience init(qrString: String, size: CGSize) {
+    public convenience init?(qrString: String, size: CGSize) {
         let data = qrString.data(using: .isoLatin1, allowLossyConversion: false)
         let filter = CIFilter(name: "CIQRCodeGenerator")
         filter?.setValue(data, forKey: "inputMessage")
@@ -20,7 +20,8 @@ extension UIImage {
             let transformedImage = qrCodeImg.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
             self.init(ciImage: transformedImage)
         } else {
-            self.init()
+//            self.init()
+            return nil
         }
     }
 }

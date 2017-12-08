@@ -12,8 +12,11 @@ import UIKit
 extension UILabel {
     public class func showTooltip(_ message: String, fontName: String) {
         
-        guard let font = UIFont(name: fontName, size: 14) else {
-            return
+        var font: UIFont
+        if let customFont = UIFont(name: fontName, size: 14) {
+            font = customFont
+        } else {
+            font = UIFont.systemFont(ofSize: 14)
         }
         
         var isLong = false
