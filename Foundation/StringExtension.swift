@@ -101,6 +101,10 @@ extension String {
         return dateFormatter.date(from: self)
     }
     
+    public func toBase64() -> String {
+        return self.data(using: .utf8)!.base64EncodedString()
+    }
+    
     //To use with currency code
     public func toCurrencySymbol() -> String {
         return findCurrencySymbolByCode(self)

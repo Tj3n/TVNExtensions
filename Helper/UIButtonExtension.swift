@@ -10,28 +10,6 @@ import Foundation
 import UIKit
 
 extension UIButton {
-    
-    //Button Selector as Closure, call button.actionHandle = ...
-    fileprivate func actionHandleBlock(_ action:(() -> Void)? = nil) {
-        struct __ {
-            static var action :(() -> Void)?
-        }
-        if action != nil {
-            __.action = action
-        } else {
-            __.action?()
-        }
-    }
-    
-    @objc fileprivate func triggerActionHandleBlock() {
-        self.actionHandleBlock()
-    }
-    
-    func actionHandle(controlEvents control :UIControlEvents, ForAction action:@escaping () -> Void) {
-        self.actionHandleBlock(action)
-        self.addTarget(self, action: #selector(UIButton.triggerActionHandleBlock), for: control)
-    }
-    
     open var isEnabledWithBG: Bool {
         get {
             return self.isEnabled
