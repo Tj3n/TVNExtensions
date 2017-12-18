@@ -8,8 +8,8 @@
 
 import Foundation
 
+// MARK: Common
 extension String {
-    // MARK: Common
     public subscript (regex: String) -> String? {
         if let range = self.range(of: regex, options: .regularExpression, range: nil, locale: nil) {
             return String(self[range])
@@ -31,12 +31,6 @@ extension String {
     
     public subscript (range: CountablePartialRangeFrom<Int>) -> String {
         return String(self[index(fromStart: range.lowerBound)...])
-    }
-    
-    public var isNotEmpty: Bool {
-        get {
-            return !self.isEmpty
-        }
     }
     
     public func index(fromStart index: Int) -> Index {
@@ -75,15 +69,28 @@ extension String {
         return nil
     }
     
-    //MARK: Validation
-    //Validate email
+    public func getSize(font: UIFont, width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
+        guard self.isNotEmpty else { return .zero }
+        let fontAttributes = [NSAttributedStringKey.font: font]
+        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: fontAttributes, context: nil)
+        return sizeOfText
+    }
+}
+
+// MARK: Validation
+extension String {
+    public var isNotEmpty: Bool {
+        get {
+            return !self.isEmpty
+        }
+    }
+    
     public func isValidEmail() -> Bool {
         let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluate(with: self)
     }
     
-    //Validate URL
     public func isValidURL() -> Bool {
         let url = URL(string: self)
         if url != nil && url?.scheme != nil && url?.host != nil {
@@ -92,12 +99,14 @@ extension String {
             return false
         }
     }
-    
-    // MARK: Conversion
+}
+
+// MARK: Conversion
+extension String {
     public func toDate(format: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-//        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        //        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         return dateFormatter.date(from: self)
     }
     
@@ -153,20 +162,7 @@ extension String {
         }
         return String(s)
     }
-    
-    // MARK: HTML Stripping
-    fileprivate func stringByStrippingHTML() -> String {
-        var string = self
-        
-        while string.range(of: "<[^>]+>", options: [.regularExpression], range: nil, locale: nil) != nil {
-            let range = string.range(of: "<[^>]+>", options: [.regularExpression], range: nil, locale: nil)
-            string = string.replacingCharacters(in: range!, with: "")
-//            string.stringByStrippingHTML()
-        }
-        
-        return string
-    }
-    
+
     public func stringConvertedFromHTML() -> String {
         var text = self.replacingOccurrences(of: "<br>", with: "\n")
         text = text.replacingOccurrences(of: "<br />", with: "\n")
@@ -181,5 +177,17 @@ extension String {
         text = text.stringByStrippingHTML()
         
         return text.trimmingCharacters(in: CharacterSet(charactersIn: "\n\(unichar(0x0085))")).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    }
+    
+    fileprivate func stringByStrippingHTML() -> String {
+        var string = self
+        
+        while string.range(of: "<[^>]+>", options: [.regularExpression], range: nil, locale: nil) != nil {
+            let range = string.range(of: "<[^>]+>", options: [.regularExpression], range: nil, locale: nil)
+            string = string.replacingCharacters(in: range!, with: "")
+            //            string.stringByStrippingHTML()
+        }
+        
+        return string
     }
 }

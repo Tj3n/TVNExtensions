@@ -80,4 +80,8 @@ extension ImageHelper {
             print(error.localizedDescription)
         }
     }
+    
+    public func saveToPhotoLibrary(img: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+    }
 }

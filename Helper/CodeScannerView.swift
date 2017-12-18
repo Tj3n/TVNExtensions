@@ -9,13 +9,14 @@ import Foundation
 import AVFoundation
 import UIKit
 
-public class QrScannerView: UIView {
+public class CodeScannerView: UIView {
     private var captureSession: AVCaptureSession?
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate!
     private var scanCompleteBlock: ((_ message: String, _ error: String?)->())!
     private var scanRect: CGRect!
     public private(set) var isScanning = false
+    public var codeTypes: [AVMetadataObject.ObjectType] = [.qr]
     
     // false will freeze instead of stop scanner
     // call `resumeReading` if freeze, call `stopReading` if stop
@@ -68,7 +69,7 @@ public class QrScannerView: UIView {
         captureSession.addOutput(captureMetadataOutput)
         let q = DispatchQueue(label: "QrScannerViewQueue")
         captureMetadataOutput.setMetadataObjectsDelegate(captureMetadataOutputObjectsDelegate, queue: q)
-        captureMetadataOutput.metadataObjectTypes = [.qr]
+        captureMetadataOutput.metadataObjectTypes = codeTypes
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoPreviewLayer.videoGravity = .resizeAspectFill
         videoPreviewLayer.frame = self.layer.bounds
@@ -100,22 +101,22 @@ public class QrScannerView: UIView {
     }
 }
 
-extension QrScannerView: AVCaptureMetadataOutputObjectsDelegate {
+extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
         guard isScanning else { return }
         
         guard metadataObjects.count > 0 else {
-            self.scanCompleteBlock("", "Invalid QR")
+            self.scanCompleteBlock("", "Invalid Code")
             return
         }
         
         guard let obj = metadataObjects.first else {
-            self.scanCompleteBlock("", "Invalid QR")
+            self.scanCompleteBlock("", "Invalid Code")
             return
         }
         
-        guard obj.type == .qr else {
+        guard codeTypes.contains(obj.type) else {
             self.scanCompleteBlock("", "Wrong code type or invalid code")
             return
         }
@@ -131,7 +132,7 @@ extension QrScannerView: AVCaptureMetadataOutputObjectsDelegate {
         DispatchQueue.main.async {
             if let readableObj = obj as? AVMetadataMachineReadableCodeObject {
                 guard let str = readableObj.stringValue else {
-                    self.scanCompleteBlock("", "Invalid QR")
+                    self.scanCompleteBlock("", "Invalid Code")
                     return
                 }
                 self.scanCompleteBlock(str, nil)

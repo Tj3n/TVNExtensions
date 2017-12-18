@@ -28,4 +28,23 @@ extension Double {
         formatter.locale = Locale(identifier: "en_US")
         return formatter.string(from: NSNumber(floatLiteral: self))
     }
+    
+    public func toRad() -> CGFloat {
+        return CGFloat(self*Double.pi/180)
+    }
+}
+
+extension CGFloat {
+    public func toRad() -> CGFloat {
+        return self*CGFloat.pi/180
+    }
+}
+
+extension Decimal {
+    public func round(to scale: Int) -> Decimal {
+        var a: Decimal = 0
+        var b = self
+        NSDecimalRound(&a, &b, scale, .plain)
+        return a
+    }
 }

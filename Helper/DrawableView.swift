@@ -69,7 +69,7 @@ public class DrawableView: UIView {
         NSLayoutConstraint(item: drawableView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant:0.0).isActive = true
     }
     
-    public func getImage() -> UIImage {
+    public func getImage() -> UIImage? {
         return drawableView.getImage()
     }
 }
@@ -85,17 +85,7 @@ class PrivateDrawableView: UIView {
     private var previousPreviousPoint = CGPoint.zero
     private var empty = true
     private var path: CGMutablePath = CGMutablePath()
-    private var kPointMinDistance: CGFloat {
-        get {
-            return lineWidth
-        }
-    }
-    private var kPointMinDistanceSquared: CGFloat {
-        get {
-            return kPointMinDistance * kPointMinDistance
-        }
-    }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -114,7 +104,6 @@ class PrivateDrawableView: UIView {
             context.setLineWidth(lineWidth)
             context.setStrokeColor(lineColor.cgColor)
             context.strokePath()
-            empty = false
         }
         else {
             backgroundColor?.set()
@@ -138,6 +127,7 @@ class PrivateDrawableView: UIView {
         previousPreviousPoint = (touch?.previousLocation(in: self)) ?? CGPoint.zero
         currentPoint = (touch?.location(in: self)) ?? CGPoint.zero
         touchesMoved(touches, with: event)
+        empty = false
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -145,7 +135,7 @@ class PrivateDrawableView: UIView {
         let point = touch.location(in: self)
         let dx: CGFloat = point.x - currentPoint.x
         let dy: CGFloat = point.y - currentPoint.y
-        if (dx * dx + dy * dy) < kPointMinDistanceSquared {
+        if (dx * dx + dy * dy) < pow(lineWidth, 2.0) {
             return
         }
         previousPreviousPoint = previousPoint
@@ -162,7 +152,8 @@ class PrivateDrawableView: UIView {
         setNeedsDisplay(drawBox)
     }
     
-    func getImage() -> UIImage {
+    func getImage() -> UIImage? {
+        guard !empty else { return nil }
         UIGraphicsBeginImageContext(bounds.size)
         layer.render(in: UIGraphicsGetCurrentContext()!)
         let drawImage: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
@@ -174,7 +165,7 @@ class PrivateDrawableView: UIView {
         drawImage?.draw(in: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height), blendMode: .normal, alpha: 0.8)
         let newImage: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return newImage ?? UIImage()
+        return newImage
     }
 }
 

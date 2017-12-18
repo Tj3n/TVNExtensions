@@ -8,15 +8,10 @@
 
 import Foundation
 
+//MARK: Initialize
 extension Date {
-    // init with timestamp in Int
     public init(timeStamp: Int) {
         self.init(timeIntervalSince1970: Double(timeStamp))
-    }
-    
-    //Convert NSDate to timestamp in Int
-    public func toTimeStamp() -> Int {
-        return Int(self.timeIntervalSince1970)
     }
     
     public init(day: Int = Calendar.current.component(.day, from: Date()) , month: Int = Calendar.current.component(.month, from: Date()), year: Int = Calendar.current.component(.year, from: Date())) {
@@ -40,7 +35,10 @@ extension Date {
         }
         return nil
     }
-    
+}
+
+//MARK: Extra
+extension Date {
     public var year: Int {
         get {
             return Calendar.current.component(.year, from: self)
@@ -63,11 +61,18 @@ extension Date {
         let todayString = Date().toString("MM dd yyyy")+" 23:59:59"
         return Date(from: todayString, format: "MM dd yyyy HH:mm:ss")!
     }
+}
+
+//MARK: Conversion
+extension Date {
+    public func toTimeStamp() -> Int {
+        return Int(self.timeIntervalSince1970)
+    }
     
     //Convert NSDate to String
     public func toString(_ format: String?) -> String {
         let dateFormatter = DateFormatter()
-//        dateFormatter.locale = NSLocale.systemLocale()
+        //        dateFormatter.locale = NSLocale.systemLocale()
         
         if let format = format, !format.isEmpty {
             dateFormatter.dateFormat = format
@@ -95,7 +100,10 @@ extension Date {
         }
         return numberOfDaysInYear.day!
     }
-    
+}
+
+//MARK: Calculation
+extension Date {
     public static func +(left: Date, right: (Calendar.Component,Int)) -> Date {
         let date = Calendar.current.date(byAdding: right.0, value: right.1, to: left)
         return date!
@@ -106,6 +114,7 @@ extension Date {
     }
 }
 
+//MARK: Int+Calendar.Component
 public extension Int {
     public var day: (Calendar.Component,Int) {
         get {
