@@ -8,32 +8,41 @@
 import Foundation
 import LocalAuthentication
 
+public enum LocalAuthError: Error {
+    case cancel(message: String),
+    notAvailable(message: String),
+    modified,
+    other(error: NSError)
+}
+
 public protocol LocalAuth {
-    func authenticateUser(with reasonStr: String?, completion: ((_ error: String?) -> ())!)
+    func authenticateUser(with reasonStr: String?, completion: ((_ error: LocalAuthError?) -> ())!)
 }
 
 public extension LocalAuth {
-    public func authenticateUser(with reasonStr: String?, completion:((_ error: String?)->())!) {
+    public func authenticateUser(with reasonStr: String?, completion:((_ error: LocalAuthError?)->())!) {
         let reason = reasonStr == nil ? "Authentication is needed to access." : reasonStr!
         let context = LAContext()
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success, bioError) in
                 if success {
-                    DispatchQueue.main.async {
+                    if self.checkForModified(context: context) {
+                        completion(.modified)
+                    } else {
                         completion(nil)
                     }
                 } else if let bioError = bioError {
                     let err = bioError as NSError
                     switch err.code {
                     case LAError.systemCancel.rawValue:
-                        completion("Authentication was cancelled by the system")
+                        completion(.cancel(message: "Authentication was cancelled by the system"))
                     case LAError.userCancel.rawValue:
-                        completion("Authentication was cancelled by the user")
+                        completion(.cancel(message: "Authentication was cancelled by the user"))
                     case LAError.userFallback.rawValue:
-                        completion("User selected to enter custom password")
+                        completion(.cancel(message: "User selected to enter custom password"))
                     default:
-                        completion(err.localizedDescription)
+                        completion(.other(error: err))
                     }
                     print(err.localizedDescription)
                 }
@@ -42,23 +51,42 @@ public extension LocalAuth {
             if #available(iOS 11.0, *) {
                 switch error.code {
                 case LAError.biometryNotEnrolled.rawValue:
-                    completion("Biometry is not enrolled")
+                    completion(.notAvailable(message: "Biometry is not enrolled"))
                 case LAError.passcodeNotSet.rawValue:
-                    completion("A passcode has not been set")
+                    completion(.notAvailable(message: "A passcode has not been set"))
                 default:
-                    completion("Biometry not available")
+                    completion(.notAvailable(message: "Biometry not available"))
                 }
             } else {
                 switch error.code {
                 case LAError.touchIDNotEnrolled.rawValue:
-                    completion("TouchID is not enrolled")
+                    completion(.notAvailable(message: "TouchID is not enrolled"))
                 case LAError.passcodeNotSet.rawValue:
-                    completion("A passcode has not been set")
+                    completion(.notAvailable(message: "A passcode has not been set"))
                 default:
-                    completion("TouchID not available")
+                    completion(.notAvailable(message: "TouchID not available"))
                 }
             }
             print(error.localizedDescription)
         }
+    }
+    
+    private func checkForModified(context: LAContext) -> Bool {
+        let k = "TVN_DS_CHECK"
+        guard let oldDomainState = KeychainWrapper.standard.data(forKey: k) else { return false }
+        if #available(iOS 9.0, *) {
+            if let domainState = context.evaluatedPolicyDomainState {
+                if domainState == oldDomainState {
+                    return false
+                } else {
+                    KeychainWrapper.standard.set(domainState, forKey: k)
+                    return true
+                }
+            } else {
+                return true
+            }
+        }
+        
+        return false
     }
 }

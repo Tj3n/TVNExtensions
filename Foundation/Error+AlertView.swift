@@ -13,6 +13,12 @@ extension NSError {
     }
 }
 
+extension Error {
+    public func show() {
+        ErrorAlertView.shared.showError(localizedDescription)
+    }
+}
+
 private class ErrorAlertView: NSObject, UIAlertViewDelegate {
     static let shared = ErrorAlertView()
     var alert: UIAlertView!

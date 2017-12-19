@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CCommonCrypto
 
 public protocol RefreshHelper {
     func setupRefreshControl(_ tableView: UITableView, target: AnyObject, action: Selector)

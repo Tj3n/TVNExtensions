@@ -141,4 +141,9 @@ public extension Int {
             return (.minute, self)
         }
     }
+    public var second: (Calendar.Component,Int) {
+        get {
+            return (.second, self)
+        }
+    }
 }

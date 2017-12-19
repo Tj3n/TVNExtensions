@@ -14,17 +14,16 @@ extension UITabBarController {
         guard let tabViewControllers = viewControllers else { return false }
         
         guard let toIndex = tabViewControllers.index(of: viewController) else { return false }
-        let fromIndex = selectedIndex
         
         guard let fromView = selectedViewController!.view else { return false }
         guard let toView = tabViewControllers[toIndex].view  else { return false }
         
-        guard fromIndex != toIndex else { return false }
+        guard selectedIndex != toIndex else { return false }
         
         fromView.superview!.addSubview(toView)
         
         let screenWidth = UIScreen.main.bounds.size.width;
-        let scrollRight = toIndex > fromIndex;
+        let scrollRight = toIndex > selectedIndex;
         let offset = (scrollRight ? screenWidth : -screenWidth)
         toView.center = CGPoint(x: fromView.center.x + offset, y: toView.center.y)
         

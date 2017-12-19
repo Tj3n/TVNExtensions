@@ -33,6 +33,11 @@ extension String {
         return String(self[index(fromStart: range.lowerBound)...])
     }
     
+    //Use collection of Int instead of real range
+//    public subscript<T: RandomAccessCollection>(range: T) -> String where T.Element == Int {
+//        return String(self[index(fromStart: range.first)!...index(fromStart: range.last)!])
+//    }
+    
     public func index(fromStart index: Int) -> Index {
         return self.index(startIndex, offsetBy: index)
     }
