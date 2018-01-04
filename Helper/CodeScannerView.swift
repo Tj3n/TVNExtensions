@@ -67,7 +67,7 @@ public class CodeScannerView: UIView {
         captureSession.addInput(input)
         let captureMetadataOutput = AVCaptureMetadataOutput()
         captureSession.addOutput(captureMetadataOutput)
-        let q = DispatchQueue(label: "QrScannerViewQueue")
+        let q = DispatchQueue(label: "CodeScannerViewQueue")
         captureMetadataOutput.setMetadataObjectsDelegate(captureMetadataOutputObjectsDelegate, queue: q)
         captureMetadataOutput.metadataObjectTypes = codeTypes
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -103,7 +103,7 @@ public class CodeScannerView: UIView {
 
 extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        
+
         guard isScanning else { return }
         
         guard metadataObjects.count > 0 else {

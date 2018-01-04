@@ -3,9 +3,9 @@ Pod::Spec.new do |s|
   s.name         = "TVNExtensions"
   s.version      = "0.0.1"
   s.summary      = "Swift extensions"
-  s.description  = "Swift extensions"
+  s.description  = "Swift extensions for iOS"
 
-  s.homepage     = "http://EXAMPLE/TVNExtensions"
+  s.homepage     = "https://github.com/Tj3n"
   s.license      = "MIT"
   s.author       = { "tien.vu" => "tien@paymentwall.com" }
   s.platform     = :ios, "8.0"
@@ -32,6 +32,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Helper' do |sp|
     sp.source_files = "Helper"
+    sp.dependency 'TVNExtensions/UIKit'
   end
 
   s.xcconfig = {

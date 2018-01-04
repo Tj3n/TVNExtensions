@@ -25,7 +25,11 @@ public class KeyboardHandling {
         
     }
     
-    //Should handle both case of `up`
+    /// Must use [unowned self] to prevent retain cycle
+    ///
+    /// - Parameters:
+    ///   - vc: UIViewController
+    ///   - closure: HandlingClosure, should handle both case of `up`
     public func addKeyboardHandlingClosure(for vc: UIViewController, closure: HandlingClosure) {
         let className = String(describing: type(of: vc))
         handlingClosureDict[className] = closure
