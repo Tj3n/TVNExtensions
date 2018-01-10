@@ -46,4 +46,11 @@ extension UINavigationController {
         self.setInvisibleNavBar()
         self.view.insertSubview(view, belowSubview: self.navigationBar)
     }
+    
+    /*Handle Back button touched:
+     Add to view controller's `viewWillDisappear`:
+     if (self.isMovingFromParentViewController || self.isBeingDismissed) {
+     // Do your stuff here
+     }
+    */
 }

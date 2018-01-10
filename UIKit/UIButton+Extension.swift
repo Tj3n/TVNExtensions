@@ -23,4 +23,31 @@ extension UIButton {
             self.isEnabled = newValue
         }
     }
+    
+    @IBInspectable var autoShrinkFont: Bool {
+        get {
+            if let label = titleLabel {
+                return label.adjustsFontSizeToFitWidth
+            }
+            return false
+        }
+        
+        set {
+            self.titleLabel?.frame.size.width = self.frame.size.width - (self.imageView?.frame.size.width ?? 0)
+            self.titleLabel?.adjustsFontSizeToFitWidth = newValue
+        }
+    }
+    
+    @IBInspectable var minimumScaleFactor: CGFloat {
+        get {
+            if let label = titleLabel {
+                return label.minimumScaleFactor
+            }
+            return 1.0
+        }
+        
+        set {
+            self.titleLabel?.minimumScaleFactor = newValue > 1.0 ? 1.0 : newValue
+        }
+    }
 }
