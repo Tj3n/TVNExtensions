@@ -11,6 +11,18 @@ import UIKit
 
 extension UIWindow {
     // Returns the most recently presented UIViewController (visible)
+    public class var currentViewController: UIViewController? {
+        get {
+            if let navigationController = getNavigationController() {
+                return navigationController.visibleViewController
+            }
+            if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+                return UIViewController.getCurrentViewController(rootController)
+            }
+            return nil
+        }
+    }
+    
     public class func getCurrentViewController() -> UIViewController? {
         if let navigationController = getNavigationController() {
             return navigationController.visibleViewController

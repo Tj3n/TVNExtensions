@@ -43,7 +43,7 @@ extension String {
     }
     
     public func index(fromEnd index: Int) -> Index {
-        return self.index(endIndex, offsetBy: index)
+        return self.index(endIndex, offsetBy: -index)
     }
 
     public func replace(in r: Range<Int>, with string: String) -> String {
@@ -108,6 +108,29 @@ extension String {
 
 // MARK: Conversion
 extension String {
+    public func formatDecimalString(numbersAfterDecimal: Int) -> String {
+        guard let _ = Decimal(string: self) else { return "0.00" }
+        
+        var modPrice = self
+        
+        guard numbersAfterDecimal > 0 else { return self }
+        
+        if let dot = modPrice.range(of: ".") {
+            modPrice.removeSubrange(dot)
+        }
+        
+        while modPrice.count < numbersAfterDecimal+1 {
+            modPrice.insert("0", at: modPrice.startIndex)
+        }
+        
+        while modPrice.count > numbersAfterDecimal+1 && modPrice.first! == "0" {
+            modPrice.remove(at: modPrice.startIndex)
+        }
+        
+        modPrice.insert(".", at: modPrice.index(fromEnd: numbersAfterDecimal))
+        return modPrice
+    }
+    
     public func toDate(format: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format

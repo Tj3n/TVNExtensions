@@ -13,4 +13,5 @@ public struct Tlv {
     public let name: String
     public let value: String
     public let length: Int
+    public let subTags: [Tlv]?
 }

@@ -115,20 +115,22 @@ public struct TlvDecode {
             }
             
             let value = Array(bytes[cursor..<cursor+actualLength])
-//            var newVal: [Tlv]?
+            
+            var newVal: [Tlv]?
             if tagIsConstructed {
-                _ = TlvDecode.decodeTlv(value)
-            } else {
-                var fullVal = ""
-                for num in value {
-                    let hexStr = String(format: "%02lX", UInt(num))
-                    fullVal = fullVal + (hexStr)
-                }
-                actualVal = fullVal
+                newVal = TlvDecode.decodeTlv(value)
             }
+            
+            var fullVal = ""
+            for num in value {
+                let hexStr = String(format: "%02lX", UInt(num))
+                fullVal = fullVal + (hexStr)
+            }
+            actualVal = fullVal
+            
             cursor += actualLength
             
-            let tlv = Tlv(tag: actualTag, name: TlvTag.getName(tag: actualTag), value: actualVal, length: actualLength)
+            let tlv = Tlv(tag: actualTag, name: TlvTag.getName(tag: actualTag), value: actualVal, length: actualLength, subTags: newVal)
             tlvs.append(tlv)
         }
         return tlvs
