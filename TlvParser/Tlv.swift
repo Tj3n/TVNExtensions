@@ -14,4 +14,10 @@ public struct Tlv {
     public let value: String
     public let length: Int
     public let subTags: [Tlv]?
+    
+    public var rawValue: String {
+        get {
+            return "\(tag)\(TlvDecode.intToHex(length))\(value)"
+        }
+    }
 }

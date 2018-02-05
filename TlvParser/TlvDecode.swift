@@ -23,7 +23,7 @@ public struct TlvDecode {
             let lower = tlv.index(tlv.startIndex, offsetBy: loc)
             let upper = tlv.index(lower, offsetBy: 2, limitedBy: tlv.endIndex) ?? tlv.endIndex
             let byte = String(tlv[lower..<upper])
-            bytes.append(TlvDecode.hexToInt(hex: byte))
+            bytes.append(TlvDecode.hexToInt(byte))
         }
         return TlvDecode.decodeTlv(bytes)
     }
@@ -67,7 +67,7 @@ public struct TlvDecode {
             }
             var fullTag = ""
             for num in tag {
-                let hexStr = String(format: "%02lX", UInt(num))
+                let hexStr = intToHex(num)
                 fullTag = fullTag + (hexStr)
             }
             actualTag = fullTag
@@ -123,7 +123,7 @@ public struct TlvDecode {
             
             var fullVal = ""
             for num in value {
-                let hexStr = String(format: "%02lX", UInt(num))
+                let hexStr = intToHex(num)
                 fullVal = fullVal + (hexStr)
             }
             actualVal = fullVal
@@ -136,7 +136,7 @@ public struct TlvDecode {
         return tlvs
     }
     
-    public static func hexToString(hex: String) -> String {
+    public static func hexToString(_ hex: String) -> String {
         let regex = try! NSRegularExpression(pattern: "(0x)?([0-9A-Fa-f]{2})", options: .caseInsensitive)
         let textNS = hex as NSString
         let matchesArray = regex.matches(in: textNS as String, options: [], range: NSMakeRange(0, textNS.length))
@@ -147,7 +147,11 @@ public struct TlvDecode {
         return String(characters)
     }
     
-    public static func hexToInt(hex: String) -> Int {
+    public static func hexToInt(_ hex: String) -> Int {
         return Int(Int32(hex, radix: 16)!)
+    }
+    
+    public static func intToHex(_ num: Int) -> String {
+        return String(format: "%02lX", UInt(num))
     }
 }
