@@ -36,7 +36,7 @@ public class KeyboardHandling {
     }
     
     private func observeKeyboardHandling() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardOffScreen(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
@@ -51,7 +51,7 @@ public class KeyboardHandling {
     @objc private func keyboardOnScreen(_ notification: Notification) {
         let deltaHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
         
-        if isKeyboardShow || deltaHeight == keyboardHeight || deltaHeight < 0 {
+        if deltaHeight == keyboardHeight || deltaHeight <= 0 {
             return
         }
         
