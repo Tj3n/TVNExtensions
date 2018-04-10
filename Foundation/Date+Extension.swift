@@ -61,6 +61,14 @@ extension Date {
         let todayString = Date().toString("MM dd yyyy")+" 23:59:59"
         return Date(from: todayString, format: "MM dd yyyy HH:mm:ss")!
     }
+    
+    public func startOfMonth() -> Date {
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))!
+    }
+    
+    public func endOfMonth() -> Date {
+        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+    }
 }
 
 //MARK: Conversion
@@ -80,7 +88,7 @@ extension Date {
             dateFormatter.dateFormat = "yyyy MM dd"
         }
         
-        if let _ = self as Date! {
+        if let _ = self as Date? {
             let strDate = dateFormatter.string(from: self)
             return strDate
         } else {
@@ -94,11 +102,8 @@ extension Date {
     }
     
     static public func numberOfDayInPeriod(fromDate date: Date, toDate: Date) -> Int {
-        let numberOfDaysInYear = (Calendar.current as NSCalendar).components(.day, from: date, to: toDate, options: [])
-        if numberOfDaysInYear.day! < 0 {
-            return numberOfDaysInYear.day! * -1
-        }
-        return numberOfDaysInYear.day!
+        let numberOfDays = Calendar.current.dateComponents([.day], from: date, to: toDate).day!
+        return numberOfDays < 0 ? numberOfDays * -1 : numberOfDays
     }
 }
 

@@ -15,6 +15,7 @@ public class CodeScannerView: UIView {
     private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate!
     private var scanCompleteBlock: ((_ message: String, _ error: String?)->())!
     private var scanRect: CGRect!
+    
     public private(set) var isScanning = false
     public var codeTypes: [AVMetadataObject.ObjectType] = [.qr]
     

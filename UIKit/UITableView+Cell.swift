@@ -9,16 +9,20 @@
 import Foundation
 import UIKit
 
-extension UITableView
-{
+extension UITableView {
     /**
      Auto dequeue cell with custom cell class
      */
-    public func dequeueReusableCell<T: UITableViewCell>(_ type: T.Type) -> T
-    {
+    public func dequeueReusableCell<T: UITableViewCell>(_ type: T.Type) -> T {
         guard let cell = self.dequeueReusableCell(withIdentifier: String(describing: type)) as? T else {
             fatalError("\(String(describing: type)) cell could not be instantiated because it was not found on the tableView")
         }
         return cell
+    }
+    
+    public var isEmpty: Bool {
+        get {
+            return self.visibleCells.isEmpty
+        }
     }
 }
