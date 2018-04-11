@@ -8,6 +8,16 @@
 
 import Foundation
 
+extension Calendar {
+    static public var currentGMT: Calendar {
+        get {
+            var cal = Calendar.current
+            cal.timeZone = TimeZone(abbreviation: "GMT")!
+            return cal
+        }
+    }
+}
+
 //MARK: Initialize
 extension Date {
     public init(timeStamp: Int) {
@@ -19,11 +29,7 @@ extension Date {
         comps.day = day
         comps.month = month
         comps.year = year
-        
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(abbreviation: "GMT")!
-        
-        self.init(timeInterval: 0, since: cal.date(from: comps)!)
+        self.init(timeInterval: 0, since: Calendar.currentGMT.date(from: comps)!)
     }
     
     public init?(from string: String, format: String) {
@@ -32,8 +38,9 @@ extension Date {
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         if let date = dateFormatter.date(from: string) {
             self.init(timeInterval: 0, since: date)
+        } else {
+            return nil
         }
-        return nil
     }
 }
 
@@ -41,19 +48,19 @@ extension Date {
 extension Date {
     public var year: Int {
         get {
-            return Calendar.current.component(.year, from: self)
+            return Calendar.currentGMT.component(.year, from: self)
         }
     }
     
     public var month: Int {
         get {
-            return Calendar.current.component(.month, from: self)
+            return Calendar.currentGMT.component(.month, from: self)
         }
     }
     
     public var day: Int {
         get {
-            return Calendar.current.component(.day, from: self)
+            return Calendar.currentGMT.component(.day, from: self)
         }
     }
     
@@ -63,11 +70,11 @@ extension Date {
     }
     
     public func startOfMonth() -> Date {
-        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))!
+        return Calendar.currentGMT.date(from: Calendar.currentGMT.dateComponents([.year, .month], from: Calendar.currentGMT.startOfDay(for: self)))!
     }
     
     public func endOfMonth() -> Date {
-        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+        return Calendar.currentGMT.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
     }
 }
 
@@ -77,23 +84,18 @@ extension Date {
         return Int(self.timeIntervalSince1970)
     }
     
-    //Convert NSDate to String
-    public func toString(_ format: String?) -> String {
+    //Convert Date to String
+    public func toString(_ format: String) -> String {
         let dateFormatter = DateFormatter()
         //        dateFormatter.locale = NSLocale.systemLocale()
         
-        if let format = format, !format.isEmpty {
+        if !format.isEmpty {
             dateFormatter.dateFormat = format
         } else {
             dateFormatter.dateFormat = "yyyy MM dd"
         }
         
-        if let _ = self as Date? {
-            let strDate = dateFormatter.string(from: self)
-            return strDate
-        } else {
-            return dateFormatter.string(from: Date())
-        }
+        return dateFormatter.string(from: self)
     }
     
     static public func numberOfDayInYear(fromDate date: Date) -> Int {
@@ -102,7 +104,7 @@ extension Date {
     }
     
     static public func numberOfDayInPeriod(fromDate date: Date, toDate: Date) -> Int {
-        let numberOfDays = Calendar.current.dateComponents([.day], from: date, to: toDate).day!
+        let numberOfDays = Calendar.currentGMT.dateComponents([.day], from: date, to: toDate).day!
         return numberOfDays < 0 ? numberOfDays * -1 : numberOfDays
     }
 }
@@ -110,11 +112,11 @@ extension Date {
 //MARK: Calculation
 extension Date {
     public static func +(left: Date, right: (Calendar.Component,Int)) -> Date {
-        let date = Calendar.current.date(byAdding: right.0, value: right.1, to: left)
+        let date = Calendar.currentGMT.date(byAdding: right.0, value: right.1, to: left)
         return date!
     }
     public static func -(left: Date, right: (Calendar.Component,Int)) -> Date {
-        let date = Calendar.current.date(byAdding: right.0, value: -right.1, to: left)
+        let date = Calendar.currentGMT.date(byAdding: right.0, value: -right.1, to: left)
         return date!
     }
 }

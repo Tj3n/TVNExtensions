@@ -17,11 +17,19 @@ extension String {
         return nil
     }
     
-    public subscript (range: Range<Int>) -> String {
+    public func index(fromStart index: Int) -> Index {
+        return index <= 0 ? startIndex : self.index(startIndex, offsetBy: min(index, count-1))
+    }
+    
+    public func index(fromEnd index: Int) -> Index {
+        return index <= 0 ? self.index(before: endIndex) : self.index(endIndex, offsetBy: max(-index, -count))
+    }
+    
+    public subscript (range: CountableRange<Int>) -> String {
         return String(self[index(fromStart: range.lowerBound)..<index(fromStart: range.upperBound)])
     }
     
-    public subscript (range: ClosedRange<Int>) -> String {
+    public subscript (range: CountableClosedRange<Int>) -> String {
         return String(self[index(fromStart: range.lowerBound)...index(fromStart: range.upperBound)])
     }
     
@@ -33,30 +41,17 @@ extension String {
         return String(self[index(fromStart: range.lowerBound)...])
     }
     
-    //Use collection of Int instead of real range, does not support PartialRangeThrough
-//    public subscript<T: RandomAccessCollection>(range: T) -> String where T.Element == Int {
-//        return String(self[index(fromStart: range.first)!...index(fromStart: range.last)!])
-//    }
-    
-    public func index(fromStart index: Int) -> Index {
-        return self.index(startIndex, offsetBy: index)
-    }
-    
-    public func index(fromEnd index: Int) -> Index {
-        return self.index(endIndex, offsetBy: -index)
-    }
-
-    public func replace(in r: Range<Int>, with string: String) -> String {
+    public func replace(in r: CountableRange<Int>, with string: String) -> String {
         return self.replacingCharacters(in: index(fromStart: r.lowerBound)..<index(fromStart: r.upperBound), with: string)
     }
     
-    public func replace(in r: ClosedRange<Int>, with string: String) -> String {
+    public func replace(in r: CountableClosedRange<Int>, with string: String) -> String {
         return self.replacingCharacters(in: index(fromStart: r.lowerBound)...index(fromStart: r.upperBound), with: string)
     }
     
     public func firstCharacterUppercase() -> String {
         if !self.isEmpty {
-            return replace(in: 0...0, with: self[...self.index(fromStart: 0)].uppercased())
+            return String(self[self.startIndex]).uppercased()+String(self[self.index(after: self.startIndex)...])
         } else {
             return self
         }
@@ -148,7 +143,7 @@ extension String {
     }
     
     //To use with number string
-    public func toCurrencyFormatter(with currencyCode: String) -> String {
+    public func toCurrencyFormatter(currencyCode: String) -> String {
         if NSDecimalNumber(string: self) != NSDecimalNumber.notANumber {
             let formatter = NumberFormatter()
             formatter.numberStyle = .currency
@@ -159,7 +154,7 @@ extension String {
         return self
     }
     
-    fileprivate func findLocaleByCurrencyCode(_ currencyCode: String) -> Locale {
+    fileprivate func findLocaleByCurrencyCode(_ currencyCode: String) -> Locale? {
         let locales = Locale.availableIdentifiers
         
         let fiteredLocale = locales.filter({ Locale(identifier: $0).currencyCode == currencyCode })
@@ -167,11 +162,11 @@ extension String {
             return Locale(identifier: locale)
         }
         
-        return Locale.current
+        return nil
     }
     
     fileprivate func findCurrencySymbolByCode(_ currencyCode: String) -> String {
-        let locale = self.findLocaleByCurrencyCode(currencyCode)
+        guard let locale = self.findLocaleByCurrencyCode(currencyCode) else { return currencyCode }
         if let currencySymbol = locale.currencySymbol {
             return currencySymbol
         }

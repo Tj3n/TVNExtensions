@@ -1,0 +1,23 @@
+PODS:
+  - TVNExtensions (0.0.1):
+    - TVNExtensions/Foundation (= 0.0.1)
+    - TVNExtensions/Helper (= 0.0.1)
+    - TVNExtensions/UIKit (= 0.0.1)
+  - TVNExtensions/Foundation (0.0.1)
+  - TVNExtensions/Helper (0.0.1):
+    - TVNExtensions/UIKit
+  - TVNExtensions/UIKit (0.0.1)
+
+DEPENDENCIES:
+  - TVNExtensions (from `../.`)
+
+EXTERNAL SOURCES:
+  TVNExtensions:
+    :path: "../."
+
+SPEC CHECKSUMS:
+  TVNExtensions: 8f204275a29373f1cc9570aad7772764bef9724f
+
+PODFILE CHECKSUM: 16a628c3d59a3db1198ef44268ffead2df1c23ed
+
+COCOAPODS: 1.5.0

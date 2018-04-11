@@ -14,13 +14,11 @@ public extension UIViewController {
     /**
      Create VC from storyboard name and Viewcontrolelr ID
      */
-    public class func instantiate(fromStoryboard storyboardName: String, controllerId: String) -> Self
-    {
+    public class func instantiate(fromStoryboard storyboardName: String, controllerId: String) -> Self {
         return instantiateFromStoryboardHelper(storyboardName, storyboardId: controllerId)
     }
     
-    fileprivate class func instantiateFromStoryboardHelper<T>(_ storyboardName: String, storyboardId: String) -> T
-    {
+    fileprivate class func instantiateFromStoryboardHelper<T>(_ storyboardName: String, storyboardId: String) -> T {
         let storyboard = UIStoryboard(name: storyboardName, bundle: Bundle.main)
         let controller = storyboard.instantiateViewController(withIdentifier: storyboardId) as! T
         return controller
