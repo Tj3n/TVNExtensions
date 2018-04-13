@@ -157,10 +157,14 @@ extension String {
     fileprivate func findLocaleByCurrencyCode(_ currencyCode: String) -> Locale? {
         let locales = Locale.availableIdentifiers
         
-        let fiteredLocale = locales.filter({ Locale(identifier: $0).currencyCode == currencyCode })
-        if let locale = fiteredLocale.first {
-            return Locale(identifier: locale)
+        if let fiteredLocale = locales.index(where: { Locale(identifier: $0).currencyCode == currencyCode }) {
+             return Locale(identifier: locales[fiteredLocale])
         }
+        
+//        let fiteredLocale = locales.filter({ Locale(identifier: $0).currencyCode == currencyCode })
+//        if let locale = fiteredLocale.first {
+//            return Locale(identifier: locale)
+//        }
         
         return nil
     }

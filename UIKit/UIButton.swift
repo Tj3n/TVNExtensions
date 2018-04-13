@@ -50,4 +50,20 @@ extension UIButton {
             self.titleLabel?.minimumScaleFactor = newValue > 1.0 ? 1.0 : newValue
         }
     }
+    
+    @IBInspectable var flipContent: Bool {
+        get {
+            return !self.transform.isIdentity
+        }
+        
+        set {
+            if newValue {
+                self.transform = CGAffineTransform.identity.scaledBy(x: -1.0, y: 1.0)
+                self.titleLabel?.transform = CGAffineTransform.identity.scaledBy(x: -1.0, y: 1.0)
+                self.imageView?.transform = CGAffineTransform.identity.scaledBy(x: -1.0, y: 1.0)
+            } else {
+                self.transform = CGAffineTransform.identity
+            }
+        }
+    }
 }
