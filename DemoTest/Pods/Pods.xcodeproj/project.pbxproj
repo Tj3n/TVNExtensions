@@ -38,6 +38,7 @@
 		8FD08A44F9479D4C8119F4276560C5AA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97056FE13FDE32D3CCB3C9899A82E5D4 /* UIViewController.swift */; };
 		9AF6851C90B9EDC2B5307C9BFA64787F /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C76D7E593DC4FC5B2A87801F0935F6 /* UIWindow.swift */; };
 		9C70CFFF2080C24600FA2B71 /* ExpandShrinkAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C70CFFE2080C24600FA2B71 /* ExpandShrinkAnimator.swift */; };
+		9CB21FE6208732DC003E291E /* UIView+NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB21FE5208732DC003E291E /* UIView+NSLayoutConstraint.swift */; };
 		A52493BCD76FC8B8A05E2459CC5FE223 /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203EC85BB748BE1342C7AC8D514C3D29 /* LocationHelper.swift */; };
 		B0CEA315348FA53529309C5FD64951CA /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C465747040B9B8FECE591E7D742279E /* Dictionary.swift */; };
 		B1C0945A6898CB7E3CBF43BAD8873C1E /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707CDB3AFC87D15C2EEB3748B046806 /* UIButton.swift */; };
@@ -131,6 +132,7 @@
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		97056FE13FDE32D3CCB3C9899A82E5D4 /* UIViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIViewController.swift; path = UIKit/UIViewController.swift; sourceTree = "<group>"; };
 		9C70CFFE2080C24600FA2B71 /* ExpandShrinkAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExpandShrinkAnimator.swift; path = Helper/ExpandShrinkAnimator.swift; sourceTree = "<group>"; };
+		9CB21FE5208732DC003E291E /* UIView+NSLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+NSLayoutConstraint.swift"; path = "UIKit/UIView+NSLayoutConstraint.swift"; sourceTree = "<group>"; };
 		A396541579F0B05A2AC8C4152E41C132 /* Pods_DemoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4081C95F93E9217287701BA008D69F2 /* UIView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIView.swift; path = UIKit/UIView.swift; sourceTree = "<group>"; };
 		A79D4E803652BB82C11E19B9623B710F /* TVNExtensions.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = TVNExtensions.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -282,6 +284,7 @@
 				D084419B3EE0B3E9BBF71F18FCAE178E /* UITabBarController.swift */,
 				AD47623481858236CA1EA6AB74F3FA52 /* UITableView.swift */,
 				A4081C95F93E9217287701BA008D69F2 /* UIView.swift */,
+				9CB21FE5208732DC003E291E /* UIView+NSLayoutConstraint.swift */,
 				97056FE13FDE32D3CCB3C9899A82E5D4 /* UIViewController.swift */,
 				39C76D7E593DC4FC5B2A87801F0935F6 /* UIWindow.swift */,
 			);
@@ -566,6 +569,7 @@
 				3334BDD05D606E61854964AFA5D85E0C /* KeyboardHandling.swift in Sources */,
 				8F630AEA36583E40BE04CC6C631E216A /* KeychainItemAccessibility.swift in Sources */,
 				2FAEEA95AB57D34C113ECE11AB12359A /* KeychainWrapper.swift in Sources */,
+				9CB21FE6208732DC003E291E /* UIView+NSLayoutConstraint.swift in Sources */,
 				9C70CFFF2080C24600FA2B71 /* ExpandShrinkAnimator.swift in Sources */,
 				0B7170CB5F39358D70C587309434147A /* LocalAuthHelper.swift in Sources */,
 				A52493BCD76FC8B8A05E2459CC5FE223 /* LocationHelper.swift in Sources */,

@@ -143,7 +143,7 @@ extension UIView {
     }
 }
 
-// MARK: Some IBInspectable
+// MARK: - Some IBInspectable
 extension UIView {
     @IBInspectable var cornerRadius: CGFloat {
         get {

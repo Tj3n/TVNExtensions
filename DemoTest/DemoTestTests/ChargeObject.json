@@ -1,0 +1,23 @@
+{
+    "card": {
+        "name": "TEST PAYER",
+        "exp_year": "2018",
+        "last4": "4242",
+        "exp_month": "2",
+        "type": "VISA",
+        "country": "US"
+    },
+    "object": "charge",
+    "risk": "approved",
+    "amount_paid": "1",
+    "support_link": "http://example.com",
+    "amount": "1",
+    "refunded": false,
+    "captured": true,
+    "id": "29131667_test",
+    "created": 1519199667,
+    "currency": "USD",
+    "secure": false,
+    "test": 1,
+    "currency_paid": "USD"
+}

@@ -72,7 +72,7 @@ extension String {
     public func getSize(font: UIFont, width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
         guard self.isNotEmpty else { return .zero }
         let fontAttributes = [NSAttributedStringKey.font: font]
-        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: fontAttributes, context: nil)
+        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: fontAttributes, context: nil)
         return sizeOfText
     }
 }

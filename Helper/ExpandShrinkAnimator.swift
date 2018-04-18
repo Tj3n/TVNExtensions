@@ -78,11 +78,14 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
             UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: [.curveEaseInOut], animations: {
                 snapshot.frame = finalF
             }, completion: { (completed) in
-                toVC.view.alpha = 1
-                fromVC.view.alpha = 1
-                snapshot.removeFromSuperview()
-                self.mode = .none
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                UIView.animate(withDuration: 0.3, animations: {
+                    toVC.view.alpha = 1
+                }, completion: { (_) in
+                    fromVC.view.alpha = 1
+                    snapshot.removeFromSuperview()
+                    self.mode = .none
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                })
             })
         }
     }

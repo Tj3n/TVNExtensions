@@ -68,4 +68,67 @@ class DemoTestTests: XCTestCase {
         XCTAssertEqual(a.toRad(), 4.71, accuracy: 1.0)
     }
     
+    func testDecodable() {
+        let dict = ["object": "charge",
+                    "id": "29131519199667_test",
+                    "created": 1519199667,
+                    "amount": "1",
+                    "currency": "USD",
+                    "refunded": false,
+                    "captured": true,
+                    "risk": "approved",
+                    "card": [
+                        "last4": "4242",
+                        "type": "VISA",
+                        "exp_month": "2",
+                        "exp_year": "2018",
+                        "country": "US",
+                        "name": "TEST PAYER",
+            ],
+                    "secure": false,
+                    "support_link": "http://example.com",
+                    "test": 1,
+                    "amount_paid": "1",
+                    "currency_paid": "USD"] as [String: Any]
+        
+        let json = """
+{
+    "card": {
+        "name": "TEST PAYER",
+        "exp_year": "2018",
+        "last4": "4242",
+        "exp_month": "2",
+        "type": "VISA",
+        "country": "US"
+    },
+    "object": "charge",
+    "risk": "approved",
+    "amount_paid": "1",
+    "support_link": "http://example.com",
+    "amount": "1",
+    "refunded": false,
+    "captured": true,
+    "id": "29131667_test",
+    "created": 1519199667,
+    "currency": "USD",
+    "secure": false,
+    "test": 1,
+    "currency_paid": "USD"
 }
+""".data(using: .utf8)!
+        
+        let bundle = Bundle(for: DemoTestTests.self)
+        let path = bundle.path(forResource: String(describing: ChargeObject.self), ofType: "json")
+        let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
+            XCTAssertNoThrow(try JSONDecoder().decode(ChargeObject.self, from: jsonData))
+            XCTAssertNoThrow(try JSONDecoder().decode(ChargeObject.self, from: json))
+            XCTAssertNoThrow(try JSONDecoder().decode(ChargeObject.self, from: data))
+        } catch let error {
+            XCTFail(error.localizedDescription)
+        }
+    }
+}
+

@@ -31,9 +31,18 @@ class ViewController: UIViewController {
 
     @IBAction func btnTouch(_ sender: Any) {
         view.endEditing(true)
+        
+        
+        
         DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
-            self.performSegue(withIdentifier: "show", sender: self)
-//            self.performSegue(withIdentifier: "push", sender: self)
+//            self.performSegue(withIdentifier: "show", sender: self)
+//            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
+            
+            let nextVC = NextViewController()
+            let _ = nextVC.view
+            nextVC.destinationImgView.image = self.imgView.image
+            nextVC.transitioningDelegate = self.animator
+            self.present(nextVC, animated: true, completion: nil)
         }
 
     }

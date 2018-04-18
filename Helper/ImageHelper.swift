@@ -81,7 +81,7 @@ extension ImageHelper {
         }
     }
     
-    public func saveToPhotoLibrary(img: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+    public func saveToPhotoLibrary(img: UIImage, _ completionTarget: Any? = nil, _ completionSelector: Selector? = nil, _ contextInfo: UnsafeMutableRawPointer? = nil) {
+        UIImageWriteToSavedPhotosAlbum(img, completionTarget, completionSelector, contextInfo)
     }
 }
