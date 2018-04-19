@@ -8,10 +8,10 @@
 import UIKit
 
 class KeyboardLayoutConstraint: NSLayoutConstraint {
-    private var originConstant: CGFloat = 0
-    private var keyboardHeight: CGFloat = 0
+    private var originConstant: CGFloat = 0.0
+    private var keyboardHeight: CGFloat = 0.0
     private var isKeyboardShow: Bool = false
-    private var defaultKeyboardActiveHeight: CGFloat = 10
+    private var defaultKeyboardActiveHeight: CGFloat = 10.0
     
     @IBInspectable var excludeOriginConstant: Bool = false
     @IBInspectable var isTopConstraint: Bool = false
@@ -19,6 +19,7 @@ class KeyboardLayoutConstraint: NSLayoutConstraint {
     override func awakeFromNib() {
         super.awakeFromNib()
         observeKeyboardHandling()
+        defaultKeyboardActiveHeight = 10.0
         originConstant = constant
     }
     

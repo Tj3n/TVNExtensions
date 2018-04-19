@@ -24,18 +24,21 @@ public extension UIViewController {
         return controller
     }
     
-    class func getCurrentViewController(_ vc: UIViewController) -> UIViewController? {
-        if let pvc = vc.presentedViewController {
-            return getCurrentViewController(pvc)
-        } else if let svc = vc as? UISplitViewController, svc.viewControllers.count > 0 {
-            return getCurrentViewController(svc.viewControllers.last!)
-        } else if let nc = vc as? UINavigationController, nc.viewControllers.count > 0 {
-            return getCurrentViewController(nc.topViewController!)
-        } else if let tbc = vc as? UITabBarController {
-            if let svc = tbc.selectedViewController {
-                return getCurrentViewController(svc)
-            }
+    public class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
+        return getTopViewController(from: window?.rootViewController)
+    }
+    
+    class func getTopViewController(from rootVC: UIViewController?) -> UIViewController? {
+        if let nav = rootVC as? UINavigationController, let navFirst = nav.visibleViewController {
+            return getTopViewController(from: navFirst)
+        } else if let tab = rootVC as? UITabBarController, let selectedTab = tab.selectedViewController {
+            return getTopViewController(from: selectedTab)
+        } else if let split = rootVC as? UISplitViewController, let splitLast = split.viewControllers.last {
+            return getTopViewController(from: splitLast)
+        } else if let presented = rootVC?.presentedViewController {
+            return getTopViewController(from: presented)
         }
-        return vc
+        
+        return rootVC
     }
 }

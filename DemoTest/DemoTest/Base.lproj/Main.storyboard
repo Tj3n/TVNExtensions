@@ -38,7 +38,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="48O-03-QCx">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="test" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="48O-03-QCx">
                                 <rect key="frame" x="16" y="537" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -47,7 +47,11 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="48O-03-QCx" secondAttribute="bottom" constant="100" id="8dH-kS-hPw" customClass="KeyboardLayoutConstraint" customModule="TVNExtensions"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="48O-03-QCx" secondAttribute="bottom" constant="100" id="8dH-kS-hPw" customClass="KeyboardLayoutConstraint" customModule="TVNExtensions">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="excludeOriginConstant" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nM8-aP-uUi" secondAttribute="trailing" constant="16" id="Dlp-hN-SqW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="48O-03-QCx" secondAttribute="trailing" constant="16" id="S9Q-Ep-oB1"/>
                             <constraint firstItem="JvF-YX-L3g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ceU-oB-4tp"/>
@@ -63,6 +67,7 @@
                     <navigationItem key="navigationItem" id="7VR-J0-Ki5"/>
                     <connections>
                         <outlet property="imgView" destination="kiE-vn-vJD" id="cfT-wF-eJh"/>
+                        <outlet property="testTextfield" destination="48O-03-QCx" id="iBc-II-xAA"/>
                         <segue destination="2j2-vg-EwY" kind="presentation" identifier="show" id="MuN-Qm-vsC"/>
                         <segue destination="2j2-vg-EwY" kind="show" identifier="push" id="2vA-En-TcA"/>
                     </connections>

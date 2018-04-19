@@ -10,58 +10,6 @@ import Foundation
 import UIKit
 
 extension UIWindow {
-    // Returns the most recently presented UIViewController (visible)
-    
-    public class var topViewController: UIViewController {
-        get {
-            return UIWindow.getTopViewController(from: UIApplication.shared.keyWindow!.rootViewController!)
-        }
-    }
-    
-    public class func getTopViewController(from rootVC: UIViewController) -> UIViewController {
-        if let nav = rootVC as? UINavigationController, let navFirst = nav.visibleViewController {
-            return getTopViewController(from: navFirst)
-        } else if let tab = rootVC as? UITabBarController, let selectedTab = tab.selectedViewController {
-            return getTopViewController(from: selectedTab)
-        } else if let split = rootVC as? UISplitViewController, let splitLast = split.viewControllers.last {
-            return getTopViewController(from: splitLast)
-        } else if let presented = rootVC.presentedViewController {
-            return getTopViewController(from: presented)
-        }
-        
-        return rootVC
-    }
-    
-    public class var currentViewController: UIViewController? {
-        get {
-            if let navigationController = getNavigationController() {
-                return navigationController.visibleViewController
-            }
-            if let rootController = UIApplication.shared.keyWindow?.rootViewController {
-                return UIViewController.getCurrentViewController(rootController)
-            }
-            return nil
-        }
-    }
-    
-    public class func getCurrentViewController() -> UIViewController? {
-        if let navigationController = getNavigationController() {
-            return navigationController.visibleViewController
-        }
-        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
-            return UIViewController.getCurrentViewController(rootController)
-        }
-        
-        return nil
-    }
-    
-    // Returns the navigation controller if it exists
-    class func getNavigationController() -> UINavigationController? {
-        if let navigationController = UIApplication.shared.keyWindow?.rootViewController  {
-            return navigationController as? UINavigationController
-        }
-        return nil
-    }
     
     public class func changeRootViewController(with viewController: UIViewController) {
         let delegate = UIApplication.shared.delegate!

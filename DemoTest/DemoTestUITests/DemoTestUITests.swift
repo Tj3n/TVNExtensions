@@ -31,14 +31,18 @@ class DemoTestUITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         let app = XCUIApplication()
-        app.buttons["Button"].tap()
-        let nextVCLabel = app.staticTexts["NextVC"]
-        let exist = nextVCLabel.waitForExistence(timeout: 2)
-        XCTAssertTrue(exist)
         
-//        let exists = NSPredicate(format: "exists == 1")
-//        expectation(for: exists, evaluatedWith: nextVCLabel, handler: nil)
-//        waitForExpectations(timeout: 2, handler: nil)
+        let tf = app.textFields["test"]
+        tf.tap()
+        tf.typeText("something")
+        
+        XCTAssertTrue(tf.frame.maxY < UIScreen.main.bounds.maxY - 50)
+        
+        app.buttons["Button"].tap()
+        let nextVCLabel = app.staticTexts["something"]
+        let exist = nextVCLabel.waitForExistence(timeout: 2)
+        
+        XCTAssertTrue(exist)
     }
     
 }

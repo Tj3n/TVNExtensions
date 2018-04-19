@@ -11,21 +11,12 @@ import CoreLocation
 public class LocationHelper: NSObject {
     public static var shared = LocationHelper()
     
-    lazy var locationManager: CLLocationManager = {
-        let locationManager = CLLocationManager()
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
-        return locationManager
-    }()
-    
     public enum Result {
         case success(loc: CLLocation),
         failed(error: Error, authStatus: CLAuthorizationStatus)
     }
-    public typealias ResultCallback = ((Result) -> ())
     
-    var callback: ResultCallback?
+    public typealias ResultCallback = ((Result) -> ())
     
     public var isEnabled: Bool {
         get {
@@ -37,6 +28,16 @@ public class LocationHelper: NSObject {
             }
         }
     }
+    
+    lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.delegate = self
+        return locationManager
+    }()
+    
+    var callback: ResultCallback?
     
     public func update(completion: @escaping ResultCallback) {
         locationManager.requestWhenInUseAuthorization()

@@ -58,7 +58,7 @@ public class KeyboardHandling {
         
         keyboardHeight = deltaHeight - keyboardHeight
         
-        if let topMostVc = UIWindow.getCurrentViewController() {
+        if let topMostVc = UIViewController.getTopViewController() {
             let topMostVcClassName = String(describing: type(of: topMostVc))
             if let closure = handlingClosureDict[topMostVcClassName] {
                 closure?(true, keyboardHeight)
@@ -77,7 +77,7 @@ public class KeyboardHandling {
         keyboardHeight = 0
         isKeyboardShow = false
         
-        if let topMostVc = UIWindow.getCurrentViewController() {
+        if let topMostVc = UIViewController.getTopViewController() {
             let topMostVcClassName = String(describing: type(of: topMostVc))
             if let closure = handlingClosureDict[topMostVcClassName] {
                 closure?(false, keyboardHeight)

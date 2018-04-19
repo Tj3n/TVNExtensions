@@ -10,6 +10,7 @@ import TVNExtensions
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var testTextfield: UITextField!
     @IBOutlet weak var imgView: UIImageView!
     let animator = ExpandShrinkAnimator()
     
@@ -32,8 +33,6 @@ class ViewController: UIViewController {
     @IBAction func btnTouch(_ sender: Any) {
         view.endEditing(true)
         
-        
-        
         DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
 //            self.performSegue(withIdentifier: "show", sender: self)
 //            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
@@ -41,17 +40,23 @@ class ViewController: UIViewController {
             let nextVC = NextViewController()
             let _ = nextVC.view
             nextVC.destinationImgView.image = self.imgView.image
+            nextVC.nextLabel.text = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
             nextVC.transitioningDelegate = self.animator
             self.present(nextVC, animated: true, completion: nil)
         }
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nextVC = segue.destination as? NextViewController  {
             let _ = nextVC.view
             nextVC.destinationImgView.image = imgView.image
+            nextVC.nextLabel.text = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
             nextVC.transitioningDelegate = animator
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
 }
