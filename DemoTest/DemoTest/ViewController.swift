@@ -20,8 +20,8 @@ class ViewController: UIViewController {
         self.navigationController?.delegate = animator
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         animator.originFrame = imgView.frame
     }
 
@@ -37,6 +37,7 @@ class ViewController: UIViewController {
 //            self.performSegue(withIdentifier: "show", sender: self)
 //            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
             
+            //W/o storyboard
             let nextVC = NextViewController()
             let _ = nextVC.view
             nextVC.destinationImgView.image = self.imgView.image

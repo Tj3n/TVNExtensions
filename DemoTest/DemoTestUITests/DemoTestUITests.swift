@@ -35,8 +35,8 @@ class DemoTestUITests: XCTestCase {
         let tf = app.textFields["test"]
         tf.tap()
         tf.typeText("something")
+        XCTAssertTrue(tf.isHittable)
         
-        XCTAssertTrue(tf.frame.maxY < UIScreen.main.bounds.maxY - 50)
         
         app.buttons["Button"].tap()
         let nextVCLabel = app.staticTexts["something"]

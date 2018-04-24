@@ -39,14 +39,14 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
         var initialF = CGRect.zero
         var finalF = CGRect.zero
         
-        if let source = source, source.navigationController != toVC.navigationController  {
-            toVC.view.layoutIfNeeded()
-        }
-        
         let container = transitionContext.containerView
         container.backgroundColor = .white
         container.addSubview(toVC.view)
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
+        
+        if let source = source, source.navigationController != toVC.navigationController  {
+            toVC.view.layoutIfNeeded()
+        }
         
         switch mode {
         case .presenting:

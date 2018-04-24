@@ -21,6 +21,7 @@
 		9C70CFFD2080C20F00FA2B71 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C70CFFC2080C20F00FA2B71 /* NextViewController.swift */; };
 		9C787E3B2085E7A300B24A9E /* ChargeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C787E3A2085E7A300B24A9E /* ChargeObject.swift */; };
 		9C787E3D2085F88A00B24A9E /* ChargeObject.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C787E3C2085F88A00B24A9E /* ChargeObject.json */; };
+		9C95BFB02089982000D5DAF8 /* ExtraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */; };
 		E16AA4CA82F633FAB58324B1 /* Pods_DemoTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684D211752C8CF497BAC2FA0 /* Pods_DemoTestTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		9C70CFFC2080C20F00FA2B71 /* NextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewController.swift; sourceTree = "<group>"; };
 		9C787E3A2085E7A300B24A9E /* ChargeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeObject.swift; sourceTree = "<group>"; };
 		9C787E3C2085F88A00B24A9E /* ChargeObject.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ChargeObject.json; sourceTree = "<group>"; };
+		9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraTest.swift; sourceTree = "<group>"; };
 		B7D49153432EAE4D6960136A /* Pods-DemoTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest.debug.xcconfig"; sourceTree = "<group>"; };
 		EA411FB6181B5D496A0CD585 /* Pods-DemoTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -166,6 +168,7 @@
 				9C435B78207DB8CB0015CD46 /* DemoTestTests.swift */,
 				9C435B91207DC0A70015CD46 /* DateTest.swift */,
 				9C435B93207DC6B30015CD46 /* StringTest.swift */,
+				9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */,
 				9C435B7A207DB8CB0015CD46 /* Info.plist */,
 			);
 			path = DemoTestTests;
@@ -403,6 +406,7 @@
 			files = (
 				9C435B79207DB8CB0015CD46 /* DemoTestTests.swift in Sources */,
 				9C435B92207DC0A70015CD46 /* DateTest.swift in Sources */,
+				9C95BFB02089982000D5DAF8 /* ExtraTest.swift in Sources */,
 				9C435B94207DC6B30015CD46 /* StringTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,8 +574,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D44Q8LH786;
 				INFOPLIST_FILE = DemoTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -589,8 +594,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D44Q8LH786;
 				INFOPLIST_FILE = DemoTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -609,6 +615,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D44Q8LH786;
 				INFOPLIST_FILE = DemoTestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -630,6 +637,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D44Q8LH786;
 				INFOPLIST_FILE = DemoTestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -650,6 +658,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D44Q8LH786;
 				INFOPLIST_FILE = DemoTestUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -670,6 +679,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D44Q8LH786;
 				INFOPLIST_FILE = DemoTestUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

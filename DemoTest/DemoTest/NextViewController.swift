@@ -45,13 +45,17 @@ class NextViewController: UIViewController {
     
     func setupView() {
         destinationImgView.addTo(view: view)
-            .top(to: view, by: 30)
-            .centerX()
-            .setWidth(200)
-            .setWidthHeightRatio(ratio: 1)
-        nextLabel.addTo(view: view)
-            .topToBottom(of: destinationImgView, by: 30)
-            .centerX(to: destinationImgView)
+        destinationImgView.top(to: view, by: 30)
+        destinationImgView.centerX(to: view)
+        destinationImgView.setWidth(200)
+        destinationImgView.setWidthHeightRatio(ratio: 1)
+        nextLabel .addTo(view: view)
+        nextLabel.topToBottom(of: destinationImgView, by: 30)
+        nextLabel.centerX(to: destinationImgView)
+    }
+    
+    deinit {
+        print("NextViewController deinit")
     }
 
     override func didReceiveMemoryWarning() {
