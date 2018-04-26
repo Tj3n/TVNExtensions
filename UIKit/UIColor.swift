@@ -13,7 +13,7 @@ extension UIColor {
     /**
      UIColor from hex and alpha
      */
-    public convenience init(hexString: String, alpha: CGFloat) {
+    public convenience init(hexString: String, alpha: CGFloat = 1) {
         let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int = UInt32()
         Scanner(string: hex).scanHexInt32(&int)
@@ -34,7 +34,7 @@ extension UIColor {
     /**
      UIColor from rgb and alpha
      */
-    public convenience init(r: UInt32, g: UInt32, b: UInt32, alpha: CGFloat) {
+    public convenience init(r: UInt32, g: UInt32, b: UInt32, alpha: CGFloat = 1) {
         var a: CGFloat = alpha
         if a > 1 {
             a = 1

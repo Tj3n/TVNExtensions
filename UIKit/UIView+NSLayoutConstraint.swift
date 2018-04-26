@@ -43,12 +43,12 @@ extension UIView {
     
     @discardableResult
     public func bottom(to view: UIView, relation: NSLayoutRelation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
-        return constraintView(firstAttr: .bottomMargin, to: view, secondAttr: .bottomMargin, relation: relation, mult: mult, by: by, priority: priority)
+        return constraintView(firstAttr: .bottomMargin, to: view, secondAttr: .bottomMargin, relation: relation, mult: mult, by: -by, priority: priority)
     }
     
     @discardableResult
     public func bottomToTop(of view: UIView, relation: NSLayoutRelation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
-        return constraintView(firstAttr: .bottomMargin, to: view, secondAttr: .topMargin, relation: relation, mult: mult, by: by, priority: priority)
+        return constraintView(firstAttr: .bottomMargin, to: view, secondAttr: .topMargin, relation: relation, mult: mult, by: -by, priority: priority)
     }
     
     @discardableResult
@@ -63,12 +63,12 @@ extension UIView {
     
     @discardableResult
     public func right(to view: UIView, relation: NSLayoutRelation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
-        return constraintView(firstAttr: .rightMargin, to: view, secondAttr: .rightMargin, relation: relation, mult: mult, by: by, priority: priority)
+        return constraintView(firstAttr: .rightMargin, to: view, secondAttr: .rightMargin, relation: relation, mult: mult, by: -by, priority: priority)
     }
     
     @discardableResult
     public func rightToLeft(of view: UIView, relation: NSLayoutRelation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
-        return constraintView(firstAttr: .rightMargin, to: view, secondAttr: .leftMargin, relation: relation, mult: mult, by: by, priority: priority)
+        return constraintView(firstAttr: .rightMargin, to: view, secondAttr: .leftMargin, relation: relation, mult: mult, by: -by, priority: priority)
     }
     
     @discardableResult

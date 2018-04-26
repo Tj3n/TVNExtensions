@@ -25,7 +25,7 @@ public class KeyboardHandling {
         
     }
     
-    /// Must use [unowned self] to prevent retain cycle
+    /// MUST USE [unowned self] to prevent retain cycle
     ///
     /// - Parameters:
     ///   - vc: UIViewController

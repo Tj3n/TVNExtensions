@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.navigationController?.delegate = animator
+        navigationController?.delegate = animator
+        view.backgroundColor = UIColor(hexString: "fff4e6")
     }
     
     override func viewDidLayoutSubviews() {
@@ -25,16 +26,11 @@ class ViewController: UIViewController {
         animator.originFrame = imgView.frame
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func btnTouch(_ sender: Any) {
         view.endEditing(true)
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
-//            self.performSegue(withIdentifier: "show", sender: self)
+//            self.performSegue(withIdentifier: "show", sender: self) // Disable navigationController?.delegate = animator
 //            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
             
             //W/o storyboard

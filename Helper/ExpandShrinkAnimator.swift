@@ -19,11 +19,17 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
         none
     }
     
-    let kExpandShrinkTransitionDuration = 0.5
-    
     public var originFrame = CGRect.zero
     public var mode: ExpandShrinkAnimatorMode = .none
     public var source: UIViewController?
+    public var containerSourceBackgroundImage: UIImage?
+    public var containerDestinationBackgroundImage: UIImage?
+    
+    private let kExpandShrinkTransitionDuration: TimeInterval = 0.5
+    lazy var containerImageView: UIImageView = {
+        let v = UIImageView(frame: UIScreen.main.bounds)
+        return v
+    }()
     
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return kExpandShrinkTransitionDuration
@@ -40,7 +46,7 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
         var finalF = CGRect.zero
         
         let container = transitionContext.containerView
-        container.backgroundColor = .white
+        container.addSubview(containerImageView)
         container.addSubview(toVC.view)
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
@@ -53,40 +59,138 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
             guard toVC is ExpandShrinkAnimatorProtocol else { return }
             initialF = originFrame
             finalF = (toVC as! ExpandShrinkAnimatorProtocol).destinationFrame
+            containerImageView.backgroundColor = toVC.view.backgroundColor
+            if let img = containerDestinationBackgroundImage {
+                containerImageView.image = img
+            }
         case .dismissing:
             guard fromVC is ExpandShrinkAnimatorProtocol else { return }
             initialF = (fromVC as! ExpandShrinkAnimatorProtocol).destinationFrame
             finalF = originFrame
+            containerImageView.backgroundColor = fromVC.view.backgroundColor
+            if let img = containerSourceBackgroundImage {
+                containerImageView.image = img
+            }
         default:
             return
         }
 
+        //Origin Frame - fade to 0
         let snapshot = fromVC.view.resizableSnapshotView(from: initialF, afterScreenUpdates: true, withCapInsets: UIEdgeInsets.zero)!
         snapshot.frame = initialF
-        snapshot.alpha = 1
         container.addSubview(snapshot)
         
-        ///Add snap on all 4 sides to make animation better
+        //Destination Frame - hides behind origin snapshot
+        let toSnapshot = toVC.view.resizableSnapshotView(from: finalF, afterScreenUpdates: true, withCapInsets: .zero)!
+        toSnapshot.frame = initialF
+        container.insertSubview(toSnapshot, belowSubview: snapshot)
+        
+        let screenW = UIScreen.main.bounds.width
+        let screenH = UIScreen.main.bounds.height
+        
+        //Top fromVC - move up
+        let topInitialF = CGRect(x: 0, y: 0, width: screenW, height: initialF.minY)
+        let topFinalF = CGRect(x: 0, y: -initialF.minY, width: screenW, height: initialF.minY)
+        let topSnapshot = fromVC.view.resizableSnapshotView(from: topInitialF, afterScreenUpdates: true, withCapInsets: .zero)!
+        topSnapshot.frame = topInitialF
+        
+        //Bottom fromVC - move down
+        let bottomInitialF = CGRect(x: 0, y: initialF.maxY, width: screenW, height: screenH-initialF.maxY)
+        let bottomFinalF = CGRect(x: 0, y: screenH, width: screenW, height: screenH-initialF.maxY)
+        let bottomSnapshot = fromVC.view.resizableSnapshotView(from: bottomInitialF, afterScreenUpdates: true, withCapInsets: .zero)!
+        bottomSnapshot.frame = bottomInitialF
+        
+        //Top toVC - move down
+        let topToInitialF = CGRect(x: 0, y: -finalF.minY, width: screenW, height: finalF.minY)
+        let topToFinalF = CGRect(x: 0, y: 0, width: screenW, height: finalF.minY)
+        let topToSnapshot = toVC.view.resizableSnapshotView(from: topToFinalF, afterScreenUpdates: true, withCapInsets: .zero)!
+        topToSnapshot.frame = topToInitialF
+        
+        //Bottom toVC - move up
+        let bottomToInitialF = CGRect(x: 0, y: screenH, width: screenW, height: screenH-finalF.maxY)
+        let bottomToFinalF = CGRect(x: 0, y: finalF.maxY, width: screenW, height: screenH-finalF.maxY)
+        let bottomToSnapshot = toVC.view.resizableSnapshotView(from: bottomToFinalF, afterScreenUpdates: true, withCapInsets: .zero)!
+        bottomToSnapshot.frame = bottomToInitialF
+        
+        let sideSnapshotRatio = finalF.height/initialF.height
+        
+        //Left fromVC - move right
+        let leftInitialF = CGRect(x: 0, y: initialF.minY, width: initialF.minX, height: initialF.height)
+        let leftFinalF = CGRect(x: -leftInitialF.width*sideSnapshotRatio, y: finalF.minY, width: leftInitialF.width*sideSnapshotRatio, height: finalF.height)
+        let leftSnapshot = fromVC.view.resizableSnapshotView(from: leftInitialF, afterScreenUpdates: true, withCapInsets: .zero)!
+        leftSnapshot.frame = leftInitialF
+        
+        //Right fromVC - move left
+        let rightInitialF = CGRect(x: initialF.maxX, y: initialF.minY, width: screenW-initialF.maxX, height: initialF.height)
+        let rightFinalF = CGRect(x: screenW, y: finalF.minY, width: rightInitialF.width*sideSnapshotRatio, height: finalF.height)
+        let rightSnapshot = fromVC.view.resizableSnapshotView(from: rightInitialF, afterScreenUpdates: true, withCapInsets: .zero)!
+        rightSnapshot.frame = rightInitialF
+        
+        let sideToSnapshotRatio = initialF.height/finalF.height
+        
+        //Left toVC - move right
+        let leftToFinalF = CGRect(x: 0, y: finalF.minY, width: finalF.minX, height: finalF.height)
+        let leftToInitialF = CGRect(x: -(leftToFinalF.width*sideToSnapshotRatio), y: initialF.minY, width: leftToFinalF.width*sideToSnapshotRatio, height: initialF.height)
+        let leftToSnapshot = toVC.view.resizableSnapshotView(from: leftToFinalF, afterScreenUpdates: true, withCapInsets: .zero)!
+        leftToSnapshot.frame = leftToInitialF
+        
+        //Right toVC - move left
+        let rightToFinalF = CGRect(x: finalF.maxX, y: finalF.minY, width: screenW - finalF.maxX, height: finalF.height)
+        let rightToInitialF = CGRect(x: screenW, y: initialF.minY, width: rightToFinalF.width*sideToSnapshotRatio, height: initialF.height)
+        let rightToSnapshot = toVC.view.resizableSnapshotView(from: rightToFinalF, afterScreenUpdates: true, withCapInsets: .zero)!
+        rightToSnapshot.frame = rightToInitialF
         
         let duration = transitionDuration(using: transitionContext)
-        
+        fromVC.view.alpha = 0
         toVC.view.alpha = 0
         
-        UIView.animate(withDuration: 0.3, animations: {
-            fromVC.view.alpha = 0
-        }) { (completed) in
-            UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: [.curveEaseInOut], animations: {
-                snapshot.frame = finalF
-            }, completion: { (completed) in
-                UIView.animate(withDuration: 0.3, animations: {
-                    toVC.view.alpha = 1
-                }, completion: { (_) in
-                    fromVC.view.alpha = 1
-                    snapshot.removeFromSuperview()
-                    self.mode = .none
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-                })
-            })
+        container.addSubview(leftSnapshot)
+        container.addSubview(rightSnapshot)
+        container.addSubview(topSnapshot)
+        container.addSubview(bottomSnapshot)
+        container.addSubview(topToSnapshot)
+        container.addSubview(bottomToSnapshot)
+        container.addSubview(leftToSnapshot)
+        container.addSubview(rightToSnapshot)
+        
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseInOut], animations: {
+            snapshot.frame = finalF
+            toSnapshot.frame = finalF
+            snapshot.alpha = 0
+            
+            leftSnapshot.frame = leftFinalF
+            rightSnapshot.frame = rightFinalF
+            
+            topSnapshot.frame = topFinalF
+            bottomSnapshot.frame = bottomFinalF
+            
+            topToSnapshot.frame = topToFinalF
+            bottomToSnapshot.frame = bottomToFinalF
+            
+            leftToSnapshot.frame = leftToFinalF
+            rightToSnapshot.frame = rightToFinalF
+        }) { (_) in
+            fromVC.view.alpha = 1
+            toVC.view.alpha = 1
+            self.containerImageView.removeFromSuperview()
+            
+            snapshot.removeFromSuperview()
+            toSnapshot.removeFromSuperview()
+            
+            leftSnapshot.removeFromSuperview()
+            rightSnapshot.removeFromSuperview()
+            
+            topSnapshot.removeFromSuperview()
+            bottomSnapshot.removeFromSuperview()
+            
+            topToSnapshot.removeFromSuperview()
+            bottomToSnapshot.removeFromSuperview()
+            
+            leftToSnapshot.removeFromSuperview()
+            rightToSnapshot.removeFromSuperview()
+            
+            self.mode = .none
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
 }

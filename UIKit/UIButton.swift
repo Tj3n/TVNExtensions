@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ObjectiveC
 
 extension UIButton {
     open var isEnabledWithBG: Bool {
@@ -64,6 +65,46 @@ extension UIButton {
             } else {
                 self.transform = CGAffineTransform.identity
             }
+        }
+    }
+}
+
+// MARK: - .touchUpInside with closure
+extension UIButton {
+    public typealias ButtonAction = (_ button: UIButton)->()
+    
+    private class ActionStore: NSObject {
+        let action: ButtonAction
+        init(_ action: @escaping ButtonAction) {
+            self.action = action
+        }
+    }
+    
+    private struct AssociatedKeys {
+        static var btnActionKey = "btnActionKey"
+    }
+    
+    /// MUST USE [unowned self] to prevent retain cycle
+    ///
+    /// - Parameter action: closure for .touchUpInside action
+    public func addTouchUpInsideAction(_ action: @escaping ButtonAction) {
+        touchUpInsideAction = action
+        self.addTarget(self, action: #selector(UIButton.doAction), for: .touchUpInside)
+    }
+    
+    @objc func doAction() {
+        touchUpInsideAction?(self)
+    }
+    
+    private var touchUpInsideAction: ButtonAction? {
+        get {
+            guard let store = objc_getAssociatedObject(self, &AssociatedKeys.btnActionKey) as? ActionStore else { return nil }
+            return store.action
+        }
+        
+        set(newValue) {
+            guard let newValue = newValue else { return }
+            objc_setAssociatedObject(self, &AssociatedKeys.btnActionKey, ActionStore(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
