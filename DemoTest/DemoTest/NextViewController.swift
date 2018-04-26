@@ -30,6 +30,14 @@ class NextViewController: UIViewController {
         return v
     }()
     
+    lazy var topLabel: UILabel = {
+        let v = UILabel(frame: .zero)
+        v.textAlignment = .center
+        v.textColor = .white
+        v.text = "Top"
+        return v
+    }()
+    
     lazy var leftLabel: UILabel = {
         let v = UILabel(frame: .zero)
         v.textAlignment = .center
@@ -72,7 +80,7 @@ class NextViewController: UIViewController {
     
     func setupView() {
         destinationImgView.addTo(view: view)
-        destinationImgView.top(to: view, by: 30)
+        destinationImgView.top(to: view, by: 100)
         destinationImgView.centerX(to: view)
         destinationImgView.setWidth(200)
         destinationImgView.setWidthHeightRatio(ratio: 1)
@@ -92,6 +100,10 @@ class NextViewController: UIViewController {
         rightLabel.addTo(view: view)
         rightLabel.centerY(to: destinationImgView)
         rightLabel.leftToRight(of: destinationImgView, by: 30)
+        
+        topLabel.addTo(view: view)
+        topLabel.centerX(to: destinationImgView)
+        topLabel.bottomToTop(of: destinationImgView, by: 30)
     }
 }
 
