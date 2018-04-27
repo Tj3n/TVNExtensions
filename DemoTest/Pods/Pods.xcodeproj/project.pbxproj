@@ -45,7 +45,7 @@
 		B716CC73898A1CF433500587E5CD7306 /* Pods-DemoTestTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C38B17FA7FF1D16F74FB3A8A04DF /* Pods-DemoTestTests-dummy.m */; };
 		B719362A84FE3A058171585CC072F2D6 /* Pods-DemoTest-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ABD28C4B03DF56F5FB176D5027C6814 /* Pods-DemoTest-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C86111A8B3D9893E869B25E45A9FE452 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C28DD1E2A23474E0B5E0BC010425F8B /* UIColor.swift */; };
-		CA547005F649FABA751EEB9EA58F1B52 /* KeyboardBottomLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731782180FA4AB65A826E9FF07320973 /* KeyboardBottomLayoutConstraint.swift */; };
+		CA547005F649FABA751EEB9EA58F1B52 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731782180FA4AB65A826E9FF07320973 /* KeyboardLayoutConstraint.swift */; };
 		D4291B6E82A78FC795344D2532609646 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE573B9A568D66E3489A724A73BB13D /* Date.swift */; };
 		D4C4F99F74215A478AC8600E7FBFB1EF /* RefreshHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05FFC33E4F5308CC3FAA9D9A62915C /* RefreshHelper.swift */; };
 		D5C818B5BD6CF4389971AE407AFBA633 /* TVNExtensions-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 75B0EBD4DF55443647C366018D3A4C42 /* TVNExtensions-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -119,7 +119,7 @@
 		6420DEBB3D113852A471102DBC750647 /* Number.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Number.swift; path = Foundation/Number.swift; sourceTree = "<group>"; };
 		657C07AA610B70C81F3E19BCE9DE4DAD /* TimeZone.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimeZone.swift; path = Foundation/TimeZone.swift; sourceTree = "<group>"; };
 		7151DEA8DDC89E03CDC9A5B83EA3D517 /* Pods-DemoTest-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DemoTest-acknowledgements.plist"; sourceTree = "<group>"; };
-		731782180FA4AB65A826E9FF07320973 /* KeyboardBottomLayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardBottomLayoutConstraint.swift; path = Helper/KeyboardBottomLayoutConstraint.swift; sourceTree = "<group>"; };
+		731782180FA4AB65A826E9FF07320973 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardLayoutConstraint.swift; path = Helper/KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		75B0EBD4DF55443647C366018D3A4C42 /* TVNExtensions-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TVNExtensions-umbrella.h"; sourceTree = "<group>"; };
 		7A2B830D7A81B6B93C03E5366C1333F2 /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeychainItemAccessibility.swift; path = Helper/KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		7C28DD1E2A23474E0B5E0BC010425F8B /* UIColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIColor.swift; path = UIKit/UIColor.swift; sourceTree = "<group>"; };
@@ -342,7 +342,7 @@
 				448543DFC1B6CABE4CDB5E706468BFE2 /* CryptoHelper.swift */,
 				F1BD5A315028CA0BCD4D6FDD1BD81511 /* DrawableView.swift */,
 				8F03DD1D67A1A52EA7E435BCA2339EC7 /* ImageHelper.swift */,
-				731782180FA4AB65A826E9FF07320973 /* KeyboardBottomLayoutConstraint.swift */,
+				731782180FA4AB65A826E9FF07320973 /* KeyboardLayoutConstraint.swift */,
 				0C033DFA52BF4597D8B77054A0A6F966 /* KeyboardHandling.swift */,
 				7A2B830D7A81B6B93C03E5366C1333F2 /* KeychainItemAccessibility.swift */,
 				E26DD49369488836061CD7AA5BF78E4F /* KeychainWrapper.swift */,
@@ -565,7 +565,7 @@
 				62DAA5C69B49C02F632E124A4C4AF7BC /* DrawableView.swift in Sources */,
 				0DB21710412185D7CAAC26E3F623E636 /* Error.swift in Sources */,
 				83E061226B798C7E76AF6CC2AD4D18B5 /* ImageHelper.swift in Sources */,
-				CA547005F649FABA751EEB9EA58F1B52 /* KeyboardBottomLayoutConstraint.swift in Sources */,
+				CA547005F649FABA751EEB9EA58F1B52 /* KeyboardLayoutConstraint.swift in Sources */,
 				3334BDD05D606E61854964AFA5D85E0C /* KeyboardHandling.swift in Sources */,
 				8F630AEA36583E40BE04CC6C631E216A /* KeychainItemAccessibility.swift in Sources */,
 				2FAEEA95AB57D34C113ECE11AB12359A /* KeychainWrapper.swift in Sources */,

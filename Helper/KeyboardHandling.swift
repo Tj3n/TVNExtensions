@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public typealias HandlingClosure = ((_ up: Bool, _ height: CGFloat)->())?
+public typealias HandlingClosure = (_ up: Bool, _ height: CGFloat)->()
 
 public class KeyboardHandling {
     public static let shared: KeyboardHandling = {
@@ -30,7 +30,7 @@ public class KeyboardHandling {
     /// - Parameters:
     ///   - vc: UIViewController
     ///   - closure: HandlingClosure, should handle both case of `up`
-    public func addKeyboardHandlingClosure(for vc: UIViewController, closure: HandlingClosure) {
+    public func addKeyboardHandlingClosure(for vc: UIViewController, closure: @escaping HandlingClosure) {
         let className = String(describing: type(of: vc))
         handlingClosureDict[className] = closure
     }
@@ -61,7 +61,7 @@ public class KeyboardHandling {
         if let topMostVc = UIViewController.getTopViewController() {
             let topMostVcClassName = String(describing: type(of: topMostVc))
             if let closure = handlingClosureDict[topMostVcClassName] {
-                closure?(true, keyboardHeight)
+                closure(true, keyboardHeight)
             }
         }
         
@@ -74,14 +74,14 @@ public class KeyboardHandling {
             return
         }
         
-        keyboardHeight = 0
-        isKeyboardShow = false
-        
         if let topMostVc = UIViewController.getTopViewController() {
             let topMostVcClassName = String(describing: type(of: topMostVc))
             if let closure = handlingClosureDict[topMostVcClassName] {
-                closure?(false, keyboardHeight)
+                closure(false, keyboardHeight)
             }
         }
+        
+        keyboardHeight = 0
+        isKeyboardShow = false
     }
 }

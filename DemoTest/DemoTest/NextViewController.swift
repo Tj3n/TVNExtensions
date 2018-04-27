@@ -54,6 +54,13 @@ class NextViewController: UIViewController {
         return v
     }()
     
+    lazy var bottomTextfield: UITextField = {
+        let v = UITextField(frame: .zero)
+        v.borderStyle = .roundedRect
+        v.placeholder = "Test"
+        return v
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -104,6 +111,33 @@ class NextViewController: UIViewController {
         topLabel.addTo(view: view)
         topLabel.centerX(to: destinationImgView)
         topLabel.bottomToTop(of: destinationImgView, by: 30)
+        
+        bottomTextfield.addTo(view: view)
+        bottomTextfield.left(to: view, by: 16)
+        bottomTextfield.right(to: view, by: 16)
+        
+        //Test auto bottom constraint
+//        let tfBottomConstraint = KeyboardLayoutConstraint.create(with: bottomTextfield, to: view, isToTop: false, constant: 30)
+//        tfBottomConstraint.isActive = true
+//        tfBottomConstraint.excludeOriginConstant = true
+        
+        //Test auto top constraint
+//        let tfTopConstraint = KeyboardLayoutConstraint.create(with: bottomTextfield, to: view, isToTop: true, constant: 500)
+//        tfTopConstraint.isActive = true
+//        tfTopConstraint.excludeOriginConstant = true
+        
+        //Test keyboard handling class
+        let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
+        KeyboardHandling.shared.addKeyboardHandlingClosure(for: self) { [unowned self] (up, height) in
+            tfBottomConstraint.constant = up ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
 
