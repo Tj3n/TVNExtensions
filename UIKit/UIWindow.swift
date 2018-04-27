@@ -12,13 +12,11 @@ import UIKit
 extension UIWindow {
     
     public class func changeRootViewController(with viewController: UIViewController) {
-        let delegate = UIApplication.shared.delegate!
-        
-        let oldVC = delegate.window??.rootViewController
+        let oldVC = UIApplication.shared.keyWindow?.rootViewController!
         let oldView = oldVC!.view!
         let newView = viewController.view!
         UIView.transition(from: oldView, to: newView, duration: 0.5, options: [.allowAnimatedContent, .transitionCrossDissolve]) { (completed) in
-            delegate.window??.rootViewController = viewController;
+            UIApplication.shared.keyWindow?.rootViewController = viewController;
         }
     }
 

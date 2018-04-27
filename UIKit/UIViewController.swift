@@ -11,9 +11,12 @@ import UIKit
 
 public extension UIViewController {
     
-    /**
-     Create VC from storyboard name and Viewcontrolelr ID
-     */
+    /// Create VC from storyboard name and Viewcontroller ID
+    ///
+    /// - Parameters:
+    ///   - storyboardName: storyboard name
+    ///   - controllerId: controller identifier
+    /// - Returns: view controller
     public class func instantiate(fromStoryboard storyboardName: String, controllerId: String) -> Self {
         return instantiateFromStoryboardHelper(storyboardName, storyboardId: controllerId)
     }
@@ -24,6 +27,11 @@ public extension UIViewController {
         return controller
     }
     
+    
+    /// Get top view controller from window
+    ///
+    /// - Parameter window: default UIApplication.shared.keyWindow
+    /// - Returns: top view controller
     public class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
         return getTopViewController(from: window?.rootViewController)
     }

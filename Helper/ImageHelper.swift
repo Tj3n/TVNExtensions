@@ -6,34 +6,35 @@
 //
 
 import Foundation
-protocol ImageHelper {
-    
+
+public enum ImageType {
+    case png
+    case jpg
 }
 
-extension ImageHelper {
-    public func getDocumentsURL() -> URL {
+public struct ImageHelper {
+    public static func getDocumentsURL() -> URL {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsURL
     }
     
-    public func fileInDocumentsDirectory(_ filename: String) -> String {
+    public static func fileInDocumentsDirectory(_ filename: String) -> String {
         let fileURL = getDocumentsURL().appendingPathComponent(filename)
         return fileURL.path
     }
     
-    public func saveImage (_ image: UIImage, path: String ) {
-        let pngImageData = UIImagePNGRepresentation(image)
-        //let jpgImageData = UIImageJPEGRepresentation(image, 1.0)   // if you want to save as JPEG
+    public static func saveImage (_ image: UIImage, path: String, imageType: ImageType = .png) {
+        let imageData = imageType == .png ? UIImagePNGRepresentation(image) : UIImageJPEGRepresentation(image, 1.0)
         
         do {
-            try pngImageData!.write(to: URL(fileURLWithPath: path), options: [.atomic])
+            try imageData!.write(to: URL(fileURLWithPath: path), options: [.atomic])
         } catch  {
             print("error saving image \(error.localizedDescription)")
         }
         print("saved image \(path)")
     }
     
-    public func loadImageFromPath(_ path: String) -> UIImage? {
+    public static func loadImageFromPath(_ path: String) -> UIImage? {
         let image = UIImage(contentsOfFile: path)
         if image == nil {
             print("missing image at: \(path)")
@@ -42,7 +43,7 @@ extension ImageHelper {
         return image
     }
     
-    public func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
+    public static func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
         let widthRatio  = targetSize.width  / image.size.width
@@ -68,7 +69,7 @@ extension ImageHelper {
         return newImage!
     }
     
-    public func clearAllImage() {
+    public static func clearAllImage() {
         do {
             let folderPath = getDocumentsURL()
             let paths = try FileManager.default.contentsOfDirectory(atPath: String(describing: folderPath))
@@ -81,7 +82,7 @@ extension ImageHelper {
         }
     }
     
-    public func saveToPhotoLibrary(img: UIImage, _ completionTarget: Any? = nil, _ completionSelector: Selector? = nil, _ contextInfo: UnsafeMutableRawPointer? = nil) {
+    public static func saveToPhotoLibrary(img: UIImage, _ completionTarget: Any? = nil, _ completionSelector: Selector? = nil, _ contextInfo: UnsafeMutableRawPointer? = nil) {
         UIImageWriteToSavedPhotosAlbum(img, completionTarget, completionSelector, contextInfo)
     }
 }

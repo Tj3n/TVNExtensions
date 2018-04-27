@@ -8,8 +8,12 @@
 import Foundation
 import UIKit
 
-///Use with UITabBarControllerDelegate's `tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool`
 extension UITabBarController {
+    
+    /// Use with UITabBarControllerDelegate's `tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool`
+    ///
+    /// - Parameter viewController: viewController
+    /// - Returns: Bool
     public func animateSlide(to viewController: UIViewController) -> Bool {
         guard let tabViewControllers = viewControllers else { return false }
         
@@ -41,7 +45,13 @@ extension UITabBarController {
         return true
     }
     
-    public func animateCrossDissolve(with tabBarController: UITabBarController, to viewController: UIViewController) -> Bool {
+    /// Use with UITabBarControllerDelegate's `tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool`
+    ///
+    /// - Parameters:
+    ///   - tabBarController: tabBarController
+    ///   - viewController: viewController
+    /// - Returns: Bool
+    public func animateCrossDissolve(to viewController: UIViewController) -> Bool {
         let fromView: UIView = selectedViewController!.view
         let toView  : UIView = viewController.view
         if fromView == toView {

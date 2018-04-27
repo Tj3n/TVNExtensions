@@ -10,9 +10,11 @@ import Foundation
 import UIKit
 
 extension UITableView {
-    /**
-     Auto dequeue cell with custom cell class
-     */
+    
+    /// Auto dequeue cell with custom cell class
+    ///
+    /// - Parameter type: Custom cell class
+    /// - Returns: Custom cell
     public func dequeueReusableCell<T: UITableViewCell>(_ type: T.Type) -> T {
         guard let cell = self.dequeueReusableCell(withIdentifier: String(describing: type)) as? T else {
             fatalError("\(String(describing: type)) cell could not be instantiated because it was not found on the tableView")

@@ -15,12 +15,8 @@ public enum LocalAuthError: Error {
     other(error: NSError)
 }
 
-public protocol LocalAuth {
-    func authenticateUser(with reasonStr: String?, completion: ((_ error: LocalAuthError?) -> ())!)
-}
-
-public extension LocalAuth {
-    public func authenticateUser(with reasonStr: String?, completion:((_ error: LocalAuthError?)->())!) {
+public struct LocalAuth {
+    public static func authenticateUser(with reasonStr: String?, completion:((_ error: LocalAuthError?)->())!) {
         let reason = reasonStr == nil ? "Authentication is needed to access." : reasonStr!
         let context = LAContext()
         var error: NSError?
@@ -71,7 +67,7 @@ public extension LocalAuth {
         }
     }
     
-    private func checkForModified(context: LAContext) -> Bool {
+    private static func checkForModified(context: LAContext) -> Bool {
         let k = "TVN_DS_CHECK"
         guard let oldDomainState = KeychainWrapper.standard.data(forKey: k) else { return false }
         if #available(iOS 9.0, *) {

@@ -54,9 +54,9 @@ extension UIView {
         }
     }
     
-    /**
-     Auto create view from same name's nib
-     */
+    /// Create view from same name's nib
+    ///
+    /// - Returns: view
     public class func viewWithNib() -> Self? {
         return viewWithNibHelper()
     }
@@ -116,10 +116,9 @@ extension UIView {
         gradient.endPoint = endPoint;
     }
     
-    
-    /**
-     Add simple fadeTransition for the duration
-     */
+    /// Add simple fadeTransition for the duration
+    ///
+    /// - Parameter duration: duration
     func fadeTransition(_ duration:CFTimeInterval) {
         let animation:CATransition = CATransition()
         animation.timingFunction = CAMediaTimingFunction(name:
@@ -129,12 +128,11 @@ extension UIView {
         self.layer.add(animation, forKey: kCATransitionFade)
     }
     
-    /**
-     custom corner radius
-     
-     - parameter corner: the corner to be rounded
-     - parameter radius: radius
-     */
+    /// Custom corner radius
+    ///
+    /// - Parameters:
+    ///   - corner: the corner to be rounded
+    ///   - radius: radius
     public func customCornerRadius(_ corner: UIRectCorner, radius: CGSize) {
         let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners: corner, cornerRadii: radius)
         let maskLayer = CAShapeLayer()
