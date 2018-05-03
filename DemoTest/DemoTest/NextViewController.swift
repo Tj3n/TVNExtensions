@@ -86,33 +86,33 @@ class NextViewController: UIViewController {
     }
     
     func setupView() {
-        destinationImgView.addTo(view: view)
+        destinationImgView.addTo(view)
         destinationImgView.top(to: view, by: 100)
         destinationImgView.centerX(to: view)
         destinationImgView.setWidth(200)
         destinationImgView.setWidthHeightRatio(ratio: 1)
 
-        nextLabel.addTo(view: view)
+        nextLabel.addTo(view)
         nextLabel.topToBottom(of: destinationImgView, by: 30)
         nextLabel.centerX(to: destinationImgView)
         
-        dismissBtn.addTo(view: view)
+        dismissBtn.addTo(view)
         dismissBtn.topToBottom(of: nextLabel, by: 30)
         dismissBtn.centerX(to: destinationImgView)
         
-        leftLabel.addTo(view: view)
+        leftLabel.addTo(view)
         leftLabel.centerY(to: destinationImgView)
         leftLabel.rightToLeft(of: destinationImgView, by: 30)
         
-        rightLabel.addTo(view: view)
+        rightLabel.addTo(view)
         rightLabel.centerY(to: destinationImgView)
         rightLabel.leftToRight(of: destinationImgView, by: 30)
         
-        topLabel.addTo(view: view)
+        topLabel.addTo(view)
         topLabel.centerX(to: destinationImgView)
         topLabel.bottomToTop(of: destinationImgView, by: 30)
         
-        bottomTextfield.addTo(view: view)
+        bottomTextfield.addTo(view)
         bottomTextfield.left(to: view, by: 16)
         bottomTextfield.right(to: view, by: 16)
         

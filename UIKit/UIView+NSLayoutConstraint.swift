@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Constraint
 extension UIView {
     @discardableResult
-    public func addTo(view: UIView) -> Self {
+    public func addTo(_ view: UIView) -> Self {
         view.addSubview(self)
         return self
     }
