@@ -12,12 +12,43 @@ import UIKit
 extension UIWindow {
     
     public class func changeRootViewController(with viewController: UIViewController) {
-        let oldVC = UIApplication.shared.keyWindow?.rootViewController!
-        let oldView = oldVC!.view!
-        let newView = viewController.view!
-        UIView.transition(from: oldView, to: newView, duration: 0.5, options: [.allowAnimatedContent, .transitionCrossDissolve]) { (completed) in
-            UIApplication.shared.keyWindow?.rootViewController = viewController;
+        UIWindow.changeRootViewController(with: viewController, animated: true, completion: nil)
+    }
+    
+    public class func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
+        guard let oldVC = UIViewController.getTopViewController() else {
+            UIApplication.shared.keyWindow?.rootViewController = viewController
+            return
         }
+        
+        let screenBounds = UIScreen.main.bounds
+        let oldView = oldVC.view!
+        let newView = viewController.view!
+        
+        newView.frame = CGRect(x: 0, y: screenBounds.maxY, width: screenBounds.width, height: screenBounds.height)
+        oldView.superview?.addSubview(newView)
+        
+        switch animated {
+        case true:
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
+                oldView.transform.scaledBy(x: 0.8, y: 0.8)
+                newView.transform.translatedBy(x: 0, y: -screenBounds.maxY)
+            }) { (completed) in
+                oldView.removeFromSuperview()
+                UIApplication.shared.keyWindow?.rootViewController = viewController;
+                completion?()
+            }
+        case false:
+            oldView.removeFromSuperview()
+            UIApplication.shared.keyWindow?.rootViewController = viewController;
+            completion?()
+        }
+        
+//        let transition = CATransition()
+//        transition.type = kCATransitionPush
+//        transition.subtype = kCATransitionFromLeft
+//        parentView.layer.add(transition, forKey: nil)
+//        parentView.addSubview(myVC.view)
     }
 
     //From IQKeyboardManager

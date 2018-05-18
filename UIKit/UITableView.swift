@@ -22,9 +22,23 @@ extension UITableView {
         return cell
     }
     
+    /// Check if tableView is empty
     public var isEmpty: Bool {
         get {
             return self.visibleCells.isEmpty
         }
+    }
+    
+    /// Setup refresh control
+    ///
+    /// - Parameters:
+    ///   - tableView: tableView to add refresh control
+    ///   - target: View controller contains tableView
+    ///   - action: @objc func refresh(_ sender: UIRefreshControl)
+    public func addRefreshControl(target: AnyObject, action: Selector) -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(target, action: action, for: .valueChanged)
+        self.addSubview(refreshControl)
+        return refreshControl
     }
 }
