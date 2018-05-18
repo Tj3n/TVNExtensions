@@ -7,7 +7,33 @@
 
 import Foundation
 
-/// Use this object to remove the needs of [unowned self] or [weak self] in closure delegate callback
+/***
+ Use this object to remove the needs of [unowned self] or [weak self] in closure delegate callback
+ How to use:
+ 
+ class TransactionViewModel {
+ 
+    var dataFetchedHandler = DelegateHelper<Data, Void>()
+ 
+    func doSomething() {
+        // Get some stuff and execute delegate callback
+        dataFetchedHandler.call(data)
+    }
+ }
+ 
+ class ViewController: UIViewController {
+ 
+    var viewModel = ViewModel()
+ 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+ 
+        //Register for delegate
+        viewModel.dataFetchedHandler.delegate(to: self) { (self, data) in
+            self.tableView.reloadData()
+    }
+ }
+***/
 public struct DelegateHelper<I, O> {
     
     private(set) var handler: ((I) -> O?)?
