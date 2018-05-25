@@ -60,6 +60,12 @@ class ExtraTest: XCTestCase {
         XCTAssertEqual(a.toRad(), 4.71, accuracy: 1.0)
     }
     
+    func testSystemVersionCompaing() {
+        XCTAssertEqual(UIDevice.compareSystemVersion(to: "20.0"), .less)
+        XCTAssertEqual(UIDevice.compareSystemVersion(to: UIDevice.current.systemVersion), .equal)
+        XCTAssertEqual(UIDevice.compareSystemVersion(to: "1.0"), .greater)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

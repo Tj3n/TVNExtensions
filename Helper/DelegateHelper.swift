@@ -81,7 +81,7 @@ public struct DelegateHelper<I, O> {
     }
 }
 
-public extension DelegateHelper where I == Void {
+extension DelegateHelper where I == Void {
     mutating public func delegate<T: AnyObject>(to target: T, handler: @escaping ((T) -> O)) {
         self.handler = { [weak target] input in
             guard let target = target else {
@@ -102,13 +102,13 @@ public extension DelegateHelper where I == Void {
     }
 }
 
-public extension DelegateHelper where O == Void {
+extension DelegateHelper where O == Void {
     public func call(_ input: I) {
         handler?(input)
     }
 }
 
-public extension DelegateHelper where I == Void, O == Void {
+extension DelegateHelper where I == Void, O == Void {
     public func call() {
         self.call(())
     }

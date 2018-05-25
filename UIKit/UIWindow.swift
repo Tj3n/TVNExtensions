@@ -43,12 +43,6 @@ extension UIWindow {
             UIApplication.shared.keyWindow?.rootViewController = viewController;
             completion?()
         }
-        
-//        let transition = CATransition()
-//        transition.type = kCATransitionPush
-//        transition.subtype = kCATransitionFromLeft
-//        parentView.layer.add(transition, forKey: nil)
-//        parentView.addSubview(myVC.view)
     }
 
     //From IQKeyboardManager
