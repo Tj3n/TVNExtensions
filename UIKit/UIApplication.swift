@@ -8,6 +8,11 @@
 import Foundation
 
 extension UIApplication {
+    public class func requestNotificationRegister(settingTypes: UIUserNotificationType = [.badge, .sound, .alert]) {
+        let notificationSettings = UIUserNotificationSettings(types: settingTypes, categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+    }
+    
     public class func isAppUpdated() -> Bool {
         if let oldAppVersion = UserDefaults.standard.value(forKey: "AppVersion") as? String {
             let isUpdated = Double(oldAppVersion)! < Double(appVersion())! ? true : false
