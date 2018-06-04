@@ -8,6 +8,16 @@
 import Foundation
 
 extension UIApplication {
+    public class func isNotFirstRun() -> Bool {
+        let firstRunKey = (Bundle.main.bundleIdentifier ?? "com.TVNExtension") + ".FirstRun"
+        if UserDefaults.standard.bool(forKey: firstRunKey) {
+            return true
+        }
+        
+        UserDefaults.standard.set(true, forKey: firstRunKey)
+        return false
+    }
+    
     public class func requestNotificationRegister(settingTypes: UIUserNotificationType = [.badge, .sound, .alert]) {
         let notificationSettings = UIUserNotificationSettings(types: settingTypes, categories: nil)
         UIApplication.shared.registerUserNotificationSettings(notificationSettings)

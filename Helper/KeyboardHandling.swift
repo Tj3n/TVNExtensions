@@ -59,10 +59,7 @@ public class KeyboardHandling {
         keyboardHeight = deltaHeight - keyboardHeight
         
         if let topMostVc = UIViewController.getTopViewController() {
-            let topMostVcClassName = String(describing: type(of: topMostVc))
-            if let closure = handlingClosureDict[topMostVcClassName] {
-                closure(true, keyboardHeight)
-            }
+            executeClosure(true, keyboardHeight, for: topMostVc)
         }
         
         keyboardHeight = deltaHeight
@@ -75,13 +72,22 @@ public class KeyboardHandling {
         }
         
         if let topMostVc = UIViewController.getTopViewController() {
-            let topMostVcClassName = String(describing: type(of: topMostVc))
-            if let closure = handlingClosureDict[topMostVcClassName] {
-                closure(false, keyboardHeight)
-            }
+            executeClosure(false, keyboardHeight, for: topMostVc)
         }
         
         keyboardHeight = 0
         isKeyboardShow = false
+    }
+    
+    /// Recurring call to make sure all childVC also got called
+    func executeClosure(_ up: Bool, _ height: CGFloat, for vc: UIViewController) {
+        for child in vc.childViewControllers {
+            executeClosure(up, height, for: child)
+        }
+        
+        let vcClassName = String(describing: type(of: vc))
+        if let closure = handlingClosureDict[vcClassName] {
+            closure(up, height)
+        }
     }
 }

@@ -50,10 +50,10 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
         container.addSubview(toVC.view)
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
-        if let source = source, source.navigationController != toVC.navigationController  {
+        if let source = source, source.navigationController != toVC.navigationController || source.navigationController == nil  && toVC.navigationController == nil  {
             toVC.view.layoutIfNeeded()
         }
-        
+    
         switch mode {
         case .presenting:
             guard toVC is ExpandShrinkAnimatorProtocol else { return }

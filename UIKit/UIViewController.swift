@@ -72,7 +72,7 @@ public extension UIViewController {
         transform = CATransform3DTranslate(transform, 0, UIScreen.main.bounds.maxY, 0)
         v.layer.transform = transform
         
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: [.curveEaseInOut], animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
             v.layer.transform = CATransform3DIdentity
             v.alpha = 1
         }, completion: { (_) in
