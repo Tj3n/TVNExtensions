@@ -90,30 +90,73 @@ extension UILabel {
         });
     }
     
-    /// Change font for whole app, keep size, type, use with UILabel.appearance().substituteFontName
+    /// Change font for whole app, keep size, type, can be use with UILabel.appearance()
     @objc dynamic public var substituteFontName : String {
         get { return self.font.fontName }
         set {
             let fontNameToTest = self.font.fontName.lowercased();
-            var fontName = newValue;
-            if fontNameToTest.contains("bold") {
-                fontName += "-Bold";
-            } else if fontNameToTest.contains("medium") {
-                fontName += "-Medium";
-            } else if fontNameToTest.contains("light") {
-                fontName += "-Light";
+            var subFontName = newValue
+            
+            if fontNameToTest.contains("italic") {
+                subFontName += "-Italic";
             } else if fontNameToTest.contains("ultralight") {
-                fontName += "-UltraLight";
+                subFontName += "-UltraLight";
+            }  else if fontNameToTest.contains("thin") {
+                subFontName += "-Thin";
+            } else if fontNameToTest.contains("light") {
+                subFontName += "-Light";
             } else if fontNameToTest.contains("semibold") {
-                fontName += "-SemiBold";
+                subFontName += "-SemiBold";
+            } else if fontNameToTest.contains("medium") {
+                subFontName += "-Medium";
+            } else if fontNameToTest.contains("bold") {
+                subFontName += "-Bold";
+            }  else if fontNameToTest.contains("heavy") {
+                subFontName += "-Heavy";
+            }  else if fontNameToTest.contains("black") {
+                subFontName += "-Black";
             } else {
-                fontName += "-Regular"
+                subFontName += "-Regular"
             }
-            self.font = UIFont(name: fontName, size: self.font.pointSize)
+            self.font = UIFont(name: subFontName, size: self.font.pointSize)
         }
     }
     
-    func setSubtituteFontName(_ fontName: String) {
-        self.substituteFontName = fontName
+    /// Replace system font with font name, keep size and type, can be use with UILabel.appearance()
+    ///
+    /// - Parameter fontName: Font to replace
+    @objc dynamic public func replaceSystemFont(with fontName: String) {
+        let systemFontName = UIFont.systemFont(ofSize: 1).fontName.lowercased()
+        let fontNameToTest = self.font.fontName.lowercased()
+        
+        guard fontNameToTest.contains(systemFontName) else {
+            return
+        }
+
+        var subFontName = fontName
+        
+        if fontNameToTest.contains("italic") {
+            subFontName += "-Italic";
+        } else if fontNameToTest.contains("ultralight") {
+            subFontName += "-UltraLight";
+        }  else if fontNameToTest.contains("thin") {
+            subFontName += "-Thin";
+        } else if fontNameToTest.contains("light") {
+            subFontName += "-Light";
+        } else if fontNameToTest.contains("semibold") {
+            subFontName += "-SemiBold";
+        } else if fontNameToTest.contains("medium") {
+            subFontName += "-Medium";
+        } else if fontNameToTest.contains("bold") {
+            subFontName += "-Bold";
+        }  else if fontNameToTest.contains("heavy") {
+            subFontName += "-Heavy";
+        }  else if fontNameToTest.contains("black") {
+            subFontName += "-Black";
+        } else {
+            subFontName += "-Regular"
+        }
+        
+        self.font = UIFont(name: subFontName, size: self.font.pointSize)
     }
 }
