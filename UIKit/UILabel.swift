@@ -86,8 +86,7 @@ extension UILabel {
                             shadowView.removeFromSuperview()
                     })
                 })
-            }) 
-            
+            })
         });
     }
     
@@ -112,5 +111,9 @@ extension UILabel {
             }
             self.font = UIFont(name: fontName, size: self.font.pointSize)
         }
+    }
+    
+    func setSubtituteFontName(_ fontName: String) {
+        self.substituteFontName = fontName
     }
 }
