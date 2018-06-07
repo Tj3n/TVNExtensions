@@ -161,6 +161,23 @@ extension UIView {
         }
         return self
     }
+    
+    public func maskRect(_ maskRect: CGRect, invert: Bool = false) {
+        let maskLayer = CAShapeLayer()
+        let path = CGMutablePath()
+        if (invert) {
+            path.addRect(bounds)
+        }
+        
+        path.addRect(maskRect)
+        maskLayer.path = path
+        
+        if (invert) {
+            maskLayer.fillRule = kCAFillRuleEvenOdd
+        }
+        
+        layer.mask = maskLayer;
+    }
 }
 
 // MARK: - Some IBInspectable

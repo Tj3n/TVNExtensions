@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public typealias HandlingClosure = (_ up: Bool, _ height: CGFloat)->()
+public typealias HandlingClosure = (_ up: Bool, _ height: CGFloat, _ duration: Double)->()
 
 public class KeyboardHandling {
     public static let shared: KeyboardHandling = {
@@ -19,6 +19,8 @@ public class KeyboardHandling {
     
     public private(set) var keyboardHeight: CGFloat = 0
     public private(set) var isKeyboardShow: Bool = false
+    public private(set) var duration: Double = 0.3
+    
     private var handlingClosureDict = [String: HandlingClosure]()
     
     private init() {
@@ -51,6 +53,7 @@ public class KeyboardHandling {
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
         let deltaHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
+        duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
         
         if deltaHeight == keyboardHeight || deltaHeight <= 0 {
             return
@@ -59,7 +62,7 @@ public class KeyboardHandling {
         keyboardHeight = deltaHeight - keyboardHeight
         
         if let topMostVc = UIViewController.getTopViewController() {
-            executeClosure(true, keyboardHeight, for: topMostVc)
+            executeClosure(true, keyboardHeight, duration, for: topMostVc)
         }
         
         keyboardHeight = deltaHeight
@@ -67,12 +70,14 @@ public class KeyboardHandling {
     }
     
     @objc private func keyboardOffScreen(_ notification: Notification) {
+        duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        
         guard isKeyboardShow else {
             return
         }
         
         if let topMostVc = UIViewController.getTopViewController() {
-            executeClosure(false, keyboardHeight, for: topMostVc)
+            executeClosure(false, keyboardHeight, duration, for: topMostVc)
         }
         
         keyboardHeight = 0
@@ -80,14 +85,14 @@ public class KeyboardHandling {
     }
     
     /// Recurring call to make sure all childVC also got called
-    func executeClosure(_ up: Bool, _ height: CGFloat, for vc: UIViewController) {
+    func executeClosure(_ up: Bool, _ height: CGFloat, _ duration: Double, for vc: UIViewController) {
         for child in vc.childViewControllers {
-            executeClosure(up, height, for: child)
+            executeClosure(up, height, duration, for: child)
         }
         
         let vcClassName = String(describing: type(of: vc))
         if let closure = handlingClosureDict[vcClassName] {
-            closure(up, height)
+            closure(up, height, duration)
         }
     }
 }
