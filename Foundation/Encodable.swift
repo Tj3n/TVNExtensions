@@ -16,6 +16,12 @@ extension Encodable {
         return try? encoder.encode(self)
     }
     
+    /// Encode the object into dictionary with Encoder
+    ///
+    /// - Parameters:
+    ///   - encoder: Can be customized
+    ///   - withStringValueType: `true` will make sure the return can be casted to [String: String]
+    /// - Returns: Encoded dictionary
     public func getDictionary(encoder: JSONEncoder = JSONEncoder(), withStringValueType: Bool = false) -> [String: Any] {
         guard let data = getData(encoder: encoder) else { return [:] }
         let dict = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] ?? [:]
