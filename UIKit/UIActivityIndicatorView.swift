@@ -18,7 +18,7 @@ extension UIActivityIndicatorView {
         activityIndicator.center = CGPoint(x: view.bounds.size.width / 2, y: view.bounds.size.height / 2)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.alpha = 0.0
-        activityIndicator.tag = 9999
+        activityIndicator.tag = 38383
         
         view.addSubview(activityIndicator)
         view.bringSubview(toFront: activityIndicator)
@@ -42,8 +42,8 @@ extension UIActivityIndicatorView {
         return activityIndicator
     }
     
-    public func end() {
-        guard self.tag == 9999 else { return }
+    public func end(completion: (() -> ())? = nil) {
+        guard self.tag == 38383 else { return }
         self.superview?.isUserInteractionEnabled = true
         let center: CGPoint = self.center
         UIView.animate(withDuration: 0.2, animations: {() -> Void in
@@ -52,6 +52,7 @@ extension UIActivityIndicatorView {
             self.center = center
             }, completion: {(finished: Bool) -> Void in
                 self.removeFromSuperview()
+                completion?()
         })
     }
 }
