@@ -11,7 +11,7 @@ import UIKit
 
 public class CodeScannerView: UIView {
     private var captureSession: AVCaptureSession?
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
     private var scanCompleteBlock: ((_ message: String, _ error: String?)->())?
     
@@ -32,7 +32,7 @@ public class CodeScannerView: UIView {
 
     public var scanRect: CGRect = UIScreen.main.bounds {
         didSet {
-            if isScanning || isFreezing {
+            if isScanning || isFreezing, let videoPreviewLayer = videoPreviewLayer {
                 captureMetadataOutput.rectOfInterest = videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
             }
         }
@@ -65,6 +65,11 @@ public class CodeScannerView: UIView {
         self.scanCompleteBlock = scanCompletion
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        videoPreviewLayer?.frame = self.bounds
+    }
+    
     deinit {
         stopReading()
     }
@@ -93,13 +98,13 @@ public class CodeScannerView: UIView {
         captureMetadataOutput.metadataObjectTypes = codeTypes
         
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        videoPreviewLayer.videoGravity = .resizeAspectFill
-        videoPreviewLayer.frame = self.layer.bounds
-        self.layer.addSublayer(videoPreviewLayer)
+        videoPreviewLayer?.videoGravity = .resizeAspectFill
+        videoPreviewLayer?.frame = self.layer.bounds
+        self.layer.addSublayer(videoPreviewLayer!)
         
         isScanning = true
         captureSession.startRunning()
-        captureMetadataOutput.rectOfInterest = videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
+        captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
     }
     
     @objc public func stopReading() {
@@ -110,17 +115,17 @@ public class CodeScannerView: UIView {
         captureSession.stopRunning()
         self.captureSession = nil
         isScanning = false
-        videoPreviewLayer.removeFromSuperlayer()
+        videoPreviewLayer?.removeFromSuperlayer()
     }
     
     @objc public func freezeReading() {
-        videoPreviewLayer.connection?.isEnabled = false
+        videoPreviewLayer?.connection?.isEnabled = false
         isScanning = false
         isFreezing = true
     }
     
     public func resumeReading() {
-        videoPreviewLayer.connection?.isEnabled = true
+        videoPreviewLayer?.connection?.isEnabled = true
         isScanning = true
         isFreezing = false
     }
