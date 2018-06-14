@@ -96,7 +96,7 @@ public class ParticleScene: SKScene {
         return min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) / 2.5
     }()
     
-    init(size: CGSize,
+    public init(size: CGSize,
          maxDistance: CGFloat = 0,
          maxPoints: Int = 20,
          nodeColor: UIColor = .white,
@@ -133,7 +133,7 @@ public class ParticleScene: SKScene {
         UIGraphicsBeginImageContextWithOptions(rectSize, true, 0)
         color.setFill()
         let rect = CGRect(origin: .zero, size: rectSize)
-        let path = UIBezierPath(roundedRect: rect, cornerRadius: size/3)
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: size/2)
         path.fill()
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -145,7 +145,8 @@ public class ParticleScene: SKScene {
         (0...maxPoints).forEach({ _ in
             let node = getRoundNode(size: CGFloat.random(between: nodeSizeRange.lowerBound, and: nodeSizeRange.upperBound),
                                     color: nodeColor)
-            node.position = CGPoint(x: CGFloat.random(between: 0, and: size.width), y: CGFloat.random(between: 0, and: size.height))
+            node.position = CGPoint(x: CGFloat.random(between: 0, and: size.width),
+                                    y: CGFloat.random(between: 0, and: size.height))
             nodes.append(node)
             self.addChild(node)
             
