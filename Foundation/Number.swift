@@ -8,10 +8,16 @@
 
 import Foundation
 
-extension Float {
-    public static func random(between small: Float, and big: Float) -> Float {
+extension FloatingPoint {
+    public static func random(between small: Self, and big: Self) -> Self {
         let diff = big - small
-        return ((Float(arc4random() % (UInt32(RAND_MAX) + 1))) / (Float(RAND_MAX)) * diff) + small
+        return ((Self(arc4random() % (UInt32(RAND_MAX) + 1))) / (Self(RAND_MAX)) * diff) + small
+    }
+    
+    public func fastFloor() -> Self { return floor(self) }
+    
+    public func toRad() -> Self {
+        return self*Self.pi/180
     }
 }
 
@@ -27,16 +33,6 @@ extension Double {
         formatter.numberStyle = .currency
         formatter.locale = Locale(identifier: "en_US")
         return formatter.string(from: NSNumber(floatLiteral: self))
-    }
-    
-    public func toRad() -> CGFloat {
-        return CGFloat(self*Double.pi/180)
-    }
-}
-
-extension CGFloat {
-    public func toRad() -> CGFloat {
-        return self*CGFloat.pi/180
     }
 }
 
