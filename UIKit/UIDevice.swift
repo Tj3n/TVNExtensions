@@ -84,52 +84,24 @@ extension UIDevice {
     }
     
     //Check device version
-    public class func SYSTEM_VERSION_EQUAL_TO(_ version: NSString) -> Bool {
-        return self.current.systemVersion.compare(version as String,
-                                                          options: NSString.CompareOptions.numeric) == ComparisonResult.orderedSame
-    }
-    
-    public class func SYSTEM_VERSION_GREATER_THAN(_ version: NSString) -> Bool {
-        return self.current.systemVersion.compare(version as String,
-                                                          options: NSString.CompareOptions.numeric) == ComparisonResult.orderedDescending
-    }
-    
-    public class func SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(_ version: NSString) -> Bool {
-        return self.current.systemVersion.compare(version as String,
-                                                          options: NSString.CompareOptions.numeric) != ComparisonResult.orderedAscending
-    }
-    
-    public class func SYSTEM_VERSION_LESS_THAN(_ version: NSString) -> Bool {
-        return self.current.systemVersion.compare(version as String,
-                                                          options: NSString.CompareOptions.numeric) == ComparisonResult.orderedAscending
-    }
-    
-    public class func SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(_ version: NSString) -> Bool {
-        return self.current.systemVersion.compare(version as String,
-                                                          options: NSString.CompareOptions.numeric) != ComparisonResult.orderedDescending
-    }
-    
-    public class func CURRENT_APP_VERSION() -> String? {
-        if let info = Bundle.main.infoDictionary {
-            return info["CFBundleShortVersionString"] as? String
+    public class func compareSystemVersion(to version: String) -> SystemVersionComparisonResult {
+        let compareResult = self.current.systemVersion.compare(version, options: .numeric)
+        
+        if compareResult == .orderedSame {
+            return .equal
+        } else if compareResult == .orderedDescending {
+            return .greater
+        } else if compareResult == .orderedAscending {
+            return .less
         }
         
-        return nil
+        return .none
     }
-    
-    public class func isAppUpdated() -> Bool {
-        if let oldAppVersion = UserDefaults.standard.value(forKey: "AppVersion") as? String {
-            let isUpdated = Double(oldAppVersion)! < Double(CURRENT_APP_VERSION()!)! ? true : false
-            if isUpdated { saveAppVersion() }
-            return isUpdated
-        } else {
-            saveAppVersion()
-            return true
-        }
-    }
-    
-    private class func saveAppVersion() {
-        UserDefaults.standard.setValue(UIDevice.CURRENT_APP_VERSION(), forKey:"AppVersion")
-        UserDefaults.standard.synchronize()
-    }
+}
+
+public enum SystemVersionComparisonResult {
+    case equal
+    case greater
+    case less
+    case none
 }

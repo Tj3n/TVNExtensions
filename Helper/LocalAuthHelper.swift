@@ -17,7 +17,7 @@ public enum LocalAuthError: Error {
 
 public struct LocalAuth {
     public static func authenticateUser(with reasonStr: String?, completion:((_ error: LocalAuthError?)->())!) {
-        let reason = reasonStr == nil ? "Authentication is needed to access." : reasonStr!
+        let reason = reasonStr ?? "Authentication is needed to access."
         let context = LAContext()
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {

@@ -54,19 +54,14 @@ public class DrawableView: UIView {
     }
     
     func setup() {
-        self.addSubview(backgroundImageView)
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: backgroundImageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0).isActive = true
-        NSLayoutConstraint(item: backgroundImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
+        backgroundImageView.addTo(self)
+        backgroundImageView.centerX(to: self)
+        backgroundImageView.centerY(to: self)
         
-        self.addSubview(drawableView)
+        drawableView.addTo(self)
         drawableView.backgroundColor = .clear
         drawableView.isOpaque = false
-        drawableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: drawableView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0.0).isActive = true
-        NSLayoutConstraint(item: drawableView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0.0).isActive = true
-        NSLayoutConstraint(item: drawableView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant:0.0).isActive = true
-        NSLayoutConstraint(item: drawableView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant:0.0).isActive = true
+        drawableView.edgesToSuperView()
     }
     
     public func getImage() -> UIImage? {

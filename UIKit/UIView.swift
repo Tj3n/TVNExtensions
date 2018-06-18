@@ -98,7 +98,6 @@ extension UIView {
         return snapshotView
     }
     
-    
     /**
      Set gradient color
      
@@ -138,6 +137,46 @@ extension UIView {
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath
         self.layer.mask = maskLayer
+    }
+    
+    /// Set drop shadow for the view, if have corner radius then have to set it first
+    /// Should call this during `viewDidLayoutSubview`
+    ///
+    /// - Parameters:
+    ///   - shadowRadius: Shadow radius
+    ///   - offset: Shadow offset
+    public func setDropShadow(radius: CGFloat, offset: CGSize = .zero, color: UIColor? = nil) {
+        layer.shadowRadius = radius;
+        layer.masksToBounds = false;
+        layer.shadowColor = (color ?? backgroundColor ?? tintColor).cgColor
+        layer.shadowOffset = offset
+        layer.shadowOpacity = 1
+        let path = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius)
+        layer.shadowPath = path.cgPath
+    }
+    
+    public func getTopMostSuperView() -> UIView {
+        if let v = self.superview {
+            return v.getTopMostSuperView()
+        }
+        return self
+    }
+    
+    public func maskRect(_ maskRect: CGRect, invert: Bool = false) {
+        let maskLayer = CAShapeLayer()
+        let path = CGMutablePath()
+        if (invert) {
+            path.addRect(bounds)
+        }
+        
+        path.addRect(maskRect)
+        maskLayer.path = path
+        
+        if (invert) {
+            maskLayer.fillRule = kCAFillRuleEvenOdd
+        }
+        
+        layer.mask = maskLayer;
     }
 }
 
