@@ -23,6 +23,7 @@
 		9C787E3D2085F88A00B24A9E /* ChargeObject.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C787E3C2085F88A00B24A9E /* ChargeObject.json */; };
 		9C95BFB02089982000D5DAF8 /* ExtraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */; };
 		E16AA4CA82F633FAB58324B1 /* Pods_DemoTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684D211752C8CF497BAC2FA0 /* Pods_DemoTestTests.framework */; };
+		FAB2E3D920A9D46100C9F491 /* OtherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2E3D820A9D46100C9F491 /* OtherTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraTest.swift; sourceTree = "<group>"; };
 		B7D49153432EAE4D6960136A /* Pods-DemoTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest.debug.xcconfig"; sourceTree = "<group>"; };
 		EA411FB6181B5D496A0CD585 /* Pods-DemoTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest.release.xcconfig"; sourceTree = "<group>"; };
+		FAB2E3D820A9D46100C9F491 /* OtherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				9C435B91207DC0A70015CD46 /* DateTest.swift */,
 				9C435B93207DC6B30015CD46 /* StringTest.swift */,
 				9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */,
+				FAB2E3D820A9D46100C9F491 /* OtherTest.swift */,
 				9C435B7A207DB8CB0015CD46 /* Info.plist */,
 			);
 			path = DemoTestTests;
@@ -408,6 +411,7 @@
 				9C435B92207DC0A70015CD46 /* DateTest.swift in Sources */,
 				9C95BFB02089982000D5DAF8 /* ExtraTest.swift in Sources */,
 				9C435B94207DC6B30015CD46 /* StringTest.swift in Sources */,
+				FAB2E3D920A9D46100C9F491 /* OtherTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
