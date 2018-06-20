@@ -92,8 +92,7 @@ extension String {
     }
     
     public func isValidURL() -> Bool {
-        let url = URL(string: self)
-        if url != nil && url?.scheme != nil && url?.host != nil {
+        if let url = URL(string: self), let _ = url.scheme, let _ = url.host {
             return true
         } else {
             return false

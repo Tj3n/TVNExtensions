@@ -10,15 +10,28 @@ import Foundation
 import UIKit
 
 public enum ScrollDirection {
-    case scrollDirectionNone,
-    scrollDirectionCrazy,
-    scrollDirectionLeft,
-    scrollDirectionRight,
-    scrollDirectionUp,
-    scrollDirectionDown
+    case none,
+    crazy,
+    left,
+    right,
+    up,
+    down
 }
 
 extension UIScrollView {
+    
+    /// Setup refresh control
+    ///
+    /// - Parameters:
+    ///   - tableView: tableView to add refresh control
+    ///   - target: View controller contains tableView
+    ///   - action: @objc func refresh(_ sender: UIRefreshControl)
+    public func addRefreshControl(target: AnyObject, action: Selector) -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(target, action: action, for: .valueChanged)
+        self.addSubview(refreshControl)
+        return refreshControl
+    }
     
     public func determineScrollDirection(_ startOffset: CGPoint, endOffset: CGPoint) -> ScrollDirection {
         var scrollDirection: ScrollDirection
@@ -26,23 +39,23 @@ extension UIScrollView {
         // scrolling started in one corner and goes diagonal. This will be
         // called ScrollDirectionCrazy
         if startOffset.x != endOffset.x && startOffset.y != endOffset.y {
-            scrollDirection = .scrollDirectionCrazy
+            scrollDirection = .crazy
         }
         else {
             if startOffset.x > endOffset.x {
-                scrollDirection = .scrollDirectionLeft
+                scrollDirection = .left
             }
             else if startOffset.x < endOffset.x {
-                scrollDirection = .scrollDirectionRight
+                scrollDirection = .right
             }
             else if startOffset.y > endOffset.y {
-                scrollDirection = .scrollDirectionUp
+                scrollDirection = .up
             }
             else if startOffset.y < endOffset.y {
-                scrollDirection = .scrollDirectionDown
+                scrollDirection = .down
             }
             else {
-                scrollDirection = .scrollDirectionNone
+                scrollDirection = .none
             }
         }
         return scrollDirection

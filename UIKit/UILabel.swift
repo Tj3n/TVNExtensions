@@ -90,10 +90,14 @@ extension UILabel {
         });
     }
     
-    /// Change font for whole app, keep size, type, can be use with UILabel.appearance()
+    /// Change font for whole app, keep size, type, can be use with UILabel.appearance(), ignore attributedText
     @objc dynamic public var substituteFontName : String {
         get { return self.font.fontName }
         set {
+            if let _ = self.attributedText {
+                return
+            }
+            
             let fontNameToTest = self.font.fontName.lowercased();
             var subFontName = newValue
             
@@ -122,10 +126,14 @@ extension UILabel {
         }
     }
     
-    /// Replace system font with font name, keep size and type, can be use with UILabel.appearance()
+    /// Replace system font with font name, keep size and type, can be use with UILabel.appearance(), ignore attributedText
     ///
     /// - Parameter fontName: Font to replace
     @objc dynamic public func replaceSystemFont(with fontName: String) {
+        if let _ = self.attributedText {
+            return
+        }
+        
         let systemFontName = UIFont.systemFont(ofSize: 1).fontName.lowercased()
         let fontNameToTest = self.font.fontName.lowercased()
         

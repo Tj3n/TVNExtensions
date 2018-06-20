@@ -30,6 +30,18 @@ public class ParticleView: SKView {
         self.presentScene(particleScene)
     }
     
+    /// Convenience init method which also create the scene
+    ///
+    /// - Parameters:
+    ///   - frame: frame
+    ///   - maxDistance: Maximum distance for the line to appear, default to screenWidth/2.5
+    ///   - maxPoints: Maximum number of point nodes
+    ///   - nodeColor: Node color
+    ///   - lineColor: Line color
+    ///   - nodeSizeRange: ClosedRange of CGFloat size for the node
+    ///   - speedRange: ClosedRange of CGFloat pixel per sec movement for the node
+    ///   - lineWidth: Line width
+    ///   - backgroundColor: Scene background color, not this view background color
     public init(frame: CGRect,
          maxDistance: CGFloat = 0,
          maxPoints: Int = 20,
@@ -143,15 +155,15 @@ public class ParticleScene: SKScene {
     
     func setupNodes() {
         (0...maxPoints).forEach({ _ in
-            let node = getRoundNode(size: CGFloat.random(between: nodeSizeRange.lowerBound, and: nodeSizeRange.upperBound),
+            let node = getRoundNode(size: CGFloat.random(in: nodeSizeRange),
                                     color: nodeColor)
-            node.position = CGPoint(x: CGFloat.random(between: 0, and: size.width),
-                                    y: CGFloat.random(between: 0, and: size.height))
+            node.position = CGPoint(x: CGFloat.random(in: 0...size.width),
+                                    y: CGFloat.random(in: 0...size.height))
             nodes.append(node)
             self.addChild(node)
             
-            let action = generateNodeAction(direction: CGFloat.random(between: 0, and: 2 * .pi),
-                                            speed: CGFloat.random(between: speedRange.lowerBound, and: speedRange.upperBound),
+            let action = generateNodeAction(direction: CGFloat.random(in: 0...(2 * .pi)),
+                                            speed: CGFloat.random(in: speedRange),
                                             midPoint: node.position)
             node.run(action)
         })
@@ -162,7 +174,7 @@ public class ParticleScene: SKScene {
         let directionY = speed * sin(direction)
         
         let action = SKAction.customAction(withDuration: Double(HUGE)) { node, elapsedTime in
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 let w = self.size.width
                 let h = self.size.height
                 
@@ -186,21 +198,20 @@ public class ParticleScene: SKScene {
             var newLines = [SKShapeNode]()
             for i in 0..<self.nodes.count {
                 for j in i+1..<self.nodes.count {
-                    let iNode = self.nodes[i]
-                    let jNode = self.nodes[j]
-                    let ijDistanceDoubled = pow((iNode.position.x - jNode.position.x).fastFloor(), 2) + pow((iNode.position.y - jNode.position.y).fastFloor(), 2)
+                    let iNodePos = self.nodes[i].position
+                    let jNodePos = self.nodes[j].position
+                    let ijDistanceSquared = pow((iNodePos.x - jNodePos.x).fastFloor(), 2) + pow((iNodePos.y - jNodePos.y).fastFloor(), 2)
                     
-                    let maxDistanceDoubled = pow(self.maxDistance, 2)
-                    if ijDistanceDoubled < maxDistanceDoubled {
-                        let pathToDraw: CGMutablePath = CGMutablePath()
-                        let line:SKShapeNode = SKShapeNode(path:pathToDraw)
+                    let maxDistanceSquared = pow(self.maxDistance, 2)
+                    if ijDistanceSquared < maxDistanceSquared {
+                        let pathToDraw = CGMutablePath()
+                        pathToDraw.move(to: iNodePos)
+                        pathToDraw.addLine(to: jNodePos)
                         
-                        pathToDraw.move(to: iNode.position)
-                        pathToDraw.addLine(to: jNode.position)
-                        
+                        let line = SKShapeNode(path:pathToDraw)
                         line.path = pathToDraw
                         line.lineWidth = self.lineWidth
-                        line.strokeColor = self.shouldChangeLineOpacityWithMaxDistance ? self.lineColor.withAlphaComponent(1 - ijDistanceDoubled/maxDistanceDoubled) : self.lineColor
+                        line.strokeColor = self.shouldChangeLineOpacityWithMaxDistance ? self.lineColor.withAlphaComponent(1 - ijDistanceSquared/maxDistanceSquared) : self.lineColor
                         
                         newLines.append(line)
                     }

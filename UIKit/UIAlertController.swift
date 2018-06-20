@@ -8,12 +8,26 @@
 import Foundation
 
 extension UIAlertController {
-    public convenience init(title: String?, message: String?, preferredStyle: UIAlertControllerStyle, cancelTitle: String) {
+    public convenience init(title: String?,
+                            attributedTitle: NSAttributedString? = nil,
+                            message: String?,
+                            attributedMessage: NSAttributedString? = nil,
+                            preferredStyle: UIAlertControllerStyle,
+                            cancelTitle: String,
+                            cancelStyle: UIAlertActionStyle = .cancel,
+                            cancelHandler: ((UIAlertAction)->())? = nil) {
         self.init(title: title, message: message, preferredStyle: preferredStyle)
-        self.addCancelAction(title: cancelTitle)
+        if let attrTitle = attributedTitle {
+            self.setValue(attrTitle, forKey: "attributedTitle")
+        }
+        if let attrMessage = attributedMessage {
+            self.setValue(attrMessage, forKey: "attributedMessage")
+        }
+        
+        self.addCancelAction(title: cancelTitle, cancelStyle: cancelStyle, cancelHandler: cancelHandler)
     }
     
-    public func addCancelAction(title: String) {
-        self.addAction(UIAlertAction(title: title, style: .cancel, handler: nil))
+    public func addCancelAction(title: String, cancelStyle: UIAlertActionStyle = .cancel, cancelHandler: ((UIAlertAction)->())? = nil) {
+        self.addAction(UIAlertAction(title: title, style: .cancel, handler: cancelHandler))
     }
 }

@@ -11,7 +11,7 @@ import UIKit
 
 extension UITableView {
     
-    /// Auto dequeue cell with custom cell class
+    /// Auto dequeue cell with custom cell class, the identifier must have the same name as the cell class
     ///
     /// - Parameter type: Custom cell class
     /// - Returns: Custom cell
@@ -22,24 +22,22 @@ extension UITableView {
         return cell
     }
     
+    /// Auto dequeue cell with custom cell class, the identifier must have the same name as the cell class
+    ///
+    /// - Parameter type: Custom cell class
+    /// - Returns: Custom cell
+    public func dequeueReusableCell<T: UITableViewCell>(_ type: T.Type, for indexPath: IndexPath) -> T {
+        guard let cell = self.dequeueReusableCell(withIdentifier: String(describing: type), for: indexPath) as? T else {
+            fatalError("\(String(describing: type)) cell could not be instantiated because it was not found on the tableView")
+        }
+        return cell
+    }
+    
     /// Check if tableView is empty
     public var isEmpty: Bool {
         get {
             return self.visibleCells.isEmpty
         }
-    }
-    
-    /// Setup refresh control
-    ///
-    /// - Parameters:
-    ///   - tableView: tableView to add refresh control
-    ///   - target: View controller contains tableView
-    ///   - action: @objc func refresh(_ sender: UIRefreshControl)
-    public func addRefreshControl(target: AnyObject, action: Selector) -> UIRefreshControl {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(target, action: action, for: .valueChanged)
-        self.addSubview(refreshControl)
-        return refreshControl
     }
 }
 
