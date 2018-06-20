@@ -64,4 +64,47 @@ extension UIScrollView {
     public func killScroll() {
         self.isScrollEnabled = false
         self.isScrollEnabled = true
-    }}
+    }
+}
+
+extension UIScrollView {
+    public typealias RefreshAction = (_ refreshControl: UIRefreshControl)->()
+    
+    private class ActionStore: NSObject {
+        let action: RefreshAction
+        init(_ action: @escaping RefreshAction) {
+            self.action = action
+        }
+    }
+    
+    private struct AssociatedKeys {
+        static var refreshActionKey = "refreshActionKey"
+    }
+    
+    /// MUST USE [unowned self] to prevent retain cycle
+    ///
+    /// - Parameter action: closure for .valueChanged action
+    public func addRefreshControl(action: @escaping RefreshAction) -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshAction = action
+        refreshControl.addTarget(self, action: #selector(executeRefreshAction(_:)), for: .valueChanged)
+        self.addSubview(refreshControl)
+        return refreshControl
+    }
+    
+    @objc func executeRefreshAction(_ sender: UIRefreshControl) {
+        refreshAction?(sender)
+    }
+    
+    private var refreshAction: RefreshAction? {
+        get {
+            guard let store = objc_getAssociatedObject(self, &AssociatedKeys.refreshActionKey) as? ActionStore else { return nil }
+            return store.action
+        }
+        
+        set(newValue) {
+            guard let newValue = newValue else { return }
+            objc_setAssociatedObject(self, &AssociatedKeys.refreshActionKey, ActionStore(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+}
