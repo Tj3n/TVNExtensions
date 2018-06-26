@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+fileprivate let tvnSystemFontTextName = ".SFUIText"
+fileprivate let tvnSystemFontDisplayName = ".SFUIDisplay"
+
 extension UILabel {
     public class func showTooltip(_ message: String, fontName: String) {
         
@@ -126,7 +129,7 @@ extension UILabel {
         }
     }
     
-    /// Replace system font with font name, keep size and type, can be use with UILabel.appearance(), ignore attributedText
+    /// Replace ONLY system font with font name, keep size and type, can be use with UILabel.appearance(), ignore attributedText
     ///
     /// - Parameter fontName: Font to replace
     @objc dynamic public func replaceSystemFont(with fontName: String) {
@@ -134,10 +137,8 @@ extension UILabel {
             return
         }
         
-        let systemFontName = UIFont.systemFont(ofSize: 1).fontName.lowercased()
         let fontNameToTest = self.font.fontName.lowercased()
-        
-        guard fontNameToTest.contains(systemFontName) else {
+        guard fontNameToTest.contains(tvnSystemFontTextName) || fontNameToTest.contains(tvnSystemFontDisplayName) else {
             return
         }
 

@@ -8,6 +8,10 @@
 import Foundation
 
 extension UIApplication {
+    
+    /// Check if the app is first run, only activate once calling
+    ///
+    /// - Returns: Bool
     public class func isNotFirstRun() -> Bool {
         let firstRunKey = (Bundle.main.bundleIdentifier ?? "com.TVNExtension") + ".FirstRun"
         if UserDefaults.standard.bool(forKey: firstRunKey) {

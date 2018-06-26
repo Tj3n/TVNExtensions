@@ -17,13 +17,15 @@ public struct CryptoHelper {
         return Data(bytes: hash)
     }
     
-    public static func SHA256(with dict: [String: String], salt: String = "") -> String {
+    public static func SHA256(with dict: [String: String], salt: String?) -> String {
         var keys = dict.keys.sorted()
         var signStr = ""
         for i in 0..<keys.count {
             signStr.append("\(keys[i])=\(dict[keys[i]]!)")
         }
-        signStr.append(salt)
+        if let salt = salt {
+            signStr.append(salt)
+        }
         return hexStringFromData(input: SHA256(data: signStr.data(using: .utf8)!))
     }
     

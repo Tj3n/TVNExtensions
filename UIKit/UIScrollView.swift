@@ -20,6 +20,21 @@ public enum ScrollDirection {
 
 extension UIScrollView {
     
+    public func scrollToTop(animated: Bool, additionalOffsetY: CGFloat = 0) {
+        self.setContentOffset(CGPoint(x: contentOffset.x, y: additionalOffsetY), animated: animated)
+    }
+    
+    public func scrollToBottom(animated: Bool, additionalOffsetY: CGFloat = 0) {
+        var bottomOffsetY: CGFloat = 0
+        if #available(iOS 11.0, *) {
+            bottomOffsetY = max(self.contentSize.height - self.bounds.height + self.contentInset.bottom + self.safeAreaInsets.bottom + additionalOffsetY, 0)
+        } else {
+            bottomOffsetY = max(self.contentSize.height - self.bounds.height + self.contentInset.bottom + additionalOffsetY, 0)
+        }
+        
+        self.setContentOffset(CGPoint(x: contentOffset.x, y: bottomOffsetY), animated: animated)
+    }
+    
     /// Setup refresh control
     ///
     /// - Parameters:

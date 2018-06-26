@@ -92,6 +92,9 @@ public class ParticleScene: SKScene {
     let speedRange: ClosedRange<CGFloat>
     let lineWidth: CGFloat
     
+    let dotQ = DispatchQueue(label: "ParticleSceneDotQueue", qos: .userInitiated)
+    let lineQ = DispatchQueue(label: "ParticleSceneLineQueue", qos: .userInitiated)
+    
     public var shouldChangeLineOpacityWithMaxDistance = true
     
     private var nodes = [SKSpriteNode]()
@@ -172,12 +175,11 @@ public class ParticleScene: SKScene {
     func generateNodeAction(direction: CGFloat, speed: CGFloat, midPoint: CGPoint) -> SKAction {
         let directionX = speed * cos(direction)
         let directionY = speed * sin(direction)
+        let w = self.size.width
+        let h = self.size.height
         
-        let action = SKAction.customAction(withDuration: Double(HUGE)) { node, elapsedTime in
-            DispatchQueue.global(qos: .userInitiated).async {
-                let w = self.size.width
-                let h = self.size.height
-                
+        let action = SKAction.customAction(withDuration: Double(HUGE)) { [unowned self] node, elapsedTime in
+            self.dotQ.async {
                 let newX = (midPoint.x + directionX * elapsedTime).remainder(dividingBy: w)
                 let newY = (midPoint.y + directionY * elapsedTime).remainder(dividingBy: h)
                 
@@ -194,7 +196,7 @@ public class ParticleScene: SKScene {
     }
     
     func createLines() {
-        DispatchQueue.global(qos: .userInitiated).async {
+        lineQ.async {
             var newLines = [SKShapeNode]()
             for i in 0..<self.nodes.count {
                 for j in i+1..<self.nodes.count {

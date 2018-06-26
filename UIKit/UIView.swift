@@ -70,6 +70,26 @@ extension UIView {
         
         return nil
     }
+    
+    public func findFirstResponder() -> UIView? {
+        guard !isFirstResponder else { return self }
+        
+        for subview in subviews {
+            if let firstResponder = subview.findFirstResponder() {
+                return firstResponder
+            }
+        }
+        
+        return nil
+    }
+    
+    public func allSubViews() -> [UIView] {
+        var subViews = self.subviews
+        for v in subviews {
+            subViews.append(contentsOf: v.allSubViews())
+        }
+        return subViews
+    }
 
     /**
      Take snapshot of view as uiimage

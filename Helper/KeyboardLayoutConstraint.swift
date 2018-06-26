@@ -9,13 +9,18 @@ import UIKit
 
 public class KeyboardLayoutConstraint: NSLayoutConstraint {
     
+    ///Set to true to handle constraint's constant by `originAmount`
     @IBInspectable public var excludeOriginConstant: Bool = false
+    ///Set to true to flip the added height
     @IBInspectable public var isTopConstraint: Bool = false
+    ///Origin amount to add to if `excludeOriginConstant` = true
+    @IBInspectable public var originAmount: CGFloat = 0
     
     private var originConstant: CGFloat = 0.0
-    private var defaultKeyboardActiveHeight: CGFloat = 10.0
+    private var defaultKeyboardActiveHeight: CGFloat = 0.0
     private var keyboardHeight: CGFloat = 0.0
     private var isKeyboardShow: Bool = false
+    private var isAddedAdditional: Bool = false
     
     /// Create constraint with automatically keyboard handling
     ///
@@ -45,7 +50,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     
     private func startHandling() {
         observeKeyboardHandling()
-        defaultKeyboardActiveHeight = 10.0
+        defaultKeyboardActiveHeight = originAmount
         originConstant = constant
     }
     
@@ -101,7 +106,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         } else {
             if excludeOriginConstant {
                 constant = originConstant
-                defaultKeyboardActiveHeight = 10
+                defaultKeyboardActiveHeight = 0
             } else {
                 constant -= keyboardHeight
             }
