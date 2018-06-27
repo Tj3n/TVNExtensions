@@ -20,7 +20,6 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     private var defaultKeyboardActiveHeight: CGFloat = 0.0
     private var keyboardHeight: CGFloat = 0.0
     private var isKeyboardShow: Bool = false
-    private var isAddedAdditional: Bool = false
     
     /// Create constraint with automatically keyboard handling
     ///
@@ -106,7 +105,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         } else {
             if excludeOriginConstant {
                 constant = originConstant
-                defaultKeyboardActiveHeight = 0
+                defaultKeyboardActiveHeight = originAmount
             } else {
                 constant -= keyboardHeight
             }

@@ -14,10 +14,10 @@ public class CodeScannerView: UIView {
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
     private var scanCompleteBlock: ((_ message: String, _ error: String?)->())?
+    let q = DispatchQueue(label: "CodeScannerViewQueue")
     
     private lazy var captureMetadataOutput: AVCaptureMetadataOutput = {
         let captureMetadataOutput = AVCaptureMetadataOutput()
-        let q = DispatchQueue(label: "CodeScannerViewQueue")
         captureMetadataOutput.setMetadataObjectsDelegate(captureMetadataOutputObjectsDelegate, queue: q)
         return captureMetadataOutput
     }()
@@ -103,7 +103,10 @@ public class CodeScannerView: UIView {
         self.layer.addSublayer(videoPreviewLayer!)
         
         isScanning = true
-        captureSession.startRunning()
+        
+        q.async {
+            captureSession.startRunning()
+        }
         captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
     }
     
