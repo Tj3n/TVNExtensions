@@ -20,6 +20,7 @@ public class KeyboardHandling {
     public private(set) var keyboardHeight: CGFloat = 0
     public private(set) var isKeyboardShow: Bool = false
     public private(set) var duration: Double = 0.3
+    public private(set) var keyboardAddedHeight: CGFloat = 0
     
     private var handlingClosureDict = [String: HandlingClosure]()
     
@@ -52,20 +53,20 @@ public class KeyboardHandling {
     }
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
-        let deltaHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
+        keyboardHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
         duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
         
-        if deltaHeight == keyboardHeight || deltaHeight <= 0 {
+        if keyboardHeight == keyboardAddedHeight || keyboardHeight <= 0 {
             return
         }
         
-        keyboardHeight = deltaHeight - keyboardHeight
+        keyboardAddedHeight = keyboardHeight - keyboardAddedHeight
         
         if let topMostVc = UIViewController.getTopViewController() {
-            executeClosure(true, keyboardHeight, duration, for: topMostVc)
+            executeClosure(true, keyboardAddedHeight, duration, for: topMostVc)
         }
         
-        keyboardHeight = deltaHeight
+        keyboardAddedHeight = keyboardHeight
         isKeyboardShow = true
     }
     
@@ -81,6 +82,7 @@ public class KeyboardHandling {
         }
         
         keyboardHeight = 0
+        keyboardAddedHeight = 0
         isKeyboardShow = false
     }
     

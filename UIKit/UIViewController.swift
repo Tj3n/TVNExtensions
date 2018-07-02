@@ -18,15 +18,20 @@ public extension UIViewController {
     ///   - controllerId: controller identifier, default to the same Class name
     /// - Returns: view controller
     public class func instantiate(fromStoryboard storyboardName: String = "Main", controllerId: String = "") -> Self {
-        return instantiateFromStoryboardHelper(storyboardName, storyboardId: controllerId.isEmpty ? String(describing: self) : controllerId)
+        let sb = UIStoryboard(name: storyboardName, bundle: Bundle.main)
+        return instantiateFromStoryboardHelper(sb, controllerId: controllerId.isEmpty ? String(describing: self) : controllerId)
     }
     
-    fileprivate class func instantiateFromStoryboardHelper<T>(_ storyboardName: String, storyboardId: String) -> T {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: Bundle.main)
-        let controller = storyboard.instantiateViewController(withIdentifier: storyboardId) as! T
+    public class func instantiate(fromStoryboard storyboard: UIStoryboard?, controllerId: String = "") -> Self {
+        return instantiateFromStoryboardHelper(storyboard ?? UIStoryboard(name: "Main", bundle: Bundle.main),
+                                               controllerId: controllerId.isEmpty ? String(describing: self) : controllerId)
+    }
+    
+    fileprivate class func instantiateFromStoryboardHelper<T>(_ storyboard: UIStoryboard, controllerId: String) -> T {
+        let controller = storyboard.instantiateViewController(withIdentifier: controllerId) as! T
         return controller
     }
-    
+
     /// Get top view controller from window
     ///
     /// - Parameter window: default UIApplication.shared.keyWindow
