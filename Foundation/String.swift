@@ -57,6 +57,10 @@ extension String {
         }
     }
     
+    public func trim(in set: CharacterSet = .whitespacesAndNewlines) -> String {
+        return trimmingCharacters(in: set)
+    }
+    
     //Convert nsrange to range
     public func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex)
