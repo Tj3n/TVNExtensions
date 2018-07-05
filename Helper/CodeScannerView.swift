@@ -68,6 +68,29 @@ public class CodeScannerView: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         videoPreviewLayer?.frame = self.bounds
+        if isScanning || isFreezing, let videoPreviewLayer = videoPreviewLayer {
+            captureMetadataOutput.rectOfInterest = videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
+            updatePreviewLayerOrientation(videoPreviewLayer)
+        }
+    }
+    
+    private func updatePreviewLayerOrientation(_ previewLayer: AVCaptureVideoPreviewLayer) {
+        guard let previewLayerConnection = previewLayer.connection else {
+            return
+        }
+        
+        if previewLayerConnection.isVideoOrientationSupported {
+            switch (UIDevice.current.orientation) {
+            case .portrait: previewLayerConnection.videoOrientation = .portrait
+            case .landscapeRight: previewLayerConnection.videoOrientation = .landscapeLeft
+            case .landscapeLeft: previewLayerConnection.videoOrientation = .landscapeRight
+            case .portraitUpsideDown: previewLayerConnection.videoOrientation = .portraitUpsideDown
+            default: previewLayerConnection.videoOrientation = .portrait
+                break
+            }
+        }
+        
+        previewLayer.frame = self.bounds
     }
     
     deinit {
@@ -84,9 +107,9 @@ public class CodeScannerView: UIView {
             resumeReading()
         }
         
-        captureSession = AVCaptureSession()
+        self.captureSession = AVCaptureSession()
         
-        guard let captureSession = captureSession else {
+        guard let captureSession = self.captureSession else {
             return
         }
         
@@ -94,20 +117,19 @@ public class CodeScannerView: UIView {
         let input = try AVCaptureDeviceInput(device: captureDevice)
         captureSession.addInput(input)
         
-        captureSession.addOutput(captureMetadataOutput)
-        captureMetadataOutput.metadataObjectTypes = codeTypes
+        captureSession.addOutput(self.captureMetadataOutput)
+        self.captureMetadataOutput.metadataObjectTypes = codeTypes
         
-        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        videoPreviewLayer?.videoGravity = .resizeAspectFill
-        videoPreviewLayer?.frame = self.layer.bounds
-        self.layer.addSublayer(videoPreviewLayer!)
+        self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        self.videoPreviewLayer?.videoGravity = .resizeAspectFill
+        self.videoPreviewLayer?.frame = self.layer.bounds
+        self.layer.addSublayer(self.videoPreviewLayer!)
         
-        isScanning = true
+        self.isScanning = true
         
-        q.async {
-            captureSession.startRunning()
-        }
-        captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
+        captureSession.startRunning()
+        self.captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
+        
     }
     
     @objc public func stopReading() {
