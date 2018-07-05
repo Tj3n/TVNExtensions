@@ -180,8 +180,8 @@ extension String {
         return currencyCode
     }
     
-    public func toCountryName() -> String? {
-        return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: self)
+    public func toCountryName(locale: Locale = Locale(identifier: "en_US")) -> String? {
+        return locale.localizedString(forRegionCode: self) ?? self
     }
     
     public func toFlag() -> String {

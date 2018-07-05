@@ -39,4 +39,13 @@ extension UITableView {
             return self.visibleCells.isEmpty
         }
     }
+    
+    /// Get indexPath from cell's subview
+    ///
+    /// - Parameter subview: cell's subview
+    /// - Returns: cell's indexPath
+    public func indexPathForRowSubview(_ subview: UIView) -> IndexPath? {
+        let point = subview.convert(subview.center, to: self)
+        return self.indexPathForRow(at: point)
+    }
 }
