@@ -45,7 +45,7 @@ extension UITableView {
     /// - Parameter subview: cell's subview
     /// - Returns: cell's indexPath
     public func indexPathForRowSubview(_ subview: UIView) -> IndexPath? {
-        let point = subview.convert(subview.center, to: self)
-        return self.indexPathForRow(at: point)
+        let point = subview.convert(subview.frame, to: self)
+        return self.indexPathForRow(at: point.origin)
     }
 }

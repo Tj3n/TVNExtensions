@@ -442,3 +442,21 @@ open class KeychainWrapper {
         return keychainQueryDictionary
     }
 }
+
+// MARK: - Swift 4 Codable for KeychainWrapper
+public extension KeychainWrapper {
+    public func codableObject<T: Decodable>(forKey key: String, decoder: JSONDecoder = JSONDecoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> T? {
+        guard let data = self.data(forKey: key) else { return nil }
+        return (try? decoder.decode(T.self, from: data)) as T?
+    }
+    
+    @discardableResult
+    public func setCodable<T: Encodable>(_ value: T, forKey key: String, encoder: JSONEncoder = JSONEncoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        guard let data = value.getData(encoder: encoder) else {
+            self.removeObject(forKey: key)
+            return false
+        }
+        return set(data, forKey: key, withAccessibility: accessibility)
+        
+    }
+}
