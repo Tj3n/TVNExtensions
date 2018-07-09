@@ -88,6 +88,13 @@ extension UIView {
     }
     
     @discardableResult
+    public func center(to view: UIView, relation: NSLayoutRelation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> [NSLayoutConstraint] {
+        let centerX = constraintView(firstAttr: .centerX, to: view, secondAttr: .centerX, relation: relation, mult: mult, by: by, priority: priority)
+        let centerY = constraintView(firstAttr: .centerY, to: view, secondAttr: .centerY, relation: relation, mult: mult, by: by, priority: priority)
+        return [centerX, centerY]
+    }
+    
+    @discardableResult
     public func centerX(to view: UIView, relation: NSLayoutRelation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
         return constraintView(firstAttr: .centerX, to: view, secondAttr: .centerX, relation: relation, mult: mult, by: by, priority: priority)
     }

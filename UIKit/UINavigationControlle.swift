@@ -36,8 +36,8 @@ extension UINavigationController {
     }
     
     public func setDefaultNavBar() {
-        self.navigationBar.isTranslucent     = false
-        self.navigationBar.shadowImage     = nil
+        self.navigationBar.isTranslucent = false
+        self.navigationBar.shadowImage = nil
         self.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationBar.backgroundColor = nil
     }
