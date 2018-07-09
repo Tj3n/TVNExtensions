@@ -18,7 +18,10 @@
   "requires_arc": true,
   "frameworks": [
     "UIKit",
-    "Foundation"
+    "Foundation",
+    "CoreTelephony",
+    "CoreLocation",
+    "AVFoundation"
   ],
   "xcconfig": {
     "SWIFT_INCLUDE_PATHS[sdk=macosx*]": "$(PODS_TARGET_SRCROOT)/CCommonCrypto/macosx $(PODS_ROOT)/TVNExtensions/CCommonCrypto/macosx",

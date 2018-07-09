@@ -30,16 +30,22 @@ class ViewController: UIViewController {
         view.endEditing(true)
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
+            ///Test animate transistion with sb
 //            self.performSegue(withIdentifier: "show", sender: self) // Disable navigationController?.delegate = animator
 //            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
             
-            //W/o storyboard
+            ///W/o sb
             let nextVC = NextViewController()
             let _ = nextVC.view
             nextVC.destinationImgView.image = self.imgView.image
             nextVC.nextLabel.text = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
-            nextVC.transitioningDelegate = self.animator
-            self.present(nextVC, animated: true, completion: nil)
+            
+            ///Test animate transistion without sb
+//            nextVC.transitioningDelegate = self.animator
+//            self.present(nextVC, animated: true, completion: nil)
+            
+            ///Test change rootVC
+            UIApplication.shared.keyWindow?.changeRootViewController(with: nextVC, animated: true, completion: nil)
         }
     }
     

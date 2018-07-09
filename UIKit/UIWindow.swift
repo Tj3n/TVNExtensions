@@ -11,69 +11,47 @@ import UIKit
 
 extension UIWindow {
     
+    public func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
+        guard let oldVC = rootViewController else {
+            self.rootViewController = viewController
+            return
+        }
+        
+        let oldView = oldVC.view!
+
+        switch animated {
+        case true:
+            let toView = viewController.view!
+            toView.layoutIfNeeded()
+            
+            let newView = viewController.view!.resizableSnapshotView(from: bounds, afterScreenUpdates: true, withCapInsets: .zero)!
+            newView.alpha = 0
+            self.addSubview(newView)
+            newView.layer.transform = CATransform3DMakeTranslation(0, UIScreen.main.bounds.maxY, 0)
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
+                newView.alpha = 1
+                newView.layer.transform = CATransform3DIdentity
+                oldView.alpha = 0
+                oldView.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1.0)
+            }) { (_) in
+                oldView.removeFromSuperview()
+                newView.removeFromSuperview()
+                self.rootViewController = viewController
+                completion?()
+            }
+        case false:
+            oldView.removeFromSuperview()
+            self.rootViewController = viewController;
+            completion?()
+        }
+    }
+    
     public class func changeRootViewController(with viewController: UIViewController) {
         UIWindow.changeRootViewController(with: viewController, animated: true, completion: nil)
     }
     
     public class func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
-        guard let oldVC = UIViewController.getTopViewController() else {
-            UIApplication.shared.keyWindow?.rootViewController = viewController
-            return
-        }
-        
-        let screenBounds = UIScreen.main.bounds
-        let oldView = oldVC.view!
-        let newView = viewController.view!
-        
-        newView.frame = CGRect(x: 0, y: screenBounds.maxY, width: screenBounds.width, height: screenBounds.height)
-        oldView.superview?.addSubview(newView)
-        
-        switch animated {
-        case true:
-            UIView.animate(withDuration: 0.3, delay: 0, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
-                oldView.transform.scaledBy(x: 0.8, y: 0.8)
-                newView.transform.translatedBy(x: 0, y: -screenBounds.maxY)
-            }) { (completed) in
-                oldView.removeFromSuperview()
-                UIApplication.shared.keyWindow?.rootViewController = viewController;
-                completion?()
-            }
-        case false:
-            oldView.removeFromSuperview()
-            UIApplication.shared.keyWindow?.rootViewController = viewController;
-            completion?()
-        }
+        UIApplication.shared.keyWindow?.changeRootViewController(with: viewController, animated: animated, completion: completion)
     }
-
-    //From IQKeyboardManager
-//    public func topMostController()->UIViewController? {
-//
-//        var controllersHierarchy = [UIViewController]()
-//
-//        if var topController = window?.rootViewController {
-//            controllersHierarchy.append(topController)
-//
-//            while topController.presentedViewController != nil {
-//
-//                topController = topController.presentedViewController!
-//
-//                controllersHierarchy.append(topController)
-//            }
-//
-//            var matchController :UIResponder? = viewController()
-//
-//            while matchController != nil && controllersHierarchy.contains(matchController as! UIViewController) == false {
-//
-//                repeat {
-//                    matchController = matchController?.next
-//
-//                } while matchController != nil && matchController is UIViewController == false
-//            }
-//
-//            return matchController as? UIViewController
-//
-//        } else {
-//            return viewController()
-//        }
-//    }
 }

@@ -80,7 +80,12 @@ class NextViewController: UIViewController {
             if let nav = self.navigationController {
                 nav.popViewController(animated: true)
             } else {
-                self.dismiss(animated: true, completion: nil)
+                ///Test dismiss with transition
+//                self.dismiss(animated: true, completion: nil)
+                
+                ///Test change rootVC
+                let vc = ViewController.instantiate()
+                UIApplication.shared.keyWindow?.changeRootViewController(with: vc, animated: false, completion: nil)
             }
         }
     }
@@ -128,9 +133,9 @@ class NextViewController: UIViewController {
         
         //Test keyboard handling class
         let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
-        KeyboardHandling.shared.addKeyboardHandlingClosure(for: self) { [unowned self] (up, height) in
+        KeyboardHandling.shared.addKeyboardHandlingClosure(for: self) { [unowned self] (up, height, duration) in
             tfBottomConstraint.constant = up ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: duration, animations: {
                 self.view.layoutIfNeeded()
             })
         }
