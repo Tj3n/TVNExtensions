@@ -10,37 +10,29 @@ import Foundation
 import UIKit
 
 extension UILabel {
-    public class func showTooltip(_ message: String, fontName: String) {
-        
-        var font: UIFont
-        if let customFont = UIFont(name: fontName, size: 14) {
-            font = customFont
-        } else {
-            font = UIFont.systemFont(ofSize: 14)
-        }
-        
-        var isLong = false
+    public class func showErrorTooltip(_ message: String, font: UIFont = UIFont.systemFont(ofSize: 14), duration: Double = 3) {
+        UILabel.showTooltip(message, font: font, duration: duration, textColor: UIColor(hexString: "F72B1C"))
+    }
+    
+    public class func showTooltip(_ message: String, font: UIFont = UIFont.systemFont(ofSize: 14), duration: Double = 3, textColor: UIColor = .white) {
         
         let fontAttributes = [NSAttributedStringKey.font: font]
         let size = (" "+message+" " as NSString).size(withAttributes: fontAttributes)
         
         DispatchQueue.main.async(execute: {
-            
             var width = size.width+25
             var height = size.height+15
             
-            if width > (UIApplication.shared.keyWindow?.frame.size.width)! {
-                width = (UIApplication.shared.keyWindow?.frame.size.width)! - 25
-                let sizeOfText = (message as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: fontAttributes, context: nil)
+            if width > UIScreen.main.bounds.width {
+                width = UIScreen.main.bounds.width - 25
+                let sizeOfText = (message as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: fontAttributes, context: nil)
                 height = sizeOfText.height + 25
-                
-                isLong = true
             }
             
             let label = UILabel(frame: CGRect(x: 0,y: 0, width: width, height: height))
             label.textAlignment = .center
             label.font = font
-            label.textColor = UIColor.white
+            label.textColor = textColor
             label.text = message
             label.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height-UIScreen.main.bounds.height/5)
             label.alpha = 0
@@ -63,8 +55,8 @@ extension UILabel {
             shadowView.alpha = 0
             
             let topWindow = UIApplication.shared.keyWindow
-            topWindow!.addSubview(shadowView)
-            topWindow!.addSubview(label)
+            topWindow?.addSubview(shadowView)
+            topWindow?.addSubview(label)
             topWindow?.bringSubview(toFront: label)
             
             UIView.animate(withDuration: 0.5, animations: {
@@ -73,19 +65,17 @@ extension UILabel {
                 shadowView.alpha = 1
                 label.alpha = 1
             }, completion: { (complete) in
-                let time: Double = isLong ? 3 : 2
-                let dispatchTime: DispatchTime = DispatchTime.now() + Double(Int64(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                     UIView.animate(withDuration: 0.5, animations: {
                         shadowView.originY += 10
                         label.originY += 10
                         label.alpha = 0
                         shadowView.alpha = 0
-                        }, completion: { (completed) in
-                            label.removeFromSuperview()
-                            shadowView.removeFromSuperview()
+                    }, completion: { (completed) in
+                        label.removeFromSuperview()
+                        shadowView.removeFromSuperview()
                     })
-                })
+                }
             })
         });
     }

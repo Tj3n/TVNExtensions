@@ -11,6 +11,12 @@ import UIKit
 
 extension UIWindow {
     
+    /// Switch window's rootViewController with animation
+    ///
+    /// - Parameters:
+    ///   - viewController: viewController to replace current rootViewController
+    ///   - animated: replace with animation
+    ///   - completion: completion handler
     public func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
         guard let oldVC = rootViewController else {
             self.rootViewController = viewController

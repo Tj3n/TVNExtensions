@@ -17,6 +17,8 @@ public class KeyboardHandling {
         return controller
     }()
     
+    /// Set this to work in different window level
+    public var windows: [UIWindow?] = [UIApplication.shared.keyWindow]
     public private(set) var keyboardHeight: CGFloat = 0
     public private(set) var isKeyboardShow: Bool = false
     public private(set) var duration: Double = 0.3
@@ -62,9 +64,11 @@ public class KeyboardHandling {
         
         keyboardAddedHeight = keyboardHeight - keyboardAddedHeight
         
-        if let topMostVc = UIViewController.getTopViewController() {
-            executeClosure(true, keyboardAddedHeight, duration, for: topMostVc)
-        }
+        windows.forEach({
+            if let topMostVc = UIViewController.getTopViewController(from: $0) {
+                executeClosure(true, keyboardAddedHeight, duration, for: topMostVc)
+            }
+        })
         
         keyboardAddedHeight = keyboardHeight
         isKeyboardShow = true
@@ -77,9 +81,11 @@ public class KeyboardHandling {
             return
         }
         
-        if let topMostVc = UIViewController.getTopViewController() {
-            executeClosure(false, keyboardHeight, duration, for: topMostVc)
-        }
+        windows.forEach({
+            if let topMostVc = UIViewController.getTopViewController(from: $0) {
+                executeClosure(false, keyboardHeight, duration, for: topMostVc)
+            }
+        })
         
         keyboardHeight = 0
         keyboardAddedHeight = 0

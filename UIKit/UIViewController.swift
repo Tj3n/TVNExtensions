@@ -60,7 +60,7 @@ public extension UIViewController {
     ///   - controller: Child view controller
     ///   - toView: The view to contain the controller's view
     ///   - animated: Set to true to use custom present animation
-    public func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool) {
+    public func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool, completion: (()->())?) {
         self.addChildViewController(childController)
         let v = childController.view!
         v.alpha = 0
@@ -70,6 +70,7 @@ public extension UIViewController {
         guard animated else {
             v.alpha = 1
             childController.didMove(toParentViewController: self)
+            completion?()
             return
         }
         
@@ -82,6 +83,7 @@ public extension UIViewController {
             v.alpha = 1
         }, completion: { (_) in
             childController.didMove(toParentViewController: self)
+            completion?()
         })
     }
     
