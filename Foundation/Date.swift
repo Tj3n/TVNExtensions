@@ -8,6 +8,10 @@
 
 import Foundation
 
+extension DateFormatter {
+    static public let shared = DateFormatter()
+}
+
 extension Calendar {
     static public var currentGMT: Calendar {
         get {
@@ -33,7 +37,7 @@ extension Date {
     }
     
     public init?(from string: String, format: String) {
-        let dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         if let date = dateFormatter.date(from: string) {
@@ -86,7 +90,7 @@ extension Date {
     
     //Convert Date to String
     public func toString(_ format: String) -> String {
-        let dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter.shared
         //        dateFormatter.locale = NSLocale.systemLocale()
         
         if !format.isEmpty {

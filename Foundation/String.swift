@@ -106,6 +106,11 @@ extension String {
 
 // MARK: Conversion
 extension String {
+    
+    /// Format non-decimal number string to string with decimal dot after numbersAfterDecimal
+    ///
+    /// - Parameter numbersAfterDecimal: numbers of characters after dot
+    /// - Returns: formatted string
     public func formatDecimalString(numbersAfterDecimal: Int) -> String {
         guard let _ = Decimal(string: self) else { return "0.00" }
         
@@ -130,7 +135,7 @@ extension String {
     }
     
     public func toDate(format: String) -> Date? {
-        let dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format
         //        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         return dateFormatter.date(from: self)
