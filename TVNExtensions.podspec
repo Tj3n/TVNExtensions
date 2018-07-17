@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.frameworks = "UIKit", "Foundation", "CoreTelephony", "CoreLocation", "AVFoundation"
+  s.frameworks = "UIKit", "Foundation", "CoreTelephony", "CoreLocation", "AVFoundation" , "LocalAuthentication"
 
   s.subspec 'Foundation' do |sp|
     sp.source_files = "Foundation"

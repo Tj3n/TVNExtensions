@@ -30,10 +30,8 @@ extension UILabel {
             }
             
             let label = UILabel(frame: CGRect(x: 0,y: 0, width: width, height: height))
-            label.textAlignment = .center
             label.font = font
             label.textColor = textColor
-            label.text = message
             label.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height-UIScreen.main.bounds.height/5)
             label.alpha = 0
             label.isUserInteractionEnabled = false
@@ -41,6 +39,17 @@ extension UILabel {
             label.layer.masksToBounds = true
             label.layer.cornerRadius = 7
             label.numberOfLines=0
+            if let style = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle {
+                style.alignment = .center
+                style.firstLineHeadIndent = 10.0
+                style.headIndent = 10.0
+                style.tailIndent = -10.0
+                let attrMessage = NSAttributedString(string: message, attributes: [NSAttributedStringKey.paragraphStyle: style])
+                label.attributedText = attrMessage
+            } else {
+                label.textAlignment = .center
+                label.text = message
+            }
             
             let shadowView = UIView()
             shadowView.layer.shadowRadius = 2
