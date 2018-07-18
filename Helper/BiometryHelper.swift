@@ -92,8 +92,8 @@ public struct BiometryHelper {
         let context = LAContext()
         var error: NSError?
         
-        if #available(iOS 11.2, *) {
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            if #available(iOS 11.2, *) {
                 if context.biometryType == .faceID {
                     return .faceID
                 } else if context.biometryType == .touchID {
@@ -103,19 +103,19 @@ public struct BiometryHelper {
                 } else {
                     return .none
                 }
-            }
-        } else if #available(iOS 11.0, *) {
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            } else if #available(iOS 11.0, *) {
                 if context.biometryType == .faceID {
                     return .faceID
                 } else if context.biometryType == .touchID {
                     return .touchID
-                } else {
+                } else if context.biometryType != LABiometryType.LABiometryNone {
                     return .undetermined
+                } else {
+                    return .none
                 }
+            } else {
+                return .undetermined
             }
-        } else {
-            return .undetermined
         }
         
         return .none
