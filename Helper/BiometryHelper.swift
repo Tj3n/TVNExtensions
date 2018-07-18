@@ -8,15 +8,55 @@
 import Foundation
 import LocalAuthentication
 
+extension LAError: Error, LocalizedError {
+    public var errorDescription: String? {
+        if #available(iOS 11.0, *) {
+            switch self {
+            case LAError.biometryNotAvailable:
+                return "Biometry not available"
+            case LAError.biometryNotEnrolled:
+                return "Biometry is not enrolled"
+            default:
+                break
+            }
+        } else {
+            switch self {
+            case LAError.touchIDNotAvailable:
+                return "TouchID not available"
+            case LAError.touchIDNotEnrolled:
+                return "TouchID is not enrolled"
+            default:
+                break
+            }
+        }
+        
+        switch self {
+        case LAError.systemCancel:
+            return "Authentication was cancelled by the system"
+        case LAError.userCancel:
+            return "Authentication was cancelled by the user"
+        case LAError.userFallback:
+            return "User selected to enter custom password"
+        case LAError.passcodeNotSet:
+            return "A passcode has not been set"
+        default:
+            return "Authentication failed"
+        }
+    }
+}
+
 public enum BiometryCommonError: Error, LocalizedError {
-    case cancel(message: String),
+    case systemCancel,
+    userCancel(message: String),
     notAvailable(message: String),
     modified,
-    other(error: NSError)
+    other(error: Error)
     
     public var errorDescription: String? {
         switch self {
-        case .cancel(let message):
+        case .systemCancel:
+            return "Authentication was cancelled by the system"
+        case .userCancel(let message):
             return message
         case .notAvailable(let message):
             return message
@@ -34,11 +74,11 @@ public enum BiometryCommonError: Error, LocalizedError {
 /// - faceID: Face ID is available, only from iOS 11
 /// - undetermined: Undetermied available biometric, should be .touchID, happened because iOS lower than 11 or new feature
 /// - none: Biometric has not been set, can have passcode set though
-public enum BiometryType {
-    case touchID
-    case faceID
-    case undetermined
-    case none
+public enum BiometryType: String {
+    case touchID = "Touch ID"
+    case faceID = "Face ID"
+    case undetermined = "Biometric"
+    case none = " Biometric"
 }
 
 public struct BiometryHelper {
@@ -81,7 +121,7 @@ public struct BiometryHelper {
         return .none
     }
     
-    public static func authenticateUser(with reasonStr: String?, completion:@escaping ((_ error: BiometryCommonError?)->())) {
+    public static func authenticateUser(with reasonStr: String?, completion:@escaping ((_ success: Bool, _ error: BiometryCommonError?)->())) {
         let reason = reasonStr ?? "Authentication is needed to access."
         let context = LAContext()
         var error: NSError?
@@ -90,28 +130,27 @@ public struct BiometryHelper {
                 if success {
                     if self.checkForModified(context: context) {
                         DispatchQueue.main.async {
-                            completion(.modified)
+                            completion(false, .modified)
                         }
                     } else {
                         DispatchQueue.main.async {
-                            completion(nil)
+                            completion(success, nil)
                         }
                     }
                 } else if let bioError = bioError {
-                    let err = bioError as NSError
                     var commonError: BiometryCommonError?
-                    switch err.code {
-                    case LAError.systemCancel.rawValue:
-                        commonError = .cancel(message: "Authentication was cancelled by the system")
-                    case LAError.userCancel.rawValue:
-                        commonError = .cancel(message: "Authentication was cancelled by the user")
-                    case LAError.userFallback.rawValue:
-                        commonError = .cancel(message: "User selected to enter custom password")
+                    switch bioError {
+                    case LAError.systemCancel:
+                        commonError = .systemCancel
+                    case LAError.userCancel:
+                        commonError = .userCancel(message: "Authentication was cancelled by the user")
+                    case LAError.userFallback:
+                        commonError = .userCancel(message: "User selected to enter custom password")
                     default:
-                        commonError = .other(error: err)
+                        commonError = .other(error: bioError)
                     }
                     DispatchQueue.main.async {
-                        completion(commonError)
+                        completion(success, commonError)
                     }
                 }
             })
@@ -127,7 +166,7 @@ public struct BiometryHelper {
                     commonError = .notAvailable(message: "Biometry not available")
                 }
                 DispatchQueue.main.async {
-                    completion(commonError)
+                    completion(false, commonError)
                 }
             } else {
                 var commonError: BiometryCommonError?
@@ -140,7 +179,7 @@ public struct BiometryHelper {
                     commonError = .notAvailable(message: "TouchID not available")
                 }
                 DispatchQueue.main.async {
-                    completion(commonError)
+                    completion(false, commonError)
                 }
             }
         }
