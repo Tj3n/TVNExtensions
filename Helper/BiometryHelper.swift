@@ -8,22 +8,22 @@
 import Foundation
 import LocalAuthentication
 
-extension LAError: Error, LocalizedError {
+extension LAError.Code: Error, LocalizedError {
     public var errorDescription: String? {
         if #available(iOS 11.0, *) {
             switch self {
-            case LAError.biometryNotAvailable:
+            case .biometryNotAvailable:
                 return "Biometry not available"
-            case LAError.biometryNotEnrolled:
+            case .biometryNotEnrolled:
                 return "Biometry is not enrolled"
             default:
                 break
             }
         } else {
             switch self {
-            case LAError.touchIDNotAvailable:
+            case .touchIDNotAvailable:
                 return "TouchID not available"
-            case LAError.touchIDNotEnrolled:
+            case .touchIDNotEnrolled:
                 return "TouchID is not enrolled"
             default:
                 break
@@ -31,13 +31,13 @@ extension LAError: Error, LocalizedError {
         }
         
         switch self {
-        case LAError.systemCancel:
+        case .systemCancel:
             return "Authentication was cancelled by the system"
-        case LAError.userCancel:
+        case .userCancel:
             return "Authentication was cancelled by the user"
-        case LAError.userFallback:
+        case .userFallback:
             return "User selected to enter custom password"
-        case LAError.passcodeNotSet:
+        case .passcodeNotSet:
             return "A passcode has not been set"
         default:
             return "Authentication failed"
@@ -143,9 +143,9 @@ public struct BiometryHelper {
                     case LAError.systemCancel:
                         commonError = .systemCancel
                     case LAError.userCancel:
-                        commonError = .userCancel(message: "Authentication was cancelled by the user")
+                        commonError = .userCancel(message: LAError.userCancel.localizedDescription)
                     case LAError.userFallback:
-                        commonError = .userCancel(message: "User selected to enter custom password")
+                        commonError = .userCancel(message: LAError.userFallback.localizedDescription)
                     default:
                         commonError = .other(error: bioError)
                     }
@@ -159,11 +159,11 @@ public struct BiometryHelper {
                 var commonError: BiometryCommonError?
                 switch error.code {
                 case LAError.biometryNotEnrolled.rawValue:
-                    commonError = .notAvailable(message: "Biometry is not enrolled")
+                    commonError = .notAvailable(message: LAError.biometryNotEnrolled.localizedDescription)
                 case LAError.passcodeNotSet.rawValue:
-                    commonError = .notAvailable(message: "A passcode has not been set")
+                    commonError = .notAvailable(message: LAError.passcodeNotSet.localizedDescription)
                 default:
-                    commonError = .notAvailable(message: "Biometry not available")
+                    commonError = .notAvailable(message: "Biometry is not available")
                 }
                 DispatchQueue.main.async {
                     completion(false, commonError)
@@ -172,11 +172,11 @@ public struct BiometryHelper {
                 var commonError: BiometryCommonError?
                 switch error.code {
                 case LAError.touchIDNotEnrolled.rawValue:
-                    commonError = .notAvailable(message: "TouchID is not enrolled")
+                    commonError = .notAvailable(message: LAError.touchIDNotEnrolled.localizedDescription)
                 case LAError.passcodeNotSet.rawValue:
-                    commonError = .notAvailable(message: "A passcode has not been set")
+                    commonError = .notAvailable(message: LAError.passcodeNotSet.localizedDescription)
                 default:
-                    commonError = .notAvailable(message: "TouchID not available")
+                    commonError = .notAvailable(message: "TouchID is not available")
                 }
                 DispatchQueue.main.async {
                     completion(false, commonError)
