@@ -15,6 +15,7 @@ public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelega
     var previousScrollOffset: CGFloat { get set }
     var maxHeaderHeight: CGFloat { get }
     var minHeaderHeight: CGFloat { get }
+    /// Should be something like `tableView.contentSize.height - tableView.frame.size.height > 0`
     var shouldCollapseHeader: Bool { get }
     
     /// Conform this function to update header view
@@ -22,8 +23,9 @@ public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelega
     /// - Parameters:
     ///   - newHeight: Will be minHeaderHeight <= newHeight <= maxHeaderHeight
     ///   - percentage: percentage of the min and max height, useful for alpha animation
+    ///   - isUp: indicator that the view is going up or not, isUp == smaller newHeight
     ///   - animated: indicator that the update should be wrapped inside animate block
-    func updateHeaderView(newHeight: CGFloat, percentage: CGFloat, animated: Bool)
+    func updateHeaderView(newHeight: CGFloat, percentage: CGFloat, isUp: Bool, animated: Bool)
     
     /// Main handler for updating header height, call from similar UIScrollViewDelegate
     ///
@@ -57,16 +59,19 @@ extension HeaderCollapsableTableView {
 
         currentHeight = currentHeight > maxHeaderHeight ? maxHeaderHeight : currentHeight < minHeaderHeight ? minHeaderHeight : currentHeight
         var newHeight = currentHeight
+        var isUp: Bool = false
         if isScrollingDown {
             newHeight = max(self.minHeaderHeight, currentHeight - abs(scrollDiff))
         } else if isScrollingUp {
             newHeight = min(self.maxHeaderHeight, currentHeight + abs(scrollDiff))
+            isUp = true
         }
         
         if newHeight != currentHeight {
             let percentage = getCurrentPercentage(newHeight)
-            updateHeaderView(newHeight: newHeight, percentage: percentage, animated: false)
+            updateHeaderView(newHeight: newHeight, percentage: percentage, isUp: isUp, animated: false)
             currentHeight = newHeight
+            scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: previousScrollOffset), animated: false)
         }
 
         self.previousScrollOffset = scrollView.contentOffset.y
@@ -86,14 +91,17 @@ extension HeaderCollapsableTableView {
         let range = self.maxHeaderHeight - self.minHeaderHeight
         let midPoint = self.minHeaderHeight + (range / 2)
         var newHeight: CGFloat
+        var isUp: Bool
         if currentHeight > midPoint {
             newHeight = self.maxHeaderHeight
+            isUp = false
         } else {
             newHeight = self.minHeaderHeight
+            isUp = true
         }
         
         let percentage = getCurrentPercentage(newHeight)
-        updateHeaderView(newHeight: newHeight, percentage: percentage, animated: true)
+        updateHeaderView(newHeight: newHeight, percentage: percentage, isUp: isUp, animated: true)
         currentHeight = newHeight
     }
 }
