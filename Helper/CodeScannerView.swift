@@ -10,22 +10,25 @@ import AVFoundation
 import UIKit
 
 /** How to use:
- viewDidLoad: Create `CodeScannerView` with [unowned self] callback, add as subview
+ viewDidLoad: Create `CodeScannerView` with [unowned self] callback, add as subview, run `scannerView.startReading` when needed
  viewDidLayoutSubviews: Update `scannerView.scanRect` if needed
- viewWillAppear: Run `scannerView.startReading`
 **/
 public class CodeScannerView: UIView {
     /// Code type to scan
     public var codeTypes: [AVMetadataObject.ObjectType] = [.qr] {
         didSet {
-            setupMetadataOutput()
+            q.async {
+                self.setupMetadataOutput()
+            }
         }
     }
     
     /// The rect to capture the metadata
     public var scanRect: CGRect = UIScreen.main.bounds {
         didSet {
-            setupMetadataOutput()
+            q.async {
+                self.setupMetadataOutput()
+            }
         }
     }
     
@@ -156,9 +159,15 @@ public class CodeScannerView: UIView {
         if let captureSession = self.captureSession, captureSession.canAddOutput(output) {
             captureSession.addOutput(output)
         }
-        if output.availableMetadataObjectTypes.count > 0 {
-            output.metadataObjectTypes = codeTypes
-        }
+        
+        var availableCodeTypes = [AVMetadataObject.ObjectType]()
+        codeTypes.forEach({
+            if output.availableMetadataObjectTypes.contains($0) {
+                availableCodeTypes.append($0)
+            }
+            output.metadataObjectTypes = availableCodeTypes
+        })
+        
         if let previewLayer = videoPreviewLayer {
             output.rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
         }
