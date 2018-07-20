@@ -78,11 +78,10 @@ extension HeaderCollapsableTableView {
         var newHeight = currentHeight
         var isUp: Bool = false
         let shouldExpandImmediatelly = self.shouldExpandHeaderImmediatelyOnScrollDown(for: scrollView)
-//        print(shouldCollapseHeader(for: scrollView))
         if isScrollingUp && shouldCollapseHeader(for: scrollView) {
             newHeight = max(self.minHeaderHeight, currentHeight - abs(scrollDiff))
             isUp = true
-        } else if isScrollingDown && (shouldExpandImmediatelly || (!shouldExpandImmediatelly && scrollView.contentOffset.y < 0)) {
+        } else if isScrollingDown && (shouldExpandImmediatelly || (!shouldExpandImmediatelly && scrollView.contentOffset.y <= 0)) {
             newHeight = min(self.maxHeaderHeight, currentHeight + abs(scrollDiff))
         }
         
