@@ -9,28 +9,12 @@ import Foundation
 import AVFoundation
 import UIKit
 
+/** How to use:
+ viewDidLoad: Create `CodeScannerView` with [unowned self] callback, add as subview
+ viewDidLayoutSubviews: Update `scannerView.scanRect` if needed
+ viewWillAppear: Run `scannerView.startReading`
+**/
 public class CodeScannerView: UIView {
-    private var captureSession: AVCaptureSession?
-    private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
-    private var scanCompleteBlock: ((_ message: String, _ error: String?)->())?
-    
-    let q = DispatchQueue(label: "CodeScannerViewQueue")
-    
-    private lazy var captureMetadataOutput: AVCaptureMetadataOutput = {
-        let captureMetadataOutput = AVCaptureMetadataOutput()
-        captureMetadataOutput.setMetadataObjectsDelegate(captureMetadataOutputObjectsDelegate, queue: q)
-        return captureMetadataOutput
-    }()
-    
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
-        didSet {
-            oldValue?.removeFromSuperlayer()
-            guard let videoPreviewLayer = self.videoPreviewLayer else { return }
-            videoPreviewLayer.frame = self.layer.bounds
-            self.layer.addSublayer(videoPreviewLayer)
-        }
-    }
-    
     /// Code type to scan
     public var codeTypes: [AVMetadataObject.ObjectType] = [.qr] {
         didSet {
@@ -51,6 +35,24 @@ public class CodeScannerView: UIView {
     public private(set) var isScanning = false
     public private(set) var isFreezing = false
     
+    private var captureSession: AVCaptureSession?
+    private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
+    private var scanCompleteBlock: ((_ message: String?, _ error: String?)->())?
+    private let q = DispatchQueue(label: "CodeScannerViewQueue")
+    private lazy var captureMetadataOutput: AVCaptureMetadataOutput = {
+        let captureMetadataOutput = AVCaptureMetadataOutput()
+        captureMetadataOutput.setMetadataObjectsDelegate(captureMetadataOutputObjectsDelegate, queue: q)
+        return captureMetadataOutput
+    }()
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
+        didSet {
+            oldValue?.removeFromSuperlayer()
+            guard let videoPreviewLayer = self.videoPreviewLayer else { return }
+            videoPreviewLayer.frame = self.layer.bounds
+            self.layer.addSublayer(videoPreviewLayer)
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -66,7 +68,7 @@ public class CodeScannerView: UIView {
     }
     
     //Use view's AVCaptureMetadataOutputObjectsDelegate with completion closure
-    public init(frame: CGRect = UIScreen.main.bounds, scanCompletion: @escaping (_ message: String, _ error: String?)->() ) {
+    public init(frame: CGRect = UIScreen.main.bounds, scanCompletion: @escaping (_ message: String?, _ error: String?)->() ) {
         super.init(frame: frame)
         self.captureMetadataOutputObjectsDelegate = self
         self.scanCompleteBlock = scanCompletion
@@ -92,9 +94,10 @@ public class CodeScannerView: UIView {
         super.removeFromSuperview()
     }
     
-    public func startReading() throws {
+    public func startReading(completion: ((_ error: Error?)->())?) {
         if isFreezing && !isScanning {
             resumeReading()
+            completion?(nil)
         }
         
         self.captureSession = AVCaptureSession()
@@ -103,16 +106,24 @@ public class CodeScannerView: UIView {
         }
         
         q.async {
-            let captureDevice = AVCaptureDevice.default(for: .video)!
-            let input = try! AVCaptureDeviceInput(device: captureDevice)
-            captureSession.addInput(input)
-            let previewLayer = self.setupPreviewLayer(session: captureSession)
-            self.setupMetadataOutput()
-            captureSession.startRunning()
-            
-            DispatchQueue.main.async {
-                self.videoPreviewLayer = previewLayer
-                self.isScanning = true
+            do {
+                captureSession.beginConfiguration()
+                let captureDevice = AVCaptureDevice.default(for: .video)!
+                let input = try AVCaptureDeviceInput(device: captureDevice)
+                captureSession.addInput(input)
+                let previewLayer = self.setupPreviewLayer(session: captureSession)
+                self.setupMetadataOutput()
+                captureSession.commitConfiguration()
+                captureSession.startRunning()
+                
+                DispatchQueue.main.async {
+                    self.videoPreviewLayer = previewLayer
+                    self.isScanning = true
+                    completion?(nil)
+                }
+            } catch {
+                captureSession.commitConfiguration()
+                completion?(error)
             }
         }
     }
@@ -182,24 +193,27 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
 
         guard isScanning else { return }
         
-        guard metadataObjects.count > 0 else {
+        var code: String?
+        var error: String?
+        
+        defer {
             DispatchQueue.main.async {
-                self.scanCompleteBlock?("", "Invalid Code")
+                self.scanCompleteBlock?(code, error)
             }
+        }
+        
+        guard metadataObjects.count > 0 else {
+            error = "Invalid Code"
             return
         }
         
         guard let obj = metadataObjects.first else {
-            DispatchQueue.main.async {
-                self.scanCompleteBlock?("", "Invalid Code")
-            }
+            error = "Invalid Code"
             return
         }
         
         guard codeTypes.contains(obj.type) else {
-            DispatchQueue.main.async {
-                self.scanCompleteBlock?("", "Wrong code type or invalid code")
-            }
+            error = "Wrong code type or invalid code"
             return
         }
         
@@ -211,16 +225,14 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
         
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         
-        DispatchQueue.main.async {
-            if let readableObj = obj as? AVMetadataMachineReadableCodeObject {
-                guard let str = readableObj.stringValue else {
-                    self.scanCompleteBlock?("", "Invalid Code")
-                    return
-                }
-                self.scanCompleteBlock?(str, nil)
-            } else {
-                self.scanCompleteBlock?("", "Wrong code type or invalid code")
+        if let readableObj = obj as? AVMetadataMachineReadableCodeObject {
+            guard let str = readableObj.stringValue else {
+                error = "Invalid Code"
+                return
             }
+            code = str
+        } else {
+            error = "Wrong code type or invalid code"
         }
     }
 }
