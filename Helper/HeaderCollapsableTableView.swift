@@ -15,56 +15,75 @@ public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelega
     var previousScrollOffset: CGFloat { get set }
     var maxHeaderHeight: CGFloat { get }
     var minHeaderHeight: CGFloat { get }
-    /// Should be something like `tableView.contentSize.height - tableView.frame.size.height > 0`
-    var shouldCollapseHeader: Bool { get }
     
     /// Conform this function to update header view
     ///
     /// - Parameters:
-    ///   - newHeight: Will be minHeaderHeight <= newHeight <= maxHeaderHeight
+    ///   - newHeight: Will be (minHeaderHeight <= newHeight <= maxHeaderHeight)
     ///   - percentage: percentage of the min and max height, useful for alpha animation
     ///   - isUp: indicator that the view is going up or not, isUp == smaller newHeight
     ///   - animated: indicator that the update should be wrapped inside animate block
     func updateHeaderView(newHeight: CGFloat, percentage: CGFloat, isUp: Bool, animated: Bool)
     
-    /// Main handler for updating header height, call from similar UIScrollViewDelegate
+    /// Tell the function to collapse header on scrolling up or not.
+    ///
+    /// Default `(scrollView.contentSize.height > scrollView.frame.height) || (currentHeight < maxHeaderHeight && currentHeight > minHeaderHeight)`. Can be override.
+    ///
+    /// - Parameter scrollView: scrollView
+    /// - Returns: shouldCollapseHeader
+    func shouldCollapseHeader(for scrollView: UIScrollView) -> Bool
+    
+    /// `false` will make header expand only when contentOffset.y <= 0. Default `true`. Can be override.
+    func shouldExpandHeaderImmediatelyOnScrollDown(for scrollView: UIScrollView) -> Bool
+    
+    /// Main handler for updating header height, call from similar UIScrollViewDelegate, shouldn't override
     ///
     /// - Parameter scrollView: scrollView
     func collapsableScrollViewDidScroll(_ scrollView: UIScrollView)
     
-    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate
+    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate, shouldn't override
     ///
     /// - Parameter scrollView: scrollView
     func collapsableScrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     
-    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate
+    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate, shouldn't override
     ///
     /// - Parameter scrollView: scrollView
     func collapsableScrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
 extension HeaderCollapsableTableView {
+    public func shouldCollapseHeader(for scrollView: UIScrollView) -> Bool {
+        let canScroll = scrollView.contentSize.height > scrollView.frame.height
+        let inMiddleOfAnimation = currentHeight < maxHeaderHeight && currentHeight > minHeaderHeight
+        return canScroll || inMiddleOfAnimation
+    }
+    
+    public func shouldExpandHeaderImmediatelyOnScrollDown(for scrollView: UIScrollView) -> Bool {
+        return true
+    }
+    
     func getCurrentPercentage(_ newHeight: CGFloat) -> CGFloat {
         return (newHeight-minHeaderHeight)/(maxHeaderHeight-minHeaderHeight)
     }
     
     public func collapsableScrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard shouldCollapseHeader else { return }
-
         let scrollDiff = scrollView.contentOffset.y - self.previousScrollOffset
         let absoluteTop: CGFloat = 0;
         let absoluteBottom: CGFloat = max(scrollView.contentSize.height - scrollView.frame.size.height, 0);
-        let isScrollingDown = scrollDiff > 0 && scrollView.contentOffset.y > absoluteTop
-        let isScrollingUp = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
+        let isScrollingUp = scrollDiff > 0 && scrollView.contentOffset.y > absoluteTop
+        let isScrollingDown = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
 
         currentHeight = currentHeight > maxHeaderHeight ? maxHeaderHeight : currentHeight < minHeaderHeight ? minHeaderHeight : currentHeight
         var newHeight = currentHeight
         var isUp: Bool = false
-        if isScrollingDown {
+        let shouldExpandImmediatelly = self.shouldExpandHeaderImmediatelyOnScrollDown(for: scrollView)
+//        print(shouldCollapseHeader(for: scrollView))
+        if isScrollingUp && shouldCollapseHeader(for: scrollView) {
             newHeight = max(self.minHeaderHeight, currentHeight - abs(scrollDiff))
-        } else if isScrollingUp {
-            newHeight = min(self.maxHeaderHeight, currentHeight + abs(scrollDiff))
             isUp = true
+        } else if isScrollingDown && (shouldExpandImmediatelly || (!shouldExpandImmediatelly && scrollView.contentOffset.y < 0)) {
+            newHeight = min(self.maxHeaderHeight, currentHeight + abs(scrollDiff))
         }
         
         if newHeight != currentHeight {

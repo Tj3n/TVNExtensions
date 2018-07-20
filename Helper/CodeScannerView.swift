@@ -25,9 +25,9 @@ public class CodeScannerView: UIView {
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
         didSet {
             oldValue?.removeFromSuperlayer()
-            guard let videoPreviewLayer = videoPreviewLayer else { return }
+            guard let videoPreviewLayer = self.videoPreviewLayer else { return }
+            videoPreviewLayer.frame = self.layer.bounds
             self.layer.addSublayer(videoPreviewLayer)
-            updatePreviewLayerOrientation(videoPreviewLayer)
         }
     }
     
@@ -76,8 +76,10 @@ public class CodeScannerView: UIView {
         super.layoutSubviews()
         videoPreviewLayer?.frame = self.bounds
         if isScanning || isFreezing, let videoPreviewLayer = videoPreviewLayer {
-            updatePreviewLayerOrientation(videoPreviewLayer)
-            setupMetadataOutput()
+            q.async {
+                self.updatePreviewLayerOrientation(videoPreviewLayer)
+                self.setupMetadataOutput()
+            }
         }
     }
     
@@ -96,21 +98,23 @@ public class CodeScannerView: UIView {
         }
         
         self.captureSession = AVCaptureSession()
-        
         guard let captureSession = self.captureSession else {
             return
         }
         
-        let captureDevice = AVCaptureDevice.default(for: .video)!
-        let input = try AVCaptureDeviceInput(device: captureDevice)
-        captureSession.addInput(input)
-        
-        self.videoPreviewLayer = setupPreviewLayer(session: captureSession)
-        setupMetadataOutput()
-        
-        self.isScanning = true
-        
-        captureSession.startRunning()
+        q.async {
+            let captureDevice = AVCaptureDevice.default(for: .video)!
+            let input = try! AVCaptureDeviceInput(device: captureDevice)
+            captureSession.addInput(input)
+            let previewLayer = self.setupPreviewLayer(session: captureSession)
+            self.setupMetadataOutput()
+            captureSession.startRunning()
+            
+            DispatchQueue.main.async {
+                self.videoPreviewLayer = previewLayer
+                self.isScanning = true
+            }
+        }
     }
     
     func updatePreviewLayerOrientation(_ previewLayer: AVCaptureVideoPreviewLayer) {
@@ -132,7 +136,7 @@ public class CodeScannerView: UIView {
     func setupPreviewLayer(session: AVCaptureSession) -> AVCaptureVideoPreviewLayer {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = .resizeAspectFill
-        previewLayer.frame = self.layer.bounds
+        self.updatePreviewLayerOrientation(previewLayer)
         return previewLayer
     }
     
@@ -179,17 +183,23 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
         guard isScanning else { return }
         
         guard metadataObjects.count > 0 else {
-            self.scanCompleteBlock?("", "Invalid Code")
+            DispatchQueue.main.async {
+                self.scanCompleteBlock?("", "Invalid Code")
+            }
             return
         }
         
         guard let obj = metadataObjects.first else {
-            self.scanCompleteBlock?("", "Invalid Code")
+            DispatchQueue.main.async {
+                self.scanCompleteBlock?("", "Invalid Code")
+            }
             return
         }
         
         guard codeTypes.contains(obj.type) else {
-            self.scanCompleteBlock?("", "Wrong code type or invalid code")
+            DispatchQueue.main.async {
+                self.scanCompleteBlock?("", "Wrong code type or invalid code")
+            }
             return
         }
         
