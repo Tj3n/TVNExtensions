@@ -13,7 +13,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     @IBInspectable public var excludeOriginConstant: Bool = false
     ///Set to true to flip the added height
     @IBInspectable public var isTopConstraint: Bool = false
-    ///Origin amount to add to if `excludeOriginConstant` = true
+    ///Constraint constant to use if `excludeOriginConstant` = true
     @IBInspectable public var originAmount: CGFloat = 0
     
     private var originConstant: CGFloat = 0.0
@@ -24,12 +24,15 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     /// Create constraint with automatically keyboard handling
     ///
     /// - Parameters:
-    ///   - view: First item, usually the current view
+    ///   - view: First item, usually the sub view
     ///   - secondView: Second item, usually the super view
-    ///   - isToTop: Is contrained to top or bottom
     ///   - constant: Default constant
+    ///   - relatedBy: Default = .equal
+    ///   - isToTop: Is contrained to top or bottom. Default = false
+    ///   - excludeOriginConstant: Set to true to handle constraint's constant by `originAmount`. Default = false
+    ///   - originAmount: Constraint constant to use if `excludeOriginConstant` = true. Default = 0
     /// - Returns: KeyboardLayoutConstraint
-    public class func create(with view: UIView, to secondView: UIView, isToTop: Bool = false, constant: CGFloat) -> KeyboardLayoutConstraint {
+    public class func constraint(from view: UIView, to secondView: UIView, constant: CGFloat, relatedBy: NSLayoutRelation = .equal, isToTop: Bool = false, excludeOriginConstant: Bool = false, originAmount: CGFloat = 0) -> KeyboardLayoutConstraint {
         var constraint: KeyboardLayoutConstraint
         if isToTop {
             constraint = KeyboardLayoutConstraint(item: view, attribute: .topMargin, relatedBy: .equal, toItem: secondView, attribute: .topMargin, multiplier: 1, constant: constant)
@@ -37,6 +40,8 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
             constraint = KeyboardLayoutConstraint(item: secondView, attribute: .bottomMargin, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1, constant: constant)
         }
         constraint.isTopConstraint = isToTop
+        constraint.excludeOriginConstant = excludeOriginConstant
+        constraint.originAmount = originAmount
         constraint.startHandling()
         return constraint
     }
