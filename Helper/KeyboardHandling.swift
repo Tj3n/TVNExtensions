@@ -10,6 +10,7 @@ import UIKit
 
 public typealias HandlingClosure = (_ up: Bool, _ height: CGFloat, _ duration: Double)->()
 
+@available(iOS, deprecated: 9.0, message: "From iOS 9, use `self.observeKeyboardEvent(handler:)` instead")
 public class KeyboardHandling {
     public static let shared: KeyboardHandling = {
         let controller = KeyboardHandling()
