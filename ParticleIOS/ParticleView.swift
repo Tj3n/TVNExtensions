@@ -157,18 +157,25 @@ public class ParticleScene: SKScene {
     }
     
     func setupNodes() {
-        (0...maxPoints).forEach({ _ in
-            let node = getRoundNode(size: CGFloat.random(in: nodeSizeRange),
-                                    color: nodeColor)
-            node.position = CGPoint(x: CGFloat.random(in: 0...size.width),
-                                    y: CGFloat.random(in: 0...size.height))
-            nodes.append(node)
-            self.addChild(node)
+        let generationQ = DispatchQueue(label: "ParticleSceneGenerationQueue", qos: .userInitiated, attributes: .concurrent)
+        
+        (0...self.maxPoints).forEach({ _ in
+            generationQ.async {
+                let node = self.getRoundNode(size: CGFloat.random(in: self.nodeSizeRange),
+                                             color: self.nodeColor)
+                node.position = CGPoint(x: CGFloat.random(in: 0...self.size.width),
+                                        y: CGFloat.random(in: 0...self.size.height))
             
-            let action = generateNodeAction(direction: CGFloat.random(in: 0...(2 * .pi)),
-                                            speed: CGFloat.random(in: speedRange),
-                                            midPoint: node.position)
-            node.run(action)
+                let action = self.generateNodeAction(direction: CGFloat.random(in: 0...(2 * .pi)),
+                                                     speed: CGFloat.random(in: self.speedRange),
+                                                     midPoint: node.position)
+                
+                DispatchQueue.main.async {
+                    self.nodes.append(node)
+                    self.addChild(node)
+                    node.run(action)
+                }
+            }
         })
     }
     
