@@ -160,7 +160,9 @@ extension UILabel {
             }
             
             let fontNameToTest = self.font.description.lowercased()+self.font.fontName.lowercased()
-            guard fontNameToTest.contains(UILabel.tvnSystemFontTextName) || fontNameToTest.contains(UILabel.tvnSystemFontDisplayName) else { return }
+            guard fontNameToTest.contains(UILabel.tvnSystemFontTextName) || fontNameToTest.contains(UILabel.tvnSystemFontDisplayName) else {
+                return
+            }
             var subFontName = newValue
             
             if fontNameToTest.contains("italic") {

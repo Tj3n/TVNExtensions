@@ -9,12 +9,12 @@ import UIKit
 
 public class KeyboardLayoutConstraint: NSLayoutConstraint {
     
-    ///Set to true to handle constraint's constant by `originAmount`
+    ///Set to true to handle constraint's constant by `keyboardActiveAmount`
     @IBInspectable public var excludeOriginConstant: Bool = false
     ///Set to true to flip the added height
     @IBInspectable public var isTopConstraint: Bool = false
     ///Constraint constant to use if `excludeOriginConstant` = true
-    @IBInspectable public var originAmount: CGFloat = 0
+    @IBInspectable public var keyboardActiveAmount: CGFloat = 0
     
     private var originConstant: CGFloat = 0.0
     private var defaultKeyboardActiveHeight: CGFloat = 0.0
@@ -29,10 +29,10 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     ///   - constant: Default constant
     ///   - relatedBy: Default = .equal
     ///   - isToTop: Is contrained to top or bottom. Default = false
-    ///   - excludeOriginConstant: Set to true to handle constraint's constant by `originAmount`. Default = false
-    ///   - originAmount: Constraint constant to use if `excludeOriginConstant` = true. Default = 0
+    ///   - excludeOriginConstant: Set to true to handle constraint's constant by `keyboardActiveAmount`. Default = false
+    ///   - keyboardActiveAmount: Constraint constant to use if `excludeOriginConstant` = true. Default = 0
     /// - Returns: KeyboardLayoutConstraint
-    public class func constraint(from view: UIView, to secondView: UIView, constant: CGFloat, relatedBy: NSLayoutRelation = .equal, isToTop: Bool = false, excludeOriginConstant: Bool = false, originAmount: CGFloat = 0) -> KeyboardLayoutConstraint {
+    public class func constraint(from view: UIView, to secondView: UIView, constant: CGFloat, relatedBy: NSLayoutRelation = .equal, isToTop: Bool = false, excludeOriginConstant: Bool = false, keyboardActiveAmount: CGFloat = 0) -> KeyboardLayoutConstraint {
         var constraint: KeyboardLayoutConstraint
         if isToTop {
             constraint = KeyboardLayoutConstraint(item: view, attribute: .topMargin, relatedBy: .equal, toItem: secondView, attribute: .topMargin, multiplier: 1, constant: constant)
@@ -41,7 +41,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         }
         constraint.isTopConstraint = isToTop
         constraint.excludeOriginConstant = excludeOriginConstant
-        constraint.originAmount = originAmount
+        constraint.keyboardActiveAmount = keyboardActiveAmount
         constraint.startHandling()
         return constraint
     }
@@ -54,7 +54,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     
     private func startHandling() {
         observeKeyboardHandling()
-        defaultKeyboardActiveHeight = originAmount
+        defaultKeyboardActiveHeight = keyboardActiveAmount
         originConstant = constant
     }
     
@@ -110,7 +110,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         } else {
             if excludeOriginConstant {
                 constant = originConstant
-                defaultKeyboardActiveHeight = originAmount
+                defaultKeyboardActiveHeight = keyboardActiveAmount
             } else {
                 constant -= keyboardHeight
             }

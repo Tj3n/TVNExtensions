@@ -20,9 +20,14 @@ public class KeyboardHandling {
     
     /// Set this to work in different window level
     public var windows: [UIWindow?] = [UIApplication.shared.keyWindow]
+    
+    /// Full size of keyboard height
     public private(set) var keyboardHeight: CGFloat = 0
+    
+    /// Check if keyboard is showing
     public private(set) var isKeyboardShow: Bool = false
-    public private(set) var duration: Double = 0.3
+    
+    /// Changed keyboard height from the last handler call
     public private(set) var keyboardAddedHeight: CGFloat = 0
     
     private var handlingClosureDict = [String: HandlingClosure]()
@@ -57,7 +62,7 @@ public class KeyboardHandling {
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
         keyboardHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
-        duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
         
         if keyboardHeight == keyboardAddedHeight || keyboardHeight <= 0 {
             return
@@ -76,7 +81,7 @@ public class KeyboardHandling {
     }
     
     @objc private func keyboardOffScreen(_ notification: Notification) {
-        duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
         
         guard isKeyboardShow else {
             return

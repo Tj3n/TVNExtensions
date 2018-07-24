@@ -35,7 +35,7 @@ public extension UIViewController {
     /// Get top view controller from window
     ///
     /// - Parameter window: default UIApplication.shared.keyWindow
-    /// - Returns: top view controller
+    /// - Returns: top view controller, does not detect childViewController
     public class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
         return getTopViewController(from: window?.rootViewController)
     }
@@ -95,7 +95,6 @@ public extension UIViewController {
     ///   - containerView: containerView to switch
     ///   - completion: completion handler
     func switchChildViewController(_ oldViewController: UIViewController, to newViewController: UIViewController, in containerView: UIView, completion: (()->())?) {
-        oldViewController.willMove(toParentViewController: nil)
         self.addChildViewController(newViewController)
         
         newViewController.view.addTo(containerView)
@@ -111,8 +110,10 @@ public extension UIViewController {
             oldViewController.view.alpha = 0
             oldViewController.view.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1.0)
         }) { (_) in
+            oldViewController.willMove(toParentViewController: nil)
             oldViewController.view.removeFromSuperview()
             oldViewController.removeFromParentViewController()
+            
             newViewController.didMove(toParentViewController: self)
             completion?()
         }
