@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Should be removed on Swift 4.2 and use CaseIterate
+@available(swift, deprecated: 4.2, message: "Please use CaseIterable instead")
 public protocol EnumCollection: Hashable {
     static func cases() -> AnySequence<Self>
     static var allValues: [Self] { get }

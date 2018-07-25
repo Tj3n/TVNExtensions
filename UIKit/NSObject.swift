@@ -18,7 +18,7 @@ extension NSObject {
         return value
     }
     
-    /// Allow stored object in extension, set
+    /// Allow stored object in extension, set, Swift types (closure, struct, tuples,..) have to be wrapped inside a NSObject class
     ///
     /// - Parameters:
     ///   - key: key

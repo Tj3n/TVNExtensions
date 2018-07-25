@@ -14,7 +14,7 @@ extension JSONDecoder {
     /// - Parameters:
     ///   - type: The type of the value to decode.
     ///   - data: The data to decode from.
-    ///   - key: The key to decode from, nested separated by ".", if empty, dirrectly decode T.Type
+    ///   - key: The key to decode from, nested separated by ".", if empty, directly decode T.Type
     /// - Returns: A value of the requested type.
     /// - throws: `DecodingError.dataCorrupted` if values requested from the payload are corrupted, or if the given data is not valid JSON.
     /// - throws: An error if any value throws an error during decoding.

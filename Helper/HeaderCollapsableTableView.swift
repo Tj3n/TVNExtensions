@@ -36,17 +36,17 @@ public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelega
     /// `false` will make header expand only when contentOffset.y <= 0. Default `true`. Can be override.
     func shouldExpandHeaderImmediatelyOnScrollDown(for scrollView: UIScrollView) -> Bool
     
-    /// Main handler for updating header height, call from similar UIScrollViewDelegate, shouldn't override
+    /// Main handler for updating header height, call from similar UIScrollViewDelegate, shouldn't be override
     ///
     /// - Parameter scrollView: scrollView
     func collapsableScrollViewDidScroll(_ scrollView: UIScrollView)
     
-    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate, shouldn't override
+    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate, shouldn't be override
     ///
     /// - Parameter scrollView: scrollView
     func collapsableScrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     
-    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate, shouldn't override
+    /// Handler for stop scrolling mid-way, call from similar UIScrollViewDelegate, shouldn't be override
     ///
     /// - Parameter scrollView: scrollView
     func collapsableScrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool)

@@ -7,6 +7,7 @@
 
 import UIKit
 
+@IBDesignable
 public class LineView: UIView {
 
     @IBInspectable public var lineColor: UIColor = .black {

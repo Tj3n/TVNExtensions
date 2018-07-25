@@ -20,6 +20,7 @@ extension UIWindow {
     public func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
         guard let oldVC = rootViewController else {
             self.rootViewController = viewController
+            completion?()
             return
         }
         

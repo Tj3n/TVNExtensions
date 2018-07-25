@@ -15,43 +15,23 @@ import UIKit
 // MARK: Some frame value and class func
 extension UIView {
     public var width: CGFloat {
-        set {
-            var frame = self.frame
-            frame.size.width = newValue
-            self.frame = frame
-        }
-        get {
-            return self.frame.size.width
-        }
+        set { self.frame = CGRect(origin: frame.origin, size: CGSize(width: newValue, height: height)) }
+        get { return self.frame.size.width }
     }
     
     public var height: CGFloat {
-        set {
-            var frame = self.frame
-            frame.size.height = newValue
-            self.frame = frame
-        }
-        get {
-            return self.frame.size.height
-        }
+        set { self.frame = CGRect(origin: frame.origin, size: CGSize(width: width, height: newValue)) }
+        get { return self.frame.size.height }
     }
     
     public var originX: CGFloat {
-        set {
-            self.frame.origin.x = newValue
-        }
-        get {
-            return self.frame.origin.x
-        }
+        set { self.frame.origin.x = newValue }
+        get { return self.frame.origin.x }
     }
     
     public var originY: CGFloat {
-        set {
-            self.frame.origin.y = newValue
-        }
-        get {
-            return self.frame.origin.y
-        }
+        set { self.frame.origin.y = newValue }
+        get { return self.frame.origin.y }
     }
     
     /// Create view from same name's nib
@@ -223,7 +203,8 @@ extension UIView {
     
     @IBInspectable var borderColor: UIColor? {
         get {
-            return UIColor(cgColor: layer.borderColor!)
+            guard let borderColor = layer.borderColor else { return nil }
+            return UIColor(cgColor: borderColor)
         }
         set {
             layer.borderColor = newValue?.cgColor
