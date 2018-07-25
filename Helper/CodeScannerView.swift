@@ -64,13 +64,21 @@ public class CodeScannerView: UIView {
         super.init(coder: aDecoder)
     }
     
-    //Use own AVCaptureMetadataOutputObjectsDelegate delegate
+    /// Init with custom AVCaptureMetadataOutputObjectsDelegate
+    ///
+    /// - Parameters:
+    ///   - frame: frame
+    ///   - captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate
     public init(frame: CGRect = UIScreen.main.bounds, captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate) {
         super.init(frame: frame)
         self.captureMetadataOutputObjectsDelegate = captureMetadataOutputObjectsDelegate
     }
     
-    //Use view's AVCaptureMetadataOutputObjectsDelegate with completion closure
+    /// Init with callback closure
+    ///
+    /// - Parameters:
+    ///   - frame: frame
+    ///   - scanCompletion: callback closure, must use [unowned self]
     public init(frame: CGRect = UIScreen.main.bounds, scanCompletion: @escaping (_ message: String?, _ error: String?)->() ) {
         super.init(frame: frame)
         self.captureMetadataOutputObjectsDelegate = self
@@ -97,6 +105,9 @@ public class CodeScannerView: UIView {
         super.removeFromSuperview()
     }
     
+    /// Start reading with camera
+    ///
+    /// - Parameter completion: completion handler
     public func startReading(completion: ((_ error: Error?)->())?) {
         if isFreezing && !isScanning {
             resumeReading()

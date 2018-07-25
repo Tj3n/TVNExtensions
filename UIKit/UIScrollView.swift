@@ -55,21 +55,16 @@ extension UIScrollView {
         // called ScrollDirectionCrazy
         if startOffset.x != endOffset.x && startOffset.y != endOffset.y {
             scrollDirection = .crazy
-        }
-        else {
+        } else {
             if startOffset.x > endOffset.x {
                 scrollDirection = .left
-            }
-            else if startOffset.x < endOffset.x {
+            } else if startOffset.x < endOffset.x {
                 scrollDirection = .right
-            }
-            else if startOffset.y > endOffset.y {
+            } else if startOffset.y > endOffset.y {
                 scrollDirection = .up
-            }
-            else if startOffset.y < endOffset.y {
+            } else if startOffset.y < endOffset.y {
                 scrollDirection = .down
-            }
-            else {
+            } else {
                 scrollDirection = .none
             }
         }

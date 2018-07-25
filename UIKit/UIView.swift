@@ -9,9 +9,6 @@
 import Foundation
 import UIKit
 
-//private var startGradientColorKey: UInt8 = 0 // We still need this boilerplate
-//private var endGradientColorKey: UInt8 = 1 // We still need this boilerplate
-
 // MARK: Some frame value and class func
 extension UIView {
     public var width: CGFloat {
@@ -225,6 +222,8 @@ extension UIView {
         }
     }
     
+    //private var startGradientColorKey: UInt8 = 0 // We still need this boilerplate
+    //private var endGradientColorKey: UInt8 = 1 // We still need this boilerplate
     //    @IBInspectable var bgStartColor: UIColor? {
     //        get {
     //            return objc_getAssociatedObject(self, &startGradientColorKey) as? UIColor

@@ -56,8 +56,11 @@ extension UILabel {
             var width = size.width+25
             var height = size.height+15
             
-            if width > UIScreen.main.bounds.width {
-                width = UIScreen.main.bounds.width - 25
+            let screenW = UIScreen.main.bounds.width
+            let screenH = UIScreen.main.bounds.height
+            
+            if width > screenW {
+                width = screenW - 25
                 let sizeOfText = (message as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: fontAttributes, context: nil)
                 height = sizeOfText.height + 25
             }
@@ -75,7 +78,7 @@ extension UILabel {
                 let shadowView = tooltipShadowView
                 
                 label.frame = CGRect(x: 0,y: 0, width: width, height: height)
-                label.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height-UIScreen.main.bounds.height/5)
+                label.center = CGPoint(x: screenW/2, y: screenH-screenH/5)
                 label.attributedText = attributedMessage
                 
                 shadowView.frame = label.frame
