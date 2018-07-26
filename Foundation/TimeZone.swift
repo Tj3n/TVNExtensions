@@ -9,9 +9,11 @@
 import Foundation
 
 extension TimeZone {
+    public static let gmt: TimeZone = {
+        return TimeZone(abbreviation: "GMT")!
+    }()
     
     public static func currentTimeZone() -> Double {
         return Double(NSTimeZone.system.secondsFromGMT()) / 3600.0
-        
     }
 }

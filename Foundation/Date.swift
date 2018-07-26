@@ -9,14 +9,20 @@
 import Foundation
 
 extension DateFormatter {
-    static public let shared = DateFormatter()
+    
+    /// Careful with date format change, should only be used to work with loop or collectionView,... to prevent recreated of DateFormatter
+    static public let shared: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeZone = .gmt
+        return formatter
+    }()
 }
 
 extension Calendar {
     static public var currentGMT: Calendar {
         get {
             var cal = Calendar.current
-            cal.timeZone = TimeZone(abbreviation: "GMT")!
+            cal.timeZone = .gmt
             return cal
         }
     }
@@ -39,7 +45,7 @@ extension Date {
     public init?(from string: String, format: String) {
         let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        dateFormatter.timeZone = .gmt
         if let date = dateFormatter.date(from: string) {
             self.init(timeInterval: 0, since: date)
         } else {
@@ -91,14 +97,7 @@ extension Date {
     //Convert Date to String
     public func toString(_ format: String) -> String {
         let dateFormatter = DateFormatter.shared
-        //        dateFormatter.locale = NSLocale.systemLocale()
-        
-        if !format.isEmpty {
-            dateFormatter.dateFormat = format
-        } else {
-            dateFormatter.dateFormat = "yyyy MM dd"
-        }
-        
+        dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }
     
