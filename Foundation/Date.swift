@@ -13,7 +13,6 @@ extension DateFormatter {
     /// Careful with date format change, should only be used to work with loop or collectionView,... to prevent recreated of DateFormatter
     static public let shared: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.timeZone = .gmt
         return formatter
     }()
 }
@@ -26,6 +25,10 @@ extension Calendar {
             return cal
         }
     }
+    
+    static public let gregorian: Calendar = {
+       return Calendar(identifier: .gregorian)
+    }()
 }
 
 //MARK: Initialize
@@ -34,18 +37,19 @@ extension Date {
         self.init(timeIntervalSince1970: Double(timeStamp))
     }
     
-    public init(day: Int = Calendar.current.component(.day, from: Date()) , month: Int = Calendar.current.component(.month, from: Date()), year: Int = Calendar.current.component(.year, from: Date())) {
+    public init(day: Int = Calendar.gregorian.component(.day, from: Date()),
+                month: Int = Calendar.gregorian.component(.month, from: Date()),
+                year: Int = Calendar.gregorian.component(.year, from: Date())) {
         var comps = DateComponents()
         comps.day = day
         comps.month = month
         comps.year = year
-        self.init(timeInterval: 0, since: Calendar.currentGMT.date(from: comps)!)
+        self.init(timeInterval: 0, since: Calendar.gregorian.date(from: comps)!)
     }
     
     public init?(from string: String, format: String) {
         let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = .gmt
         if let date = dateFormatter.date(from: string) {
             self.init(timeInterval: 0, since: date)
         } else {
@@ -58,19 +62,19 @@ extension Date {
 extension Date {
     public var year: Int {
         get {
-            return Calendar.currentGMT.component(.year, from: self)
+            return Calendar.gregorian.component(.year, from: self)
         }
     }
     
     public var month: Int {
         get {
-            return Calendar.currentGMT.component(.month, from: self)
+            return Calendar.gregorian.component(.month, from: self)
         }
     }
     
     public var day: Int {
         get {
-            return Calendar.currentGMT.component(.day, from: self)
+            return Calendar.gregorian.component(.day, from: self)
         }
     }
     
@@ -80,11 +84,11 @@ extension Date {
     }
     
     public func startOfMonth() -> Date {
-        return Calendar.currentGMT.date(from: Calendar.currentGMT.dateComponents([.year, .month], from: Calendar.currentGMT.startOfDay(for: self)))!
+        return Calendar.gregorian.date(from: Calendar.gregorian.dateComponents([.year, .month], from: Calendar.gregorian.startOfDay(for: self)))!
     }
     
     public func endOfMonth() -> Date {
-        return Calendar.currentGMT.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+        return Calendar.gregorian.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
     }
 }
 
@@ -107,7 +111,7 @@ extension Date {
     }
     
     static public func numberOfDayInPeriod(fromDate date: Date, toDate: Date) -> Int {
-        let numberOfDays = Calendar.currentGMT.dateComponents([.day], from: date, to: toDate).day!
+        let numberOfDays = Calendar.gregorian.dateComponents([.day], from: date, to: toDate).day!
         return numberOfDays < 0 ? numberOfDays * -1 : numberOfDays
     }
 }
@@ -115,11 +119,11 @@ extension Date {
 //MARK: Calculation
 extension Date {
     public static func +(left: Date, right: (Calendar.Component,Int)) -> Date {
-        let date = Calendar.currentGMT.date(byAdding: right.0, value: right.1, to: left)
+        let date = Calendar.gregorian.date(byAdding: right.0, value: right.1, to: left)
         return date!
     }
     public static func -(left: Date, right: (Calendar.Component,Int)) -> Date {
-        let date = Calendar.currentGMT.date(byAdding: right.0, value: -right.1, to: left)
+        let date = Calendar.gregorian.date(byAdding: right.0, value: -right.1, to: left)
         return date!
     }
 }
