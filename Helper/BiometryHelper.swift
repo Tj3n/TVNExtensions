@@ -81,6 +81,13 @@ public enum BiometryType: String {
     case none = " Biometric"
 }
 
+/**
+ Note:
+ To use in AppDelegate:
+ Create `var applicationWillEnterForeground = false`
+ In `func applicationWillEnterForeground(_ :)` change `applicationWillEnterForeground = true`
+ In `func applicationDidBecomeActive(_ :)` check for biometric if `applicationWillEnterForeground = true` and set it to false
+ **/
 public struct BiometryHelper {
     public static var isBiometryAvailable: Bool {
         get {
