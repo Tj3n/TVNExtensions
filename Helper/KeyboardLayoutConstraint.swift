@@ -74,6 +74,8 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
         let deltaHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
+        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let curve = notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! UInt
         
         if deltaHeight == keyboardHeight || deltaHeight <= 0 {
             return
@@ -92,9 +94,9 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
             }
         }
         
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: UIViewKeyframeAnimationOptions(rawValue: curve), animations: {
             UIApplication.shared.keyWindow?.layoutIfNeeded()
-        })
+        }, completion: nil)
         
         keyboardHeight = deltaHeight
         isKeyboardShow = true
@@ -104,6 +106,9 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         guard isKeyboardShow else {
             return
         }
+        
+        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let curve = notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! UInt
         
         if isTopConstraint {
             constant += keyboardHeight
@@ -116,9 +121,9 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
             }
         }
         
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: UIViewKeyframeAnimationOptions(rawValue: curve), animations: {
             UIApplication.shared.keyWindow?.layoutIfNeeded()
-        })
+        }, completion: nil)
         
         keyboardHeight = 0
         isKeyboardShow = false

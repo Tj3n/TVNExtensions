@@ -14,6 +14,8 @@ extension UIViewController {
         static var _isKeyboardShowKey = "com.tvn.isKeyboardShowKey"
         static var _keyboardAddedHeightKey = "com.tvn.keyboardAddedHeightKey"
         static var _keyboardHandleKey = "com.tvn.keyboardHandleKey"
+        static var _keyboardDurationKey = "com.tvn.keyboardDurationKey"
+        static var _keyboardKeyframeAnimationOptionKey = "com.tvn.keyboardKeyframeAnimationOptionKey"
     }
     
     /// Full size of keyboard height
@@ -32,6 +34,23 @@ extension UIViewController {
     public private(set) var _keyboardAddedHeight: CGFloat {
         get { return getAssociatedObject(key: &AssociatedKeys._keyboardAddedHeightKey, type: CGFloat.self) ?? 0 }
         set(newValue) { setAssociatedObject(key: &AssociatedKeys._keyboardAddedHeightKey, value: newValue) }
+    }
+    
+    /// Duration of the animation
+    public private(set) var _keyboardDuration: Double {
+        get { return getAssociatedObject(key: &AssociatedKeys._keyboardDurationKey, type: Double.self) ?? 0 }
+        set(newValue) { setAssociatedObject(key: &AssociatedKeys._keyboardDurationKey, value: newValue) }
+    }
+    
+    /// Use with `UIView.animateKeyframes` for smoother animation
+    public private(set) var _keyboardKeyframeAnimationOption: UIViewKeyframeAnimationOptions {
+        get {
+            guard let rawValue = getAssociatedObject(key: &AssociatedKeys._keyboardKeyframeAnimationOptionKey, type: UInt.self) else {
+                return UIViewKeyframeAnimationOptions.calculationModeLinear
+            }
+            return UIViewKeyframeAnimationOptions(rawValue: rawValue)
+        }
+        set(newValue) { setAssociatedObject(key: &AssociatedKeys._keyboardKeyframeAnimationOptionKey, value: newValue.rawValue) }
     }
     
     private var _handleAction: HandlingClosure? {
@@ -74,7 +93,9 @@ extension UIViewController {
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
         _keyboardHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
-        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        _keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let curve = notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! UInt
+        _keyboardKeyframeAnimationOption = UIViewKeyframeAnimationOptions(rawValue: curve)
         
         if _keyboardHeight == _keyboardAddedHeight || _keyboardHeight <= 0 {
             return
@@ -82,20 +103,22 @@ extension UIViewController {
         
         _keyboardAddedHeight = _keyboardHeight - _keyboardAddedHeight
         
-        _handleAction?(true, _keyboardAddedHeight, duration)
+        _handleAction?(true, _keyboardAddedHeight, _keyboardDuration)
         
         _keyboardAddedHeight = _keyboardHeight
         _isKeyboardShow = true
     }
     
     @objc private func keyboardOffScreen(_ notification: Notification) {
-        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        _keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let curve = notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! UInt
+        _keyboardKeyframeAnimationOption = UIViewKeyframeAnimationOptions(rawValue: curve)
         
         guard _isKeyboardShow else {
             return
         }
         
-        _handleAction?(false, _keyboardHeight, duration)
+        _handleAction?(false, _keyboardHeight, _keyboardDuration)
         
         _keyboardHeight = 0
         _keyboardAddedHeight = 0

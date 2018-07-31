@@ -37,7 +37,7 @@ extension Date {
         self.init(timeIntervalSince1970: Double(timeStamp))
     }
     
-    public init(day: Int = Calendar.gregorian.component(.day, from: Date()),
+    public init(day: Int,
                 month: Int = Calendar.gregorian.component(.month, from: Date()),
                 year: Int = Calendar.gregorian.component(.year, from: Date())) {
         var comps = DateComponents()
