@@ -97,10 +97,9 @@ extension String {
         return nil
     }
     
-    public func getSize(font: UIFont, width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
+    public func getSize(attribute: [NSAttributedStringKey: Any], width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
         guard self.isNotEmpty else { return .zero }
-        let fontAttributes = [NSAttributedStringKey.font: font]
-        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: fontAttributes, context: nil)
+        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: attribute, context: nil)
         return sizeOfText
     }
 }
