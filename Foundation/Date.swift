@@ -10,7 +10,7 @@ import Foundation
 
 extension DateFormatter {
     
-    /// Careful with date format change, should only be used to work with loop or collectionView,... to prevent recreated of DateFormatter
+    /// Careful with date format change, should only be use to work with loop or collectionView,... to prevent recreated of DateFormatter
     static public let shared: DateFormatter = {
         let formatter = DateFormatter()
         return formatter
@@ -19,11 +19,9 @@ extension DateFormatter {
 
 extension Calendar {
     static public var currentGMT: Calendar {
-        get {
-            var cal = Calendar.current
-            cal.timeZone = .gmt
-            return cal
-        }
+        var cal = Calendar.current
+        cal.timeZone = .gmt
+        return cal
     }
     
     static public let gregorian: Calendar = {
@@ -61,21 +59,23 @@ extension Date {
 //MARK: Extra
 extension Date {
     public var year: Int {
-        get {
-            return Calendar.gregorian.component(.year, from: self)
-        }
+        return self.getComponent(.year)
     }
     
     public var month: Int {
-        get {
-            return Calendar.gregorian.component(.month, from: self)
-        }
+        return self.getComponent(.month)
     }
     
     public var day: Int {
-        get {
-            return Calendar.gregorian.component(.day, from: self)
-        }
+        return self.getComponent(.day)
+    }
+    
+    public var hour: Int {
+        return self.getComponent(.hour)
+    }
+    
+    public func getComponent(_ comp: Calendar.Component) -> Int {
+         return Calendar.gregorian.component(comp, from: self)
     }
     
     static public func dateAtMidnight() -> Date {
@@ -89,6 +89,20 @@ extension Date {
     
     public func endOfMonth() -> Date {
         return Calendar.gregorian.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+    }
+    
+    /// Convert timeIntervalSinceNow to formatted string of date, `formatter` can be something like:
+    /// ```
+    /// let formatter = DateComponentsFormatter()
+    /// formatter.unitsStyle = .abbreviated
+    /// formatter.allowedUnits = [ .day, .hour, .minute, .second]
+    /// ```
+    ///
+    /// - Parameter formatter: DateComponentsFormatter
+    /// - Returns: formatted TimeInterval, like "1d 2h"
+    public func formattedTimeSinceNow(formatter: DateComponentsFormatter) -> String? {
+        let duration = self.timeIntervalSinceNow
+        return formatter.string(from: duration)
     }
 }
 
@@ -131,33 +145,21 @@ extension Date {
 //MARK: Int+Calendar.Component
 public extension Int {
     public var day: (Calendar.Component,Int) {
-        get {
-            return (.day, self)
-        }
+        return (.day, self)
     }
     public var year: (Calendar.Component,Int) {
-        get {
-            return (.year, self)
-        }
+        return (.year, self)
     }
     public var month: (Calendar.Component,Int) {
-        get {
-            return (.month, self)
-        }
+        return (.month, self)
     }
     public var hour: (Calendar.Component,Int) {
-        get {
-            return (.hour, self)
-        }
+        return (.hour, self)
     }
     public var minute: (Calendar.Component,Int) {
-        get {
-            return (.minute, self)
-        }
+        return (.minute, self)
     }
     public var second: (Calendar.Component,Int) {
-        get {
-            return (.second, self)
-        }
+        return (.second, self)
     }
 }

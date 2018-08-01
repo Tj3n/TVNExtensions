@@ -243,7 +243,13 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
             performSelector(onMainThread: #selector(freezeReading), with: nil, waitUntilDone: false)
         }
         
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        if #available(iOS 10.0, *), UIDevice.current.hasHapticFeedback {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            generator.prepare()
+        } else {
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        }
         
         if let readableObj = obj as? AVMetadataMachineReadableCodeObject {
             guard let str = readableObj.stringValue else {

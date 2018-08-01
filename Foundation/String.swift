@@ -57,11 +57,35 @@ extension String {
         }
     }
     
+    /// Remove front and back until reach characters not in set
+    ///
+    /// - Parameter set: CharacterSet
+    /// - Returns: New String
     public func trim(in set: CharacterSet = .whitespacesAndNewlines) -> String {
         return trimmingCharacters(in: set)
     }
     
-    //Convert nsrange to range
+    /// Remove all characters in the characterSet
+    ///
+    /// - Parameter characterSet: CharacterSet
+    /// - Returns: New String
+    public func removeCharacters(from characterSet: CharacterSet) -> String {
+        let passed = self.unicodeScalars.filter { !characterSet.contains($0) }
+        return String(String.UnicodeScalarView(passed))
+    }
+    
+    /// Remove all characters in the characterSet inside the string
+    ///
+    /// - Parameter characterString: string to get characters from
+    /// - Returns: New String
+    public func removeCharacters(from characterString: String) -> String {
+        return removeCharacters(from: CharacterSet(charactersIn: characterString))
+    }
+    
+    /// Convert NSRange to Range
+    ///
+    /// - Parameter nsRange: NSRange
+    /// - Returns: optional Range<String.Index>
     public func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex)
         let to16 = utf16.index(from16!, offsetBy: nsRange.length, limitedBy: utf16.endIndex)
@@ -168,11 +192,6 @@ extension String {
         if let fiteredLocale = locales.index(where: { Locale(identifier: $0).currencyCode == currencyCode }) {
              return Locale(identifier: locales[fiteredLocale])
         }
-        
-//        let fiteredLocale = locales.filter({ Locale(identifier: $0).currencyCode == currencyCode })
-//        if let locale = fiteredLocale.first {
-//            return Locale(identifier: locale)
-//        }
         
         return nil
     }
