@@ -63,9 +63,10 @@ extension UIDevice {
     
     public var isSimulator: Bool {
         #if arch(i386) || arch(x86_64)
-        return true
+            return true
+        #else
+            return false
         #endif
-        return false
     }
     
     public var isIPhone: Bool {
