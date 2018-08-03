@@ -128,5 +128,4 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         keyboardHeight = 0
         isKeyboardShow = false
     }
-    
 }
