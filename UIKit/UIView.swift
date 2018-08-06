@@ -117,8 +117,7 @@ extension UIView {
     /// - Parameter duration: duration
     func fadeTransition(_ duration:CFTimeInterval) {
         let animation:CATransition = CATransition()
-        animation.timingFunction = CAMediaTimingFunction(name:
-            kCAMediaTimingFunctionEaseInEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation.type = kCATransitionFade
         animation.duration = duration
         self.layer.add(animation, forKey: kCATransitionFade)

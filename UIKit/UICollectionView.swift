@@ -19,4 +19,13 @@ extension UICollectionView {
         }
         return cell
     }
+    
+    /// Get indexPath from cell's subview
+    ///
+    /// - Parameter subview: cell's subview
+    /// - Returns: cell's indexPath
+    public func indexPathForItemSubview(_ subview: UIView) -> IndexPath? {
+        let point = subview.convert(subview.frame, to: self)
+        return self.indexPathForItem(at: point.origin)
+    }
 }

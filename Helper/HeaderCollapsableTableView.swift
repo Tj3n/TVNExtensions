@@ -25,15 +25,18 @@ public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelega
     ///   - animated: indicator that the update should be wrapped inside animate block
     func updateHeaderView(newHeight: CGFloat, percentage: CGFloat, isUp: Bool, animated: Bool)
     
-    /// Tell the function to collapse header on scrolling up or not.
+    /// Tell the function to collapse header on scrolling up or not. Can be override.
     ///
-    /// Default `(scrollView.contentSize.height > scrollView.frame.height) || (currentHeight < maxHeaderHeight && currentHeight > minHeaderHeight)`. Can be override.
+    /// Default:
+    /// ```
+    /// (scrollView.contentSize.height > scrollView.frame.height) || (currentHeight < maxHeaderHeight && currentHeight > minHeaderHeight)`
+    /// ```
     ///
     /// - Parameter scrollView: scrollView
     /// - Returns: shouldCollapseHeader
     func shouldCollapseHeader(for scrollView: UIScrollView) -> Bool
     
-    /// `false` will make header expand only when contentOffset.y <= 0. Default `true`. Can be override.
+    /// `false` will make header expand only when `contentOffset.y <= 0`. Default `true`. Can be override.
     func shouldExpandHeaderImmediatelyOnScrollDown(for scrollView: UIScrollView) -> Bool
     
     /// Main handler for updating header height, call from similar UIScrollViewDelegate, shouldn't be override

@@ -55,13 +55,13 @@ public enum BiometryCommonError: Error, LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .systemCancel:
-            return "Authentication was cancelled by the system"
+            return "Authentication was cancelled by the system."
         case .userCancel(let message):
             return message
         case .notAvailable(let message):
             return message
         case .modified:
-            return "Biometric has been modified"
+            return "Biometric has been modified."
         case .other(let error):
             return error.localizedDescription
         }
