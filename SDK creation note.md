@@ -36,9 +36,14 @@ rm -rf ${SRCROOT}/build
 ## Check arch:
 ```bash
 xcrun -sdk iphoneos lipo -info $(FILENAME)
+//or
 lipo -info myFramework.framework/MyFramework
+//or
 file lib.a
 ```
+
+##Support `armv7s`
+- Add `armv7s` under `$(ARCHS_STANDARD)` in Build settings - Architectures 
 
 ## Plugin:
 - Change `Header Search Paths` to the Main SDK folder
