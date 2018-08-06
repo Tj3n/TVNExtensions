@@ -81,7 +81,7 @@ extension UIDevice {
     public var hasHapticFeedback: Bool {
         guard isIPhone else { return false }
         let i = modelIdentifier.removeCharacters(from: CharacterSet.letters.union(.punctuationCharacters))
-        let compareResult = i.compare("90", options: .numeric)
+        let compareResult = "90".compare(i, options: .numeric)
         return compareResult != .orderedDescending
     }
     

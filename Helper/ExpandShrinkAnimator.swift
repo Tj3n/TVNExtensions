@@ -11,6 +11,7 @@ public protocol ExpandShrinkAnimatorProtocol: class {
     var destinationFrame: CGRect { get }
 }
 
+/// Check Demo project for how to use
 public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     public enum ExpandShrinkAnimatorMode {

@@ -27,7 +27,7 @@ public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelega
     
     /// Tell the function to collapse header on scrolling up or not. Can be override.
     ///
-    /// Default:
+    /// **Default**:
     /// ```
     /// (scrollView.contentSize.height > scrollView.frame.height) || (currentHeight < maxHeaderHeight && currentHeight > minHeaderHeight)`
     /// ```

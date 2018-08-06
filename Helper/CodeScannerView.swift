@@ -244,9 +244,11 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
         }
         
         if #available(iOS 10.0, *), UIDevice.current.hasHapticFeedback {
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.success)
-            generator.prepare()
+            DispatchQueue.main.async {
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+                generator.prepare()
+            }
         } else {
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         }
