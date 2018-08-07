@@ -73,7 +73,10 @@ extension UIViewController {
     
     /// Self handle keyboard event, from iOS 9 there's no need of remove observer manually in dealloc/deinit
     ///
-    /// - Parameter handler: Must use [unowned self]
+    /// - Parameter handler: Must use [unowned self], Closure parametters:
+    ///     ```
+    ///     (_ up: Bool, _ height: CGFloat, _ duration: Double) -> ()
+    ///     ```
     public func observeKeyboardEvent(handler: @escaping HandlingClosure) {
         _keyboardHeight = 0
         _isKeyboardShow = false

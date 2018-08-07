@@ -19,6 +19,17 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.delegate = animator
         view.backgroundColor = UIColor(hexString: "fff4e6")
+        
+        let testFontFamilyName = "Beautiful People Personal Use"
+        guard UIFont.familyNames.contains(testFontFamilyName) else {
+            if let font = UIFont.loadFont(fontFileName: testFontFamilyName, fileType: "ttf", bundle: .main, size: 17) {
+                print("font font \(font.fontDescriptor)\n\(font.description)\n\(font.familyName)\n\(UIFont.fontNames(forFamilyName: font.familyName))")
+                testTextfield.font = font
+            }
+            return
+        }
+        print(UIFont.fontNames(forFamilyName: testFontFamilyName))
+        testTextfield.font = UIFont(name: testFontFamilyName.removeCharacters(from: " "), size: 17)
     }
     
     override func viewDidLayoutSubviews() {

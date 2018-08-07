@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0487ACC015DD439C9F9C9E32 /* Pods_DemoTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8990A765DF8A412B49B86400 /* Pods_DemoTest.framework */; };
 		8FA0A8E9C97535E8101B2972 /* Pods_DemoTestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD0C2708EB948D3E276E00A /* Pods_DemoTestUITests.framework */; };
+		9C17F1B521194F8A001F0137 /* Beautiful People Personal Use.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */; };
 		9C435B64207DB8C90015CD46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C435B63207DB8C90015CD46 /* AppDelegate.swift */; };
 		9C435B66207DB8C90015CD46 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C435B65207DB8C90015CD46 /* ViewController.swift */; };
 		9C435B69207DB8C90015CD46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C435B67207DB8C90015CD46 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		7EA457162AFA24ECB9B5378D /* Pods-DemoTestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTestTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTestTests/Pods-DemoTestTests.release.xcconfig"; sourceTree = "<group>"; };
 		8990A765DF8A412B49B86400 /* Pods_DemoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A9F5DEC3FA90C9B2B3C4D /* Pods-DemoTestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTestUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTestUITests/Pods-DemoTestUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Beautiful People Personal Use.ttf"; sourceTree = "<group>"; };
 		9C435B60207DB8C90015CD46 /* DemoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C435B63207DB8C90015CD46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C435B65207DB8C90015CD46 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				9C435B65207DB8C90015CD46 /* ViewController.swift */,
 				9C70CFFC2080C20F00FA2B71 /* NextViewController.swift */,
 				9C787E3A2085E7A300B24A9E /* ChargeObject.swift */,
+				9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */,
 				9C435B67207DB8C90015CD46 /* Main.storyboard */,
 				9C435B6A207DB8CB0015CD46 /* Assets.xcassets */,
 				9C435B6C207DB8CB0015CD46 /* LaunchScreen.storyboard */,
@@ -290,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C17F1B521194F8A001F0137 /* Beautiful People Personal Use.ttf in Resources */,
 				9C435B6E207DB8CB0015CD46 /* LaunchScreen.storyboard in Resources */,
 				9C435B6B207DB8CB0015CD46 /* Assets.xcassets in Resources */,
 				9C435B69207DB8C90015CD46 /* Main.storyboard in Resources */,

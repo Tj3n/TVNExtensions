@@ -133,7 +133,7 @@ class NextViewController: UIViewController {
         
         //Test keyboard handling class
         let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
-        KeyboardHandling.shared.addKeyboardHandlingClosure(for: self) { [unowned self] (up, height, duration) in
+        self.observeKeyboardEvent { [unowned self] (up, height, duration) in
             tfBottomConstraint.constant = up ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
             UIView.animate(withDuration: duration, animations: {
                 self.view.layoutIfNeeded()

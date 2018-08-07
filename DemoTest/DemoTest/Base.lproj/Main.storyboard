@@ -54,7 +54,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="48O-03-QCx" secondAttribute="bottom" constant="100" id="8dH-kS-hPw" customClass="KeyboardLayoutConstraint" customModule="TVNExtensions">
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="excludeOriginConstant" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="originAmount">
+                                    <userDefinedRuntimeAttribute type="number" keyPath="keyboardActiveAmount">
                                         <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
