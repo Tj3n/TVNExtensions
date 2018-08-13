@@ -157,6 +157,13 @@ extension String {
         return modPrice
     }
     
+    public static func generateRandomString(length: Int, charactersIn chars: String = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") -> String {
+        let upperBound = UInt32(chars.count)
+        return String((0..<length).map { _ -> Character in
+            return chars[chars.index(chars.startIndex, offsetBy: Int(arc4random_uniform(upperBound)))]
+        })
+    }
+    
     public func toDate(format: String) -> Date? {
         let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format

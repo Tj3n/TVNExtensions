@@ -1,4 +1,4 @@
-##Creating static lib:
+## Creating static lib:
 1. Create aggregate target
 2. Add run script: 
 ```bash
@@ -42,7 +42,7 @@ lipo -info myFramework.framework/MyFramework
 file lib.a
 ```
 
-##Support `armv7s`
+## Support `armv7s`
 - Add `armv7s` under `$(ARCHS_STANDARD)` in Build settings - Architectures 
 
 ## Plugin:
