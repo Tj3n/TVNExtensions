@@ -10,7 +10,12 @@ import TVNExtensions
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var testTextfield: UITextField!
+    @IBOutlet weak var testTextfield: UITextField! {
+        didSet {
+            testTextfield.delegate = self
+        }
+    }
+
     @IBOutlet weak var imgView: UIImageView!
     let animator = ExpandShrinkAnimator()
     
@@ -72,5 +77,16 @@ class ViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentLength = (textField.text ?? "").count
+        let newLength = currentLength + string.count - range.length
+        if newLength == 0 {
+            print("Last char deleted")
+        }
+        return true
     }
 }
