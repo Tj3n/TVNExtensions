@@ -16,6 +16,10 @@ extension AVAudioSession {
     public var isHeadphonesConnected: Bool {
         return !currentRoute.outputs.filter { $0.isHeadphones }.isEmpty
     }
+    
+    public class func mixWithBackgroundMusic() {
+        _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+    }
 }
 
 extension AVAudioSessionPortDescription {
