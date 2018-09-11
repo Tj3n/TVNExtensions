@@ -32,4 +32,12 @@ extension UIAlertController {
     public func addCancelAction(title: String, cancelStyle: UIAlertActionStyle = .cancel, cancelHandler: ((UIAlertAction)->())? = nil) {
         self.addAction(UIAlertAction(title: title, style: .cancel, handler: cancelHandler))
     }
+    
+    public func show() {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.windowLevel = UIWindowLevelStatusBar
+        window.rootViewController = UIViewController()
+        window.makeKeyAndVisible()
+        window.rootViewController?.present(self, animated: true, completion: nil)
+    }
 }

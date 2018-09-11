@@ -60,4 +60,8 @@ extension UIApplication {
         
         return version == build ? "v\(version)" : "v\(version)(\(build))"
     }
+    
+    public class func appName() -> String {
+        return Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
+    }
 }

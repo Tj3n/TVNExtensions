@@ -9,6 +9,19 @@ import Foundation
 import AVFoundation
 import UIKit
 
+extension AVAuthorizationStatus: Error, LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .denied:
+            return "Please enable Camera access in Settings to use"
+        case .restricted:
+            return "Your permission to use Camera is restricted"
+        default:
+            return nil
+        }
+    }
+}
+
 /** How to use:
  viewDidLoad: Create `CodeScannerView` with [unowned self] callback, add as subview, run `scannerView.startReading` when needed
  viewDidLayoutSubviews: Update `scannerView.scanRect` if needed
@@ -117,6 +130,15 @@ public class CodeScannerView: UIView {
         self.captureSession = AVCaptureSession()
         guard let captureSession = self.captureSession else {
             return
+        }
+        
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .restricted, .denied:
+            completion?(status)
+            return
+        case .notDetermined, .authorized:
+            break
         }
         
         q.async {
@@ -265,3 +287,40 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
+extension CodeScannerView {
+    
+    /// Check the permission for camera usage, if .notDetermined - request access, if .authorized, return nil, otherwise return an alertController to open the Settings page for the app.
+    ///
+    /// - Parameters:
+    ///   - mediaType: AVMediaType
+    ///   - cancelHandler: cancelHandler for the alertController, can use to dismiss the viewController
+    /// - Returns: nullable UIAlertController
+    public class func checkPermissionToGetOpenSettingsAlert(for mediaType: AVMediaType = .video, cancelHandler: ((UIAlertAction)->())?) -> UIAlertController? {
+        var status = AVCaptureDevice.authorizationStatus(for: mediaType)
+        switch status {
+        case .restricted, .denied:
+            return getAlertForSettings(cancelHandler: cancelHandler)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { (granted) in
+                status = granted ? .authorized : .denied
+            }
+            break
+        default:
+            break
+        }
+        return status == .denied ? getAlertForSettings(cancelHandler: cancelHandler) : nil
+    }
+    
+    class func getAlertForSettings(cancelHandler: ((UIAlertAction)->())?) -> UIAlertController {
+        let appName = UIApplication.appName()
+        let alert = UIAlertController(title: "Unable to access camera", message: "Go to iOS \"Settings\" -> \"\(appName)\" to allow \(appName) to access your camera.", preferredStyle: .alert, cancelTitle: "Cancel", cancelHandler: cancelHandler)
+        let okAction = UIAlertAction(title: "Settings", style: .default) { (action) in
+            guard let settingsURL = URL(string: UIApplicationOpenSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.openURL(settingsURL)
+            }
+        }
+        alert.addAction(okAction)
+        return alert
+    }
+}
