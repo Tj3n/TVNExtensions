@@ -38,6 +38,34 @@ public struct BiometryHelper {
     public static var isBiometryAvailable: Bool {
         get { return biometryAvailableType() != .none }
     }
+    public static var timeIntervalSinceLastAuth: TimeInterval {
+        return Date().timeIntervalSince(lastAuthDate)
+    }
+    public static var timeIntervalSinceLastSuccessfulAuth: TimeInterval  {
+        return Date().timeIntervalSince(lastSuccessfulAuthDate)
+    }
+    
+    static let lastAuthDateKey = "lastAuthDateKey"
+    static var lastAuthDate: Date {
+        get {
+            let lastAuthTimeInterval = UserDefaults.standard.double(forKey: lastAuthDateKey)
+            return lastAuthTimeInterval == 0 ? Date() : Date(timeIntervalSince1970: lastAuthTimeInterval)
+        }
+        set {
+            UserDefaults.standard.set(newValue.timeIntervalSince1970, forKey: lastAuthDateKey)
+        }
+    }
+    
+    static let lastSuccessfulAuthDateKey = "lastSuccessfulAuthDateKey"
+    static var lastSuccessfulAuthDate: Date {
+        get {
+            let lastAuthTimeInterval = UserDefaults.standard.double(forKey: lastSuccessfulAuthDateKey)
+            return lastAuthTimeInterval == 0 ? Date() : Date(timeIntervalSince1970: lastAuthTimeInterval)
+        }
+        set {
+            UserDefaults.standard.set(newValue.timeIntervalSince1970, forKey: lastSuccessfulAuthDateKey)
+        }
+    }
     
     public static func biometryAvailableType() -> BiometryType {
         let context = LAContext()
@@ -80,6 +108,7 @@ public struct BiometryHelper {
             isRequestingBiometric = true
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success, bioError) in
                 isRequestingBiometric = false
+                lastAuthDate = Date()
                 NotificationCenter.default.post(name: BiometricEvaluateCompletedNotificationName, object: nil)
                 if success {
                     if self.checkForModified(context: context) {
@@ -90,6 +119,7 @@ public struct BiometryHelper {
                     } else {
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: BiometricEvaluateSuccessfulNotificationName, object: nil)
+                            lastSuccessfulAuthDate = Date()
                             completion(success, nil)
                         }
                     }
@@ -113,6 +143,7 @@ public struct BiometryHelper {
             })
         } else if let error = error {
             isRequestingBiometric = false
+            lastAuthDate = Date()
             NotificationCenter.default.post(name: BiometricEvaluateCompletedNotificationName, object: nil)
             if #available(iOS 11.0, *) {
                 var commonError: BiometryCommonError
