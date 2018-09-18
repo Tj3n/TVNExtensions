@@ -43,12 +43,12 @@ extension UIViewController {
     }
     
     /// Use with `UIView.animateKeyframes` for smoother animation
-    public private(set) var _keyboardKeyframeAnimationOption: UIViewKeyframeAnimationOptions {
+    public private(set) var _keyboardKeyframeAnimationOption: UIView.KeyframeAnimationOptions {
         get {
             guard let rawValue = getAssociatedObject(key: &AssociatedKeys._keyboardKeyframeAnimationOptionKey, type: UInt.self) else {
-                return UIViewKeyframeAnimationOptions.calculationModeLinear
+                return UIView.KeyframeAnimationOptions.calculationModeLinear
             }
-            return UIViewKeyframeAnimationOptions(rawValue: rawValue)
+            return UIView.KeyframeAnimationOptions(rawValue: rawValue)
         }
         set(newValue) { setAssociatedObject(key: &AssociatedKeys._keyboardKeyframeAnimationOptionKey, value: newValue.rawValue) }
     }
@@ -82,23 +82,23 @@ extension UIViewController {
         _isKeyboardShow = false
         _keyboardAddedHeight = 0
         _handleAction = handler
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: .UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOffScreen(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOffScreen(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     /// Before iOS 9 have to remove observer during dealloc/deinit
     public func removeKeyboardEventObserver() {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
-        _keyboardHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
-        _keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
-        let curve = notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! UInt
-        _keyboardKeyframeAnimationOption = UIViewKeyframeAnimationOptions(rawValue: curve)
+        _keyboardHeight = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
+        _keyboardDuration = (notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
+        _keyboardKeyframeAnimationOption = UIView.KeyframeAnimationOptions(rawValue: curve)
         
         if _keyboardHeight == _keyboardAddedHeight || _keyboardHeight <= 0 {
             return
@@ -113,9 +113,9 @@ extension UIViewController {
     }
     
     @objc private func keyboardOffScreen(_ notification: Notification) {
-        _keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
-        let curve = notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! UInt
-        _keyboardKeyframeAnimationOption = UIViewKeyframeAnimationOptions(rawValue: curve)
+        _keyboardDuration = (notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
+        _keyboardKeyframeAnimationOption = UIView.KeyframeAnimationOptions(rawValue: curve)
         
         guard _isKeyboardShow else {
             return

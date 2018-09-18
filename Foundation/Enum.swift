@@ -13,6 +13,7 @@ public protocol EnumCollection: Hashable {
     static var allValues: [Self] { get }
 }
 
+@available(swift, deprecated: 4.2, message: "Please use CaseIterable instead")
 public extension EnumCollection {
     
     public static func cases() -> AnySequence<Self> {

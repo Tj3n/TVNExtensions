@@ -9,7 +9,7 @@ import Foundation
 
 extension Timer {
     @discardableResult
-    static public func scheduledTimer(timeInterval: TimeInterval, repeats: Bool, operationBlock: (Timer)->()) -> Timer {
+    static public func scheduledTimer(timeInterval: TimeInterval, repeats: Bool, operationBlock: @escaping (Timer)->()) -> Timer {
         return Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(executeBlock(timer:)), userInfo: operationBlock, repeats: repeats)
     }
     

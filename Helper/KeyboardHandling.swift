@@ -47,9 +47,9 @@ public class KeyboardHandling {
     }
     
     private func observeKeyboardHandling() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOffScreen(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOnScreen(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardOffScreen(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     deinit {
@@ -61,8 +61,8 @@ public class KeyboardHandling {
     }
     
     @objc private func keyboardOnScreen(_ notification: Notification) {
-        keyboardHeight = (notification.userInfo![UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
-        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        keyboardHeight = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue.size.height
+        let duration = (notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
         
         if keyboardHeight == keyboardAddedHeight || keyboardHeight <= 0 {
             return
@@ -81,7 +81,7 @@ public class KeyboardHandling {
     }
     
     @objc private func keyboardOffScreen(_ notification: Notification) {
-        let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
+        let duration = (notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey]! as! NSNumber).doubleValue
         
         guard isKeyboardShow else {
             return
@@ -100,7 +100,7 @@ public class KeyboardHandling {
     
     /// Recurring call to make sure all childVC also got called
     func executeClosure(_ up: Bool, _ height: CGFloat, _ duration: Double, for vc: UIViewController) {
-        for child in vc.childViewControllers {
+        for child in vc.children {
             executeClosure(up, height, duration, for: child)
         }
         

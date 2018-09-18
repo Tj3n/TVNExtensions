@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 public protocol HeaderCollapsableTableView: class where Self: UIScrollViewDelegate {
-    /// Vary starting height, should be min or max
+    /// Vary starting height of the header, should be min or max
     var currentHeight: CGFloat { get set }
     /// Default should be 0.0
     var previousScrollOffset: CGFloat { get set }

@@ -24,7 +24,7 @@ public struct ImageHelper {
     }
     
     public static func saveImage (_ image: UIImage, path: String, imageType: ImageType = .png) {
-        let imageData = imageType == .png ? UIImagePNGRepresentation(image) : UIImageJPEGRepresentation(image, 1.0)
+        let imageData = imageType == .png ? image.pngData() : image.jpegData(compressionQuality: 1.0)
         
         do {
             try imageData!.write(to: URL(fileURLWithPath: path), options: [.atomic])

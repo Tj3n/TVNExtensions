@@ -17,7 +17,7 @@ extension UIActivityIndicatorView {
     /// - Parameter view: view to show loader above
     /// - Returns: A custom UIActivityIndicatorView
     public class func showInView(_ view: UIView) -> UIActivityIndicatorView {
-        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
         activityIndicator.layer.cornerRadius = 30.0
         activityIndicator.startAnimating()
@@ -27,7 +27,7 @@ extension UIActivityIndicatorView {
         activityIndicator.tag = tvnIndicatorTag
         
         view.addSubview(activityIndicator)
-        view.bringSubview(toFront: activityIndicator)
+        view.bringSubviewToFront(activityIndicator)
         view.isUserInteractionEnabled = false
         view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0))
         view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0))

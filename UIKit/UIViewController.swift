@@ -61,7 +61,7 @@ public extension UIViewController {
     ///   - toView: The view to contain the controller's view
     ///   - animated: Set to true to use custom present animation
     public func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool, completion: (()->())?) {
-        self.addChildViewController(childController)
+        self.addChild(childController)
         let v = childController.view!
         v.alpha = 0
         v.addTo(toView)
@@ -69,7 +69,7 @@ public extension UIViewController {
         
         guard animated else {
             v.alpha = 1
-            childController.didMove(toParentViewController: self)
+            childController.didMove(toParent: self)
             completion?()
             return
         }
@@ -82,7 +82,7 @@ public extension UIViewController {
             v.layer.transform = CATransform3DIdentity
             v.alpha = 1
         }, completion: { (_) in
-            childController.didMove(toParentViewController: self)
+            childController.didMove(toParent: self)
             completion?()
         })
     }
@@ -95,7 +95,7 @@ public extension UIViewController {
     ///   - containerView: containerView to switch
     ///   - completion: completion handler
     func switchChildViewController(_ oldViewController: UIViewController, to newViewController: UIViewController, in containerView: UIView, completion: (()->())?) {
-        self.addChildViewController(newViewController)
+        self.addChild(newViewController)
         
         newViewController.view.addTo(containerView)
         newViewController.view.edgesToSuperView()
@@ -110,11 +110,11 @@ public extension UIViewController {
             oldViewController.view.alpha = 0
             oldViewController.view.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1.0)
         }) { (_) in
-            oldViewController.willMove(toParentViewController: nil)
+            oldViewController.willMove(toParent: nil)
             oldViewController.view.removeFromSuperview()
-            oldViewController.removeFromParentViewController()
+            oldViewController.removeFromParent()
             
-            newViewController.didMove(toParentViewController: self)
+            newViewController.didMove(toParent: self)
             completion?()
         }
     }

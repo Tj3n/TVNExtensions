@@ -214,7 +214,7 @@ extension ExpandShrinkAnimator: UIViewControllerTransitioningDelegate {
 // MARK: - If push/pop with navigation controller
 /// Set self.navigationController?.delegate = animator
 extension ExpandShrinkAnimator: UINavigationControllerDelegate {
-    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         self.mode = operation == .push ? .presenting : .dismissing
         return self
     }

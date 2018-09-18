@@ -315,7 +315,7 @@ extension CodeScannerView {
         let appName = UIApplication.appName()
         let alert = UIAlertController(title: "Unable to access camera", message: "Go to iOS \"Settings\" -> \"\(appName)\" to allow \(appName) to access your camera.", preferredStyle: .alert, cancelTitle: "Cancel", cancelHandler: cancelHandler)
         let okAction = UIAlertAction(title: "Settings", style: .default) { (action) in
-            guard let settingsURL = URL(string: UIApplicationOpenSettingsURLString) else { return }
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(settingsURL) {
                 UIApplication.shared.openURL(settingsURL)
             }

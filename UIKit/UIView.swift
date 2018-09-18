@@ -117,10 +117,10 @@ extension UIView {
     /// - Parameter duration: duration
     public func fadeTransition(_ duration:CFTimeInterval) {
         let animation:CATransition = CATransition()
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        animation.type = kCATransitionFade
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animation.type = CATransitionType.fade
         animation.duration = duration
-        self.layer.add(animation, forKey: kCATransitionFade)
+        self.layer.add(animation, forKey: convertFromCATransitionType(CATransitionType.fade))
     }
     
     /// Custom corner radius
@@ -169,7 +169,7 @@ extension UIView {
         maskLayer.path = path
         
         if (invert) {
-            maskLayer.fillRule = kCAFillRuleEvenOdd
+            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
         }
         
         layer.mask = maskLayer;
@@ -240,4 +240,9 @@ extension UIView {
     //            objc_setAssociatedObject(self, &endGradientColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     //        }
     //    }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
+	return input.rawValue
 }

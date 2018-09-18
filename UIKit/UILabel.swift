@@ -22,7 +22,7 @@ extension UILabel {
         return label
     }()
     
-    private static let tooltipTextAttributes: [NSAttributedStringKey: Any]? = {
+    private static let tooltipTextAttributes: [NSAttributedString.Key: Any]? = {
         guard let style = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle else {
             return nil
         }
@@ -30,7 +30,7 @@ extension UILabel {
         style.firstLineHeadIndent = 10.0
         style.headIndent = 10.0
         style.tailIndent = -10.0
-        return [NSAttributedStringKey.paragraphStyle: style]
+        return [NSAttributedString.Key.paragraphStyle: style]
     }()
     
     private static let tooltipShadowView: UIView = {
@@ -49,8 +49,8 @@ extension UILabel {
     public class func showTooltip(_ message: String, font: UIFont = UIFont.systemFont(ofSize: 14), duration: Double = 3, textColor: UIColor = .white, backgroundShadowColor: CGColor = UIColor.darkGray.cgColor) {
         
         DispatchQueue.global().async {
-            var textAttributes: [NSAttributedStringKey: Any] = [.foregroundColor: textColor]
-            let fontAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: font]
+            var textAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: textColor]
+            let fontAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
             let size = (" "+message+" " as NSString).size(withAttributes: fontAttributes)
             
             var width = size.width+25
@@ -91,7 +91,7 @@ extension UILabel {
                 let topWindow = UIApplication.shared.keyWindow
                 topWindow?.addSubview(shadowView)
                 topWindow?.addSubview(label)
-                topWindow?.bringSubview(toFront: label)
+                topWindow?.bringSubviewToFront(label)
                 
                 UIView.animate(withDuration: 0.5, animations: {
                     shadowView.originY -= 10
