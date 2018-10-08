@@ -15,3 +15,10 @@ extension Collection {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+extension Array {
+    func write(to url: URL, atomically: Bool = true) -> Bool{
+        let array = self as NSArray
+        return array.write(to: url, atomically: atomically)
+    }
+}
