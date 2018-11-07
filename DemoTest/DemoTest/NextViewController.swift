@@ -10,12 +10,15 @@ import TVNExtensions
 
 class NextViewController: UIViewController {
 
-//    @IBOutlet weak var destinationImgView: UIImageView!
+    @IBOutlet weak var destinationImgView: UIImageView!
     
-    lazy var destinationImgView: UIImageView = {
-        let v = UIImageView(image: nil)
-        return v
-    }()
+    var destinationImage: UIImage?
+    var destinationText: String?
+    
+//    lazy var destinationImgView: UIImageView = {
+//        let v = UIImageView(image: nil)
+//        return v
+//    }()
 
     lazy var nextLabel: UILabel = {
         let v = UILabel(frame: .zero)
@@ -81,16 +84,19 @@ class NextViewController: UIViewController {
                 nav.popViewController(animated: true)
             } else {
                 ///Test dismiss with transition
-//                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 
                 ///Test change rootVC
-                let vc = ViewController.instantiate()
-                UIApplication.shared.keyWindow?.changeRootViewController(with: vc, animated: false, completion: nil)
+//                let vc = ViewController.instantiate()
+//                UIApplication.shared.keyWindow?.changeRootViewController(with: vc, animated: false, completion: nil)
             }
         }
     }
     
     func setupView() {
+        destinationImgView.image = destinationImage
+        bottomTextfield.text = destinationText
+        
         destinationImgView.addTo(view)
         destinationImgView.top(to: view, by: 100)
         destinationImgView.centerX(to: view)
@@ -143,13 +149,5 @@ class NextViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-    }
-}
-
-extension NextViewController: ExpandShrinkAnimatorProtocol {
-    var destinationFrame: CGRect {
-        get {
-            return destinationImgView.frame
-        }
     }
 }

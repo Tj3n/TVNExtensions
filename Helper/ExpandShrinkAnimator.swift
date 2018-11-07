@@ -6,31 +6,70 @@
 //
 
 import Foundation
+import UIKit
 
-public protocol ExpandShrinkAnimatorProtocol: class {
-    var destinationFrame: CGRect { get }
+fileprivate enum ExpandShrinkAnimatorMode {
+    case presenting,
+    dismissing,
+    none
 }
 
 /// Check Demo project for how to use
-public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+public class ExpandShrinkAnimator: NSObject {
+    let presentationTransition: ExpandShrinkTransition
     
-    public enum ExpandShrinkAnimatorMode {
-        case presenting,
-        dismissing,
-        none
+    public init(fromView: UIView, toView: UIView) {
+        self.presentationTransition = ExpandShrinkTransition(fromView: fromView, toView: toView)
+        super.init()
+    }
+}
+
+// MARK: - If modal presentation
+/// Set nextVC.transitioningDelegate = animator
+extension ExpandShrinkAnimator: UIViewControllerTransitioningDelegate {
+    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        presentationTransition.source = source
+        presentationTransition.mode = .presenting
+        return self.presentationTransition
     }
     
-    public var originFrame = CGRect.zero
-    public var mode: ExpandShrinkAnimatorMode = .none
-    public var source: UIViewController?
-    public var containerSourceBackgroundImage: UIImage?
-    public var containerDestinationBackgroundImage: UIImage?
+    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        presentationTransition.mode = .dismissing
+        return self.presentationTransition
+    }
+}
+
+// MARK: - If push/pop with navigation controller
+/// Set self.navigationController?.delegate = animator
+extension ExpandShrinkAnimator: UINavigationControllerDelegate {
+    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        presentationTransition.mode = operation == .push ? .presenting : .dismissing
+        return self.presentationTransition
+    }
+}
+
+
+class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    fileprivate var mode: ExpandShrinkAnimatorMode = .none
+    var source: UIViewController?
+    var containerSourceBackgroundImage: UIImage?
+    var containerDestinationBackgroundImage: UIImage?
     
     private let kExpandShrinkTransitionDuration: TimeInterval = 0.5
     lazy var containerImageView: UIImageView = {
         let v = UIImageView(frame: UIScreen.main.bounds)
         return v
     }()
+    
+    private var fromView: UIView?
+    private var toView: UIView?
+    
+    public init(fromView: UIView, toView: UIView) {
+        self.fromView = fromView
+        self.toView = toView
+        super.init()
+    }
     
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return kExpandShrinkTransitionDuration
@@ -39,6 +78,10 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to),
+            let toVCView = toVC.view,
+            let fromVCView = fromVC.view,
+            let toView = toView,
+            let fromView = fromView,
             mode != .none else {
                 return
         }
@@ -51,23 +94,21 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
         container.addSubview(toVC.view)
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
-        if let source = source, source.navigationController != toVC.navigationController || source.navigationController == nil  && toVC.navigationController == nil  {
+//        if let source = source, source.navigationController != toVC.navigationController || source.navigationController == nil  && toVC.navigationController == nil  {
             toVC.view.layoutIfNeeded()
-        }
-    
+//        }
+        
         switch mode {
         case .presenting:
-            guard toVC is ExpandShrinkAnimatorProtocol else { return }
-            initialF = originFrame
-            finalF = (toVC as! ExpandShrinkAnimatorProtocol).destinationFrame
+            initialF = (fromView.superview ?? fromVCView).convert(fromView.frame, to: nil)
+            finalF = (toView.superview ?? toVCView).convert(toView.frame, to: nil)
             containerImageView.backgroundColor = toVC.view.backgroundColor
             if let img = containerDestinationBackgroundImage {
                 containerImageView.image = img
             }
         case .dismissing:
-            guard fromVC is ExpandShrinkAnimatorProtocol else { return }
-            initialF = (fromVC as! ExpandShrinkAnimatorProtocol).destinationFrame
-            finalF = originFrame
+            initialF = (toView.superview ?? toVCView).convert(toView.frame, to: nil)
+            finalF = (fromView.superview ?? fromVCView).convert(fromView.frame, to: nil)
             containerImageView.backgroundColor = fromVC.view.backgroundColor
             if let img = containerSourceBackgroundImage {
                 containerImageView.image = img
@@ -75,7 +116,7 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
         default:
             return
         }
-
+        print(initialF, finalF)
         //Origin Frame - fade to 0
         let snapshot = fromVC.view.resizableSnapshotView(from: initialF, afterScreenUpdates: true, withCapInsets: UIEdgeInsets.zero)!
         snapshot.frame = initialF
@@ -193,29 +234,5 @@ public class ExpandShrinkAnimator: NSObject, UIViewControllerAnimatedTransitioni
             self.mode = .none
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
-    }
-}
-
-// MARK: - If modal presentation
-/// Set nextVC.transitioningDelegate = animator
-extension ExpandShrinkAnimator: UIViewControllerTransitioningDelegate {
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        self.source = source
-        self.mode = .presenting
-        return self
-    }
-    
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        self.mode = .dismissing
-        return self
-    }
-}
-
-// MARK: - If push/pop with navigation controller
-/// Set self.navigationController?.delegate = animator
-extension ExpandShrinkAnimator: UINavigationControllerDelegate {
-    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        self.mode = operation == .push ? .presenting : .dismissing
-        return self
     }
 }
