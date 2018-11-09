@@ -24,6 +24,7 @@
     "AVFoundation",
     "LocalAuthentication"
   ],
+  "default_subspecs": "Lite",
   "xcconfig": {
     "SWIFT_INCLUDE_PATHS[sdk=macosx*]": "$(PODS_TARGET_SRCROOT)/CCommonCrypto/macosx $(PODS_ROOT)/TVNExtensions/CCommonCrypto/macosx",
     "SWIFT_INCLUDE_PATHS[sdk=iphoneos*]": "$(PODS_TARGET_SRCROOT)/CCommonCrypto/iphoneos $(PODS_ROOT)/TVNExtensions/CCommonCrypto/iphoneos",
@@ -48,6 +49,28 @@
       "source_files": "Helper",
       "dependencies": {
         "TVNExtensions/UIKit": [
+
+        ]
+      }
+    },
+    {
+      "name": "Lite",
+      "dependencies": {
+        "TVNExtensions/Helper": [
+
+        ],
+        "TVNExtensions/UIKit": [
+
+        ],
+        "TVNExtensions/Foundation": [
+
+        ]
+      }
+    },
+    {
+      "name": "Kingfisher",
+      "dependencies": {
+        "Kingfisher": [
 
         ]
       }

@@ -6,8 +6,11 @@
 
 import UIKit
 import AVFoundation
+#if canImport(Kingfisher)
+import Kingfisher
+#endif
 
-/// Full screen Image Viewer, can handle URL using Kingfisher
+/// Full screen Image Viewer, to handle URL with Kingfisher add to podfile: `pod 'TVNExtensions/Kingfisher'`
 public class ImageViewerViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
@@ -78,21 +81,23 @@ public class ImageViewerViewController: UIViewController {
         calculateZoomScale()
         
         if let url = imageURL {
+            #if canImport(Kingfisher)
+            self.imageView.kf.setImage(with: url, placeholder: image) { [weak self] (img, error, cacheType, url) in
+                self?.image = img
+                self?.calculateZoomScale()
+            }
+            #else
             DispatchQueue.global().async {
                 if let imageData = try? Data(contentsOf: url) {
                     DispatchQueue.main.async {
                         let newImage = UIImage(data: imageData)
                         self.image = newImage
                         self.imageView.image = newImage
+                        self.calculateZoomScale()
                     }
                 }
             }
-            
-            //Kingfisher code
-//            self.imageView.kf.setImage(with: url, placeholder: image) { [weak self] (img, error, cacheType, url) in
-//                self?.image = img
-//                self?.calculateZoomScale()
-//            }
+            #endif
         }
     }
     
