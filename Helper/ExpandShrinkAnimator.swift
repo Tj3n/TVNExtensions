@@ -58,7 +58,7 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let kExpandShrinkTransitionDuration: TimeInterval = 0.5
     lazy var containerImageView: UIImageView = {
-        let v = UIImageView(frame: UIScreen.main.bounds)
+        let v = UIImageView(frame: .zero)
         return v
     }()
     
@@ -78,8 +78,8 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromVC = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to),
-            let toVCView = toVC.view,
             let fromVCView = fromVC.view,
+            let toVCView = toVC.view,
             let toView = toView,
             let fromView = fromView,
             mode != .none else {
@@ -90,12 +90,13 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
         var finalF = CGRect.zero
         
         let container = transitionContext.containerView
+        container.insertSubview(toVC.view, belowSubview: fromVC.view)
         container.addSubview(containerImageView)
-        container.addSubview(toVC.view)
+        containerImageView.frame = toVCView.frame
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
 //        if let source = source, source.navigationController != toVC.navigationController || source.navigationController == nil  && toVC.navigationController == nil  {
-            toVC.view.layoutIfNeeded()
+        toVC.view.layoutIfNeeded()
 //        }
         
         switch mode {
@@ -116,16 +117,14 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
         default:
             return
         }
-        print(initialF, finalF)
+        
         //Origin Frame - fade to 0
-        let snapshot = fromVC.view.resizableSnapshotView(from: initialF, afterScreenUpdates: true, withCapInsets: UIEdgeInsets.zero)!
+        let snapshot = fromVC.view.resizableSnapshotView(from: initialF, afterScreenUpdates: true, withCapInsets: .zero)!
         snapshot.frame = initialF
-        container.addSubview(snapshot)
         
         //Destination Frame - hides behind origin snapshot
         let toSnapshot = toVC.view.resizableSnapshotView(from: finalF, afterScreenUpdates: true, withCapInsets: .zero)!
         toSnapshot.frame = initialF
-        container.insertSubview(toSnapshot, belowSubview: snapshot)
         
         let screenW = UIScreen.main.bounds.width
         let screenH = UIScreen.main.bounds.height
@@ -183,8 +182,11 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
         rightToSnapshot.frame = rightToInitialF
         
         let duration = transitionDuration(using: transitionContext)
-        fromVC.view.alpha = 0
-        toVC.view.alpha = 0
+//        fromVC.view.alpha = 0
+//        toVC.view.alpha = 0
+        
+        container.addSubview(snapshot)
+        container.insertSubview(toSnapshot, belowSubview: snapshot)
         
         container.addSubview(leftSnapshot)
         container.addSubview(rightSnapshot)
@@ -202,13 +204,13 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
             leftSnapshot.frame = leftFinalF
             rightSnapshot.frame = rightFinalF
-            
+
             topSnapshot.frame = topFinalF
             bottomSnapshot.frame = bottomFinalF
-            
+
             topToSnapshot.frame = topToFinalF
             bottomToSnapshot.frame = bottomToFinalF
-            
+
             leftToSnapshot.frame = leftToFinalF
             rightToSnapshot.frame = rightToFinalF
         }) { (_) in
@@ -218,16 +220,16 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
             snapshot.removeFromSuperview()
             toSnapshot.removeFromSuperview()
-            
+
             leftSnapshot.removeFromSuperview()
             rightSnapshot.removeFromSuperview()
-            
+
             topSnapshot.removeFromSuperview()
             bottomSnapshot.removeFromSuperview()
-            
+
             topToSnapshot.removeFromSuperview()
             bottomToSnapshot.removeFromSuperview()
-            
+
             leftToSnapshot.removeFromSuperview()
             rightToSnapshot.removeFromSuperview()
             

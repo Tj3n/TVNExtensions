@@ -10,15 +10,15 @@ import TVNExtensions
 
 class NextViewController: UIViewController {
 
-    @IBOutlet weak var destinationImgView: UIImageView!
+//    @IBOutlet weak var destinationImgView: UIImageView!
     
     var destinationImage: UIImage?
     var destinationText: String?
     
-//    lazy var destinationImgView: UIImageView = {
-//        let v = UIImageView(image: nil)
-//        return v
-//    }()
+    lazy var destinationImgView: UIImageView = {
+        let v = UIImageView(image: nil)
+        return v
+    }()
 
     lazy var nextLabel: UILabel = {
         let v = UILabel(frame: .zero)
@@ -79,6 +79,9 @@ class NextViewController: UIViewController {
 //            }
 //        }
         
+        destinationImgView.image = destinationImage
+        bottomTextfield.text = destinationText
+        
         dismissBtn.addTouchUpInsideAction { [unowned self] (btn) in
             if let nav = self.navigationController {
                 nav.popViewController(animated: true)
@@ -94,9 +97,6 @@ class NextViewController: UIViewController {
     }
     
     func setupView() {
-        destinationImgView.image = destinationImage
-        bottomTextfield.text = destinationText
-        
         destinationImgView.addTo(view)
         destinationImgView.top(to: view, by: 100)
         destinationImgView.centerX(to: view)

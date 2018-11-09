@@ -16,7 +16,13 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var imgView: UIImageView!
+    @IBOutlet weak var imgView: UIImageView! {
+        didSet {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(testImageViewer(_:)))
+            imgView.isUserInteractionEnabled = true
+            imgView.addGestureRecognizer(tapGesture)
+        }
+    }
     var animator: ExpandShrinkAnimator?
     
     override func viewDidLoad() {
@@ -35,6 +41,12 @@ class ViewController: UIViewController {
         print(UIFont.fontNames(forFamilyName: testFontFamilyName))
         testTextfield.font = UIFont(name: testFontFamilyName.removeCharacters(from: " "), size: 17)
     }
+    
+    @objc func testImageViewer(_ sender: UIGestureRecognizer) {
+        print(#function)
+        let viewer = ImageViewerViewController(image: imgView.image, from: imgView)
+        self.present(viewer, animated: true, completion: nil)
+    }
 
     @IBAction func btnTouch(_ sender: Any) {
         view.endEditing(true)
@@ -42,8 +54,8 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
             ///Test animate transistion with sb
 //            self.performSegue(withIdentifier: "show", sender: self) // Disable navigationController?.delegate = animator
-            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
-            return
+//            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
+//            return
             
             ///W/o sb
             let nextVC = NextViewController()
@@ -53,10 +65,10 @@ class ViewController: UIViewController {
             
             ///Test animate transistion without sb
             self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
-//            nextVC.transitioningDelegate = self.animator
-//            self.present(nextVC, animated: true, completion: nil)
-            self.navigationController?.delegate = self.animator
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            nextVC.transitioningDelegate = self.animator
+            self.present(nextVC, animated: true, completion: nil)
+//            self.navigationController?.delegate = self.animator
+//            self.navigationController?.pushViewController(nextVC, animated: true)
             
             ///Test change rootVC
 //            UIApplication.shared.keyWindow?.changeRootViewController(with: nextVC, animated: true, completion: nil)
@@ -70,7 +82,7 @@ class ViewController: UIViewController {
             let _ = nextVC.view
             
             self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
-//            nextVC.transitioningDelegate = self.animator
+            nextVC.transitioningDelegate = self.animator
             self.navigationController?.delegate = self.animator
         }
     }
