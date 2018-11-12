@@ -31,10 +31,16 @@ public class ImageViewerViewController: UIViewController {
         v.contentMode = .scaleAspectFit
         v.isUserInteractionEnabled = true
         v.addGestureRecognizer(panGesture)
+        v.addGestureRecognizer(doubleTapGesture)
         return v
     }()
     
     private lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+    private lazy var doubleTapGesture: UITapGestureRecognizer = {
+        let g = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(_:)))
+        g.numberOfTapsRequired = 2
+        return g
+    }()
     
     private lazy var blurredView: UIVisualEffectView = {
         let v = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -47,7 +53,6 @@ public class ImageViewerViewController: UIViewController {
     private var animator: ImageViewerAnimator?
     //    private var isZooming = false
     //    var shouldDismiss = false
-    var urlHandleClosure: ((URL) -> (UIImage?))?
     
     /// Create imageViewer with transition animation from view/imageview/cell...
     ///
@@ -137,9 +142,20 @@ public class ImageViewerViewController: UIViewController {
     private func calculateZoomScale() {
         scrollView.minimumZoomScale = 1
         guard let image = image else { return }
-        let isHorizontalImg = (image.size.width / image.size.height) >= 1
         let imageViewSize = aspectFitRect(forSize: image.size, insideRect: UIScreen.main.bounds)
-        scrollView.maximumZoomScale = isHorizontalImg ?  UIScreen.main.bounds.size.height / imageViewSize.height : UIScreen.main.bounds.size.width / imageViewSize.width
+        let screenWidth = UIScreen.main.bounds.size.width
+        let screenHeight = UIScreen.main.bounds.size.height
+        scrollView.maximumZoomScale = max(screenWidth / imageViewSize.width, screenHeight / imageViewSize.height)
+    }
+    
+    @objc private func handleDoubleTapGesture(_ tapGesture: UITapGestureRecognizer) {
+        if scrollView.zoomScale > scrollView.minimumZoomScale {
+            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+        } else {
+            let position = tapGesture.location(in: tapGesture.view)
+            let zoomRect = calculateZoomRect(scale: scrollView.maximumZoomScale, center: position)
+            scrollView.zoom(to: zoomRect, animated: true)
+        }
     }
     
     @objc private func handleGesture(_ panGesture: UIPanGestureRecognizer) {
@@ -176,6 +192,16 @@ public class ImageViewerViewController: UIViewController {
 
 //MARK: Helper
 extension ImageViewerViewController {
+    func calculateZoomRect(scale: CGFloat, center: CGPoint) -> CGRect {
+        var zoomRect = CGRect.zero
+        zoomRect.size.height = imageView.frame.size.height / scale
+        zoomRect.size.width  = imageView.frame.size.width / scale
+        let newCenter = scrollView.convert(center, from: imageView)
+        zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
+        zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
+        return zoomRect
+    }
+    
     func aspectFitRect(forSize size: CGSize, insideRect: CGRect) -> CGRect {
         return AVMakeRect(aspectRatio: size, insideRect: insideRect)
     }
