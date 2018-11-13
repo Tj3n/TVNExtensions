@@ -1,6 +1,0 @@
-framework module TVNExtensions {
-  umbrella header "TVNExtensions-umbrella.h"
-
-  export *
-  module * { export * }
-}
