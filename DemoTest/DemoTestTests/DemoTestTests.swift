@@ -39,7 +39,7 @@ class DemoTestTests: XCTestCase {
                         "name": "TEST PAYER",
             ],
                     "secure": false,
-                    "support_link": "http://example.com",
+                    "support_link_asdf": "http://example.com",
                     "test": 1,
                     "amount_paid": "1",
                     "currency_paid": "USD"] as [String: Any]
@@ -57,7 +57,7 @@ class DemoTestTests: XCTestCase {
     "object": "charge",
     "risk": "approved",
     "amount_paid": "1",
-    "support_link": "http://example.com",
+    "support_link_asdf": "http://example.com",
     "amount": "1",
     "refunded": false,
     "captured": true,
