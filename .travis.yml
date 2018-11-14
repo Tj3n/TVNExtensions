@@ -13,3 +13,6 @@ xcode_scheme:
   - DemoTest
 xcode_destination: platform=iOS Simulator,OS=12.0,name=iPhone X
 podfile: DemoTest/PodFile
+
+before_install:
+  - pod repo update

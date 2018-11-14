@@ -42,6 +42,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9C435B5F207DB8C90015CD46"
+               BuildableName = "DemoTest.app"
+               BlueprintName = "DemoTest"
+               ReferencedContainer = "container:DemoTest.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4B095F30853C3C55533140F3EC9ABEE6"
                BuildableName = "Pods_DemoTestTests.framework"
                BlueprintName = "Pods-DemoTestTests"
@@ -60,20 +74,6 @@
                BuildableName = "Pods_DemoTestUITests.framework"
                BlueprintName = "Pods-DemoTestUITests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9C435B5F207DB8C90015CD46"
-               BuildableName = "DemoTest.app"
-               BlueprintName = "DemoTest"
-               ReferencedContainer = "container:DemoTest.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
