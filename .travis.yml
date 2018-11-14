@@ -1,5 +1,5 @@
 language: swift
-xcode_project: DemoTest/DemoTest.xcodeproj
+xcode_project: DemoTest.xcodeproj
 xcode_scheme: DemoTest, DemoTestTests, DemoTestUITests
 xcode_destination: platform=iOS Simulator,OS=12,name=iPhone X
 podfile: DemoTest/PodFile
