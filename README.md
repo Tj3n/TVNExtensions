@@ -1,5 +1,7 @@
 # TVNExtensions
 
+[![Build Status](https://travis-ci.org/Tj3n/TVNExtensions.svg?branch=master)](https://travis-ci.org/Tj3n/TVNExtensions)
+
 Install with `gitpath`:
 
     pod 'TVNExtensions', :git => "https://github.com/Tj3n/TVNExtensions"
