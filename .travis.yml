@@ -8,11 +8,8 @@ branches:
 env:
   - LC_CTYPE=en_US.UTF-8 LANG=en_US.UTF-8
 
-xcode_project: DemoTest.xcodeproj
+xcode_project: DemoTest/DemoTest.xcodeproj
 xcode_scheme: 
   - DemoTest
 xcode_destination: platform=iOS Simulator,OS=12.0,name=iPhone X
 podfile: DemoTest/PodFile
-before_install:
-  - cd DemoTest
-  - pod install --repo-update
