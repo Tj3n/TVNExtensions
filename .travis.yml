@@ -10,6 +10,7 @@ env:
 
 xcode_project: DemoTest/DemoTest.xcodeproj
 xcode_scheme: 
+  - TVNExtensions
   - DemoTest
 xcode_destination: platform=iOS Simulator,OS=12.0,name=iPhone X
 podfile: DemoTest/PodFile
