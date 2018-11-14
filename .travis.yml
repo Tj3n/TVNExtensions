@@ -6,4 +6,5 @@ podfile: DemoTest/PodFile
 os: osx
 osx_image: xcode10.1
 before_install:
-  - pod instal --repo-update
+  - cd DemoTest
+  - pod install --repo-update
