@@ -9,6 +9,10 @@
 import Foundation
 
 extension FloatingPoint {
+    public static func random(in range: ClosedRange<Self>) -> Self {
+        return random(between: range.lowerBound, and: range.upperBound)
+    }
+    
     public static func random(between small: Self, and big: Self) -> Self {
         let diff = big - small
         return ((Self(arc4random() % (UInt32(RAND_MAX) + 1))) / (Self(RAND_MAX)) * diff) + small
@@ -19,9 +23,17 @@ extension FloatingPoint {
     public func toRad() -> Self {
         return self*Self.pi/180
     }
+    
+    public func toDegree() -> Self {
+        return self*180/Self.pi
+    }
 }
 
 extension Int {
+    public static func random(in range: ClosedRange<Int>) -> Int {
+        return random(between: range.lowerBound, and: range.upperBound)
+    }
+    
     public static func random(between small: Int, and big: Int) -> Int {
         return Int(Float.random(between: Float(small), and: Float(big)))
     }

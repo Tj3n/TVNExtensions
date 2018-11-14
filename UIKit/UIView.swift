@@ -9,49 +9,26 @@
 import Foundation
 import UIKit
 
-//private var startGradientColorKey: UInt8 = 0 // We still need this boilerplate
-//private var endGradientColorKey: UInt8 = 1 // We still need this boilerplate
-
 // MARK: Some frame value and class func
 extension UIView {
     public var width: CGFloat {
-        set {
-            var frame = self.frame
-            frame.size.width = newValue
-            self.frame = frame
-        }
-        get {
-            return self.frame.size.width
-        }
+        set { self.frame = CGRect(origin: frame.origin, size: CGSize(width: newValue, height: height)) }
+        get { return self.frame.size.width }
     }
     
     public var height: CGFloat {
-        set {
-            var frame = self.frame
-            frame.size.height = newValue
-            self.frame = frame
-        }
-        get {
-            return self.frame.size.height
-        }
+        set { self.frame = CGRect(origin: frame.origin, size: CGSize(width: width, height: newValue)) }
+        get { return self.frame.size.height }
     }
     
     public var originX: CGFloat {
-        set {
-            self.frame.origin.x = newValue
-        }
-        get {
-            return self.frame.origin.x
-        }
+        set { self.frame.origin.x = newValue }
+        get { return self.frame.origin.x }
     }
     
     public var originY: CGFloat {
-        set {
-            self.frame.origin.y = newValue
-        }
-        get {
-            return self.frame.origin.y
-        }
+        set { self.frame.origin.y = newValue }
+        get { return self.frame.origin.y }
     }
     
     /// Create view from same name's nib
@@ -69,6 +46,26 @@ extension UIView {
         }
         
         return nil
+    }
+    
+    public func findFirstResponder() -> UIView? {
+        guard !isFirstResponder else { return self }
+        
+        for subview in subviews {
+            if let firstResponder = subview.findFirstResponder() {
+                return firstResponder
+            }
+        }
+        
+        return nil
+    }
+    
+    public func allSubViews() -> [UIView] {
+        var subViews = self.subviews
+        for v in subviews {
+            subViews.append(contentsOf: v.allSubViews())
+        }
+        return subViews
     }
 
     /**
@@ -118,13 +115,12 @@ extension UIView {
     /// Add simple fadeTransition for the duration
     ///
     /// - Parameter duration: duration
-    func fadeTransition(_ duration:CFTimeInterval) {
+    public func fadeTransition(_ duration:CFTimeInterval) {
         let animation:CATransition = CATransition()
-        animation.timingFunction = CAMediaTimingFunction(name:
-            kCAMediaTimingFunctionEaseInEaseOut)
-        animation.type = kCATransitionFade
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animation.type = CATransitionType.fade
         animation.duration = duration
-        self.layer.add(animation, forKey: kCATransitionFade)
+        self.layer.add(animation, forKey: convertFromCATransitionType(CATransitionType.fade))
     }
     
     /// Custom corner radius
@@ -173,7 +169,7 @@ extension UIView {
         maskLayer.path = path
         
         if (invert) {
-            maskLayer.fillRule = kCAFillRuleEvenOdd
+            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
         }
         
         layer.mask = maskLayer;
@@ -203,7 +199,8 @@ extension UIView {
     
     @IBInspectable var borderColor: UIColor? {
         get {
-            return UIColor(cgColor: layer.borderColor!)
+            guard let borderColor = layer.borderColor else { return nil }
+            return UIColor(cgColor: borderColor)
         }
         set {
             layer.borderColor = newValue?.cgColor
@@ -224,6 +221,8 @@ extension UIView {
         }
     }
     
+    //private var startGradientColorKey: UInt8 = 0 // We still need this boilerplate
+    //private var endGradientColorKey: UInt8 = 1 // We still need this boilerplate
     //    @IBInspectable var bgStartColor: UIColor? {
     //        get {
     //            return objc_getAssociatedObject(self, &startGradientColorKey) as? UIColor
@@ -241,4 +240,9 @@ extension UIView {
     //            objc_setAssociatedObject(self, &endGradientColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     //        }
     //    }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
+	return input.rawValue
 }

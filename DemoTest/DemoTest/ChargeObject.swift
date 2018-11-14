@@ -16,15 +16,11 @@ public struct ChargeObject: Codable {
     let amountPaid: String
     let supportLink: URL
     
-//    private enum ChargeObjectCodingKey: String, CodingKey {
-//        case object = "object"
-//        case created = "created"
-//        case refunded = "refunded"
-//        case card = "card"
-//        case test = "test"
-//        case amountPaid = "amount_paid"
-//        case supportLink = "support_link"
-//    }
+    enum CodingKeys: String, CodingKey {
+//        case supportLink = "support_link_asdf" //If not use .convertFromSnakeCase
+        case supportLink = "supportLinkAsdf"
+        case object, created, refunded, card, test, amountPaid
+    }
     
 //    public init(from decoder: Decoder) throws {
 //        let container = try decoder.container(keyedBy: ChargeObjectCodingKey.self)

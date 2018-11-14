@@ -9,14 +9,23 @@
 import Foundation
 
 extension UIDevice {
+    public var modelIdentifier: String {
+//        var systemInfo = utsname()
+//        uname(&systemInfo)
+//        let machineMirror = Mirror(reflecting: systemInfo.machine)
+//        let identifier = machineMirror.children.reduce("") { identifier, element in
+//            guard let value = element.value as? Int8 , value != 0 else { return identifier }
+//            return identifier + String(UnicodeScalar(UInt8(value)))
+//        }
+//        return identifier
+        
+        var sysinfo = utsname()
+        uname(&sysinfo)
+        return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+    }
+    
     public var modelName: String {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8 , value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
+        let identifier = self.modelIdentifier
         
         switch identifier {
         case "iPod5,1":                                 return "iPod Touch 5"
@@ -52,8 +61,28 @@ extension UIDevice {
         }
     }
     
+    public var isSimulator: Bool {
+        #if arch(i386) || arch(x86_64)
+            return true
+        #else
+            return false
+        #endif
+    }
+    
     public var isIPhone: Bool {
-        return UIDevice().userInterfaceIdiom == .phone
+        return self.userInterfaceIdiom == .phone
+    }
+    
+    public var deviceVersion: Double? {
+        return Double(systemVersion)
+    }
+    
+    /// Check if device is newer than iPhone 7/7+ or not
+    public var hasHapticFeedback: Bool {
+        guard isIPhone else { return false }
+        let i = modelIdentifier.removeCharacters(from: CharacterSet.letters.union(.punctuationCharacters))
+        let compareResult = "90".compare(i, options: .numeric)
+        return compareResult != .orderedDescending
     }
     
     public enum ScreenType: String {

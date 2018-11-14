@@ -24,7 +24,7 @@ public struct ImageHelper {
     }
     
     public static func saveImage (_ image: UIImage, path: String, imageType: ImageType = .png) {
-        let imageData = imageType == .png ? UIImagePNGRepresentation(image) : UIImageJPEGRepresentation(image, 1.0)
+        let imageData = imageType == .png ? image.pngData() : image.jpegData(compressionQuality: 1.0)
         
         do {
             try imageData!.write(to: URL(fileURLWithPath: path), options: [.atomic])
@@ -67,6 +67,25 @@ public struct ImageHelper {
         UIGraphicsEndImageContext()
         
         return newImage!
+    }
+    
+    //TODO: need check
+    public static func cropImage(_ image: UIImage, rect: CGRect) -> UIImage {
+        let contextImage: UIImage = UIImage(cgImage: image.cgImage!)
+        let contextSize: CGSize = contextImage.size
+        
+        let widthRatio = contextSize.height/UIScreen.main.bounds.size.height
+        let heightRatio = contextSize.width/UIScreen.main.bounds.size.width
+        
+        let width = (rect.size.width) * widthRatio
+        let height = (rect.size.height) * heightRatio
+        let x = (contextSize.width/2) - width/2
+        let y = (contextSize.height/2) - height/2
+        let rect = CGRect(x: x, y: y, width: width, height: height)
+        
+        let imageRef: CGImage = contextImage.cgImage!.cropping(to: rect)!
+        let image: UIImage = UIImage(cgImage: imageRef, scale: 0, orientation: image.imageOrientation)
+        return image
     }
     
     public static func clearAllImage() {

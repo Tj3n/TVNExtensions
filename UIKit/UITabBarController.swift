@@ -59,7 +59,7 @@ extension UITabBarController {
         }
         
         view.isUserInteractionEnabled = false
-        UIView.transition(from: fromView, to: toView, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve) { (finished:Bool) in
+        UIView.transition(from: fromView, to: toView, duration: 0.3, options: UIView.AnimationOptions.transitionCrossDissolve) { (finished:Bool) in
             self.view.isUserInteractionEnabled = true
         }
         

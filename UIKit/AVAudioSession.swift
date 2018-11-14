@@ -16,11 +16,19 @@ extension AVAudioSession {
     public var isHeadphonesConnected: Bool {
         return !currentRoute.outputs.filter { $0.isHeadphones }.isEmpty
     }
+    
+    public class func mixWithBackgroundMusic() {
+        if #available(iOS 10.0, *) {
+            _ = try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
+        } else {
+            //No way to do right now, have to use Obj-C
+        }
+    }
 }
 
 extension AVAudioSessionPortDescription {
     public var isHeadphones: Bool {
-        return portType == AVAudioSessionPortHeadphones
+        return portType == .headphones
     }
 }
 
@@ -38,14 +46,14 @@ public class AudioDetection {
     }
     
     func listenForNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange(_:)), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
     @objc func handleRouteChange(_ notification: Notification) {
         guard
             let userInfo = notification.userInfo,
             let reasonRaw = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber,
-            let reason = AVAudioSessionRouteChangeReason(rawValue: reasonRaw.uintValue)
+            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonRaw.uintValue)
             else { fatalError("Strange... could not get routeChange") }
         switch reason {
         case .oldDeviceUnavailable:
@@ -64,6 +72,3 @@ public class AudioDetection {
         }
     }
 }
-
-
-

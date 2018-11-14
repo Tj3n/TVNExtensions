@@ -57,7 +57,35 @@ extension String {
         }
     }
     
-    //Convert nsrange to range
+    /// Remove front and back until reach characters not in set
+    ///
+    /// - Parameter set: CharacterSet
+    /// - Returns: New String
+    public func trim(in set: CharacterSet = .whitespacesAndNewlines) -> String {
+        return trimmingCharacters(in: set)
+    }
+    
+    /// Remove all characters in the characterSet
+    ///
+    /// - Parameter characterSet: CharacterSet
+    /// - Returns: New String
+    public func removeCharacters(from characterSet: CharacterSet) -> String {
+        let passed = self.unicodeScalars.filter { !characterSet.contains($0) }
+        return String(String.UnicodeScalarView(passed))
+    }
+    
+    /// Remove all characters in the characterSet inside the string
+    ///
+    /// - Parameter characterString: string to get characters from
+    /// - Returns: New String
+    public func removeCharacters(from characterString: String) -> String {
+        return removeCharacters(from: CharacterSet(charactersIn: characterString))
+    }
+    
+    /// Convert NSRange to Range
+    ///
+    /// - Parameter nsRange: NSRange
+    /// - Returns: optional Range<String.Index>
     public func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex)
         let to16 = utf16.index(from16!, offsetBy: nsRange.length, limitedBy: utf16.endIndex)
@@ -69,10 +97,9 @@ extension String {
         return nil
     }
     
-    public func getSize(font: UIFont, width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
+    public func getSize(attribute: [NSAttributedString.Key: Any], width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
         guard self.isNotEmpty else { return .zero }
-        let fontAttributes = [NSAttributedStringKey.font: font]
-        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: fontAttributes, context: nil)
+        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: attribute, context: nil)
         return sizeOfText
     }
 }
@@ -92,8 +119,7 @@ extension String {
     }
     
     public func isValidURL() -> Bool {
-        let url = URL(string: self)
-        if url != nil && url?.scheme != nil && url?.host != nil {
+        if let url = URL(string: self), let _ = url.scheme, let _ = url.host {
             return true
         } else {
             return false
@@ -103,6 +129,11 @@ extension String {
 
 // MARK: Conversion
 extension String {
+    
+    /// Format non-decimal number string to string with decimal dot after numbersAfterDecimal
+    ///
+    /// - Parameter numbersAfterDecimal: numbers of characters after dot
+    /// - Returns: formatted string
     public func formatDecimalString(numbersAfterDecimal: Int) -> String {
         guard let _ = Decimal(string: self) else { return "0.00" }
         
@@ -126,8 +157,15 @@ extension String {
         return modPrice
     }
     
+    public static func generateRandomString(length: Int, charactersIn chars: String = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") -> String {
+        let upperBound = UInt32(chars.count)
+        return String((0..<length).map { _ -> Character in
+            return chars[chars.index(chars.startIndex, offsetBy: Int(arc4random_uniform(upperBound)))]
+        })
+    }
+    
     public func toDate(format: String) -> Date? {
-        let dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format
         //        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         return dateFormatter.date(from: self)
@@ -161,11 +199,6 @@ extension String {
              return Locale(identifier: locales[fiteredLocale])
         }
         
-//        let fiteredLocale = locales.filter({ Locale(identifier: $0).currencyCode == currencyCode })
-//        if let locale = fiteredLocale.first {
-//            return Locale(identifier: locale)
-//        }
-        
         return nil
     }
     
@@ -177,8 +210,8 @@ extension String {
         return currencyCode
     }
     
-    public func toCountryName() -> String? {
-        return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: self)
+    public func toCountryName(locale: Locale = Locale(identifier: "en_US")) -> String? {
+        return locale.localizedString(forRegionCode: self) ?? self
     }
     
     public func toFlag() -> String {

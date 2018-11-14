@@ -99,8 +99,7 @@ class PrivateDrawableView: UIView {
             context.setLineWidth(lineWidth)
             context.setStrokeColor(lineColor.cgColor)
             context.strokePath()
-        }
-        else {
+        } else {
             backgroundColor?.set()
             UIRectFill(rect)
             let context = UIGraphicsGetCurrentContext()!

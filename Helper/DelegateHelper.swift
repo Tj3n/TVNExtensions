@@ -11,7 +11,7 @@ import Foundation
  Use this object to remove the needs of [unowned self] or [weak self] in closure delegate callback
  How to use:
  
- class TransactionViewModel {
+ class ViewModel {
  
     var dataFetchedHandler = DelegateHelper<Data, Void>()
  

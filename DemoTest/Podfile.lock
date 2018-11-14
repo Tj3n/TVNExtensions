@@ -1,23 +1,34 @@
 PODS:
+  - Kingfisher (4.10.1)
   - TVNExtensions (0.0.1):
-    - TVNExtensions/Foundation (= 0.0.1)
-    - TVNExtensions/Helper (= 0.0.1)
-    - TVNExtensions/UIKit (= 0.0.1)
+    - TVNExtensions/Lite (= 0.0.1)
   - TVNExtensions/Foundation (0.0.1)
   - TVNExtensions/Helper (0.0.1):
+    - TVNExtensions/UIKit
+  - TVNExtensions/Kingfisher (0.0.1):
+    - Kingfisher
+  - TVNExtensions/Lite (0.0.1):
+    - TVNExtensions/Foundation
+    - TVNExtensions/Helper
     - TVNExtensions/UIKit
   - TVNExtensions/UIKit (0.0.1)
 
 DEPENDENCIES:
   - TVNExtensions (from `../.`)
+  - TVNExtensions/Kingfisher (from `../.`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Kingfisher
 
 EXTERNAL SOURCES:
   TVNExtensions:
     :path: "../."
 
 SPEC CHECKSUMS:
-  TVNExtensions: 8f204275a29373f1cc9570aad7772764bef9724f
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  TVNExtensions: 1292916dc9528d91612f56e90635bdf1b1b9bd0f
 
-PODFILE CHECKSUM: e95421f45915eb07a9e9bb6188a5e0f1756d48ae
+PODFILE CHECKSUM: 3f41e9fde54f2f61671bf4c3632067cf295bfbe7
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

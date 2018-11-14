@@ -8,14 +8,25 @@
 
 import Foundation
 
+extension DateFormatter {
+    
+    /// Careful with date format change, should only be use to work with loop or collectionView,... to prevent recreated of DateFormatter
+    static public let shared: DateFormatter = {
+        let formatter = DateFormatter()
+        return formatter
+    }()
+}
+
 extension Calendar {
     static public var currentGMT: Calendar {
-        get {
-            var cal = Calendar.current
-            cal.timeZone = TimeZone(abbreviation: "GMT")!
-            return cal
-        }
+        var cal = Calendar.current
+        cal.timeZone = .gmt
+        return cal
     }
+    
+    static public let gregorian: Calendar = {
+       return Calendar(identifier: .gregorian)
+    }()
 }
 
 //MARK: Initialize
@@ -24,18 +35,19 @@ extension Date {
         self.init(timeIntervalSince1970: Double(timeStamp))
     }
     
-    public init(day: Int = Calendar.current.component(.day, from: Date()) , month: Int = Calendar.current.component(.month, from: Date()), year: Int = Calendar.current.component(.year, from: Date())) {
+    public init(day: Int,
+                month: Int = Calendar.gregorian.component(.month, from: Date()),
+                year: Int = Calendar.gregorian.component(.year, from: Date())) {
         var comps = DateComponents()
         comps.day = day
         comps.month = month
         comps.year = year
-        self.init(timeInterval: 0, since: Calendar.currentGMT.date(from: comps)!)
+        self.init(timeInterval: 0, since: Calendar.gregorian.date(from: comps)!)
     }
     
     public init?(from string: String, format: String) {
-        let dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter.shared
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         if let date = dateFormatter.date(from: string) {
             self.init(timeInterval: 0, since: date)
         } else {
@@ -47,21 +59,23 @@ extension Date {
 //MARK: Extra
 extension Date {
     public var year: Int {
-        get {
-            return Calendar.currentGMT.component(.year, from: self)
-        }
+        return self.getComponent(.year)
     }
     
     public var month: Int {
-        get {
-            return Calendar.currentGMT.component(.month, from: self)
-        }
+        return self.getComponent(.month)
     }
     
     public var day: Int {
-        get {
-            return Calendar.currentGMT.component(.day, from: self)
-        }
+        return self.getComponent(.day)
+    }
+    
+    public var hour: Int {
+        return self.getComponent(.hour)
+    }
+    
+    public func getComponent(_ comp: Calendar.Component) -> Int {
+         return Calendar.gregorian.component(comp, from: self)
     }
     
     static public func dateAtMidnight() -> Date {
@@ -70,11 +84,25 @@ extension Date {
     }
     
     public func startOfMonth() -> Date {
-        return Calendar.currentGMT.date(from: Calendar.currentGMT.dateComponents([.year, .month], from: Calendar.currentGMT.startOfDay(for: self)))!
+        return Calendar.gregorian.date(from: Calendar.gregorian.dateComponents([.year, .month], from: Calendar.gregorian.startOfDay(for: self)))!
     }
     
     public func endOfMonth() -> Date {
-        return Calendar.currentGMT.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+        return Calendar.gregorian.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+    }
+    
+    /// Convert timeIntervalSinceNow to formatted string of date, `formatter` can be something like:
+    /// ```
+    /// let formatter = DateComponentsFormatter()
+    /// formatter.unitsStyle = .abbreviated
+    /// formatter.allowedUnits = [ .day, .hour, .minute, .second]
+    /// ```
+    ///
+    /// - Parameter formatter: DateComponentsFormatter
+    /// - Returns: formatted TimeInterval, like "1d 2h"
+    public func formattedTimeSinceNow(formatter: DateComponentsFormatter) -> String? {
+        let duration = self.timeIntervalSinceNow
+        return formatter.string(from: duration)
     }
 }
 
@@ -86,15 +114,8 @@ extension Date {
     
     //Convert Date to String
     public func toString(_ format: String) -> String {
-        let dateFormatter = DateFormatter()
-        //        dateFormatter.locale = NSLocale.systemLocale()
-        
-        if !format.isEmpty {
-            dateFormatter.dateFormat = format
-        } else {
-            dateFormatter.dateFormat = "yyyy MM dd"
-        }
-        
+        let dateFormatter = DateFormatter.shared
+        dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }
     
@@ -104,7 +125,7 @@ extension Date {
     }
     
     static public func numberOfDayInPeriod(fromDate date: Date, toDate: Date) -> Int {
-        let numberOfDays = Calendar.currentGMT.dateComponents([.day], from: date, to: toDate).day!
+        let numberOfDays = Calendar.gregorian.dateComponents([.day], from: date, to: toDate).day!
         return numberOfDays < 0 ? numberOfDays * -1 : numberOfDays
     }
 }
@@ -112,11 +133,11 @@ extension Date {
 //MARK: Calculation
 extension Date {
     public static func +(left: Date, right: (Calendar.Component,Int)) -> Date {
-        let date = Calendar.currentGMT.date(byAdding: right.0, value: right.1, to: left)
+        let date = Calendar.gregorian.date(byAdding: right.0, value: right.1, to: left)
         return date!
     }
     public static func -(left: Date, right: (Calendar.Component,Int)) -> Date {
-        let date = Calendar.currentGMT.date(byAdding: right.0, value: -right.1, to: left)
+        let date = Calendar.gregorian.date(byAdding: right.0, value: -right.1, to: left)
         return date!
     }
 }
@@ -124,33 +145,21 @@ extension Date {
 //MARK: Int+Calendar.Component
 public extension Int {
     public var day: (Calendar.Component,Int) {
-        get {
-            return (.day, self)
-        }
+        return (.day, self)
     }
     public var year: (Calendar.Component,Int) {
-        get {
-            return (.year, self)
-        }
+        return (.year, self)
     }
     public var month: (Calendar.Component,Int) {
-        get {
-            return (.month, self)
-        }
+        return (.month, self)
     }
     public var hour: (Calendar.Component,Int) {
-        get {
-            return (.hour, self)
-        }
+        return (.hour, self)
     }
     public var minute: (Calendar.Component,Int) {
-        get {
-            return (.minute, self)
-        }
+        return (.minute, self)
     }
     public var second: (Calendar.Component,Int) {
-        get {
-            return (.second, self)
-        }
+        return (.second, self)
     }
 }

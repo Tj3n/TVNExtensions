@@ -18,19 +18,24 @@ public extension UIViewController {
     ///   - controllerId: controller identifier, default to the same Class name
     /// - Returns: view controller
     public class func instantiate(fromStoryboard storyboardName: String = "Main", controllerId: String = "") -> Self {
-        return instantiateFromStoryboardHelper(storyboardName, storyboardId: controllerId.isEmpty ? String(describing: self) : controllerId)
+        let sb = UIStoryboard(name: storyboardName, bundle: Bundle.main)
+        return instantiateFromStoryboardHelper(sb, controllerId: controllerId.isEmpty ? String(describing: self) : controllerId)
     }
     
-    fileprivate class func instantiateFromStoryboardHelper<T>(_ storyboardName: String, storyboardId: String) -> T {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: Bundle.main)
-        let controller = storyboard.instantiateViewController(withIdentifier: storyboardId) as! T
+    public class func instantiate(fromStoryboard storyboard: UIStoryboard?, controllerId: String = "") -> Self {
+        return instantiateFromStoryboardHelper(storyboard ?? UIStoryboard(name: "Main", bundle: Bundle.main),
+                                               controllerId: controllerId.isEmpty ? String(describing: self) : controllerId)
+    }
+    
+    fileprivate class func instantiateFromStoryboardHelper<T>(_ storyboard: UIStoryboard, controllerId: String) -> T {
+        let controller = storyboard.instantiateViewController(withIdentifier: controllerId) as! T
         return controller
     }
-    
+
     /// Get top view controller from window
     ///
     /// - Parameter window: default UIApplication.shared.keyWindow
-    /// - Returns: top view controller
+    /// - Returns: top view controller, does not detect childViewController
     public class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
         return getTopViewController(from: window?.rootViewController)
     }
@@ -55,8 +60,8 @@ public extension UIViewController {
     ///   - controller: Child view controller
     ///   - toView: The view to contain the controller's view
     ///   - animated: Set to true to use custom present animation
-    public func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool) {
-        self.addChildViewController(childController)
+    public func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool, completion: (()->())?) {
+        self.addChild(childController)
         let v = childController.view!
         v.alpha = 0
         v.addTo(toView)
@@ -64,7 +69,8 @@ public extension UIViewController {
         
         guard animated else {
             v.alpha = 1
-            childController.didMove(toParentViewController: self)
+            childController.didMove(toParent: self)
+            completion?()
             return
         }
         
@@ -76,7 +82,8 @@ public extension UIViewController {
             v.layer.transform = CATransform3DIdentity
             v.alpha = 1
         }, completion: { (_) in
-            childController.didMove(toParentViewController: self)
+            childController.didMove(toParent: self)
+            completion?()
         })
     }
     
@@ -88,8 +95,7 @@ public extension UIViewController {
     ///   - containerView: containerView to switch
     ///   - completion: completion handler
     func switchChildViewController(_ oldViewController: UIViewController, to newViewController: UIViewController, in containerView: UIView, completion: (()->())?) {
-        oldViewController.willMove(toParentViewController: nil)
-        self.addChildViewController(newViewController)
+        self.addChild(newViewController)
         
         newViewController.view.addTo(containerView)
         newViewController.view.edgesToSuperView()
@@ -104,9 +110,11 @@ public extension UIViewController {
             oldViewController.view.alpha = 0
             oldViewController.view.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1.0)
         }) { (_) in
+            oldViewController.willMove(toParent: nil)
             oldViewController.view.removeFromSuperview()
-            oldViewController.removeFromParentViewController()
-            newViewController.didMove(toParentViewController: self)
+            oldViewController.removeFromParent()
+            
+            newViewController.didMove(toParent: self)
             completion?()
         }
     }

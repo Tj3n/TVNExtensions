@@ -10,18 +10,24 @@ import Foundation
 import UIKit
 
 extension UIActivityIndicatorView {
+    private static let tvnIndicatorTag = 38383
+    
+    /// Show custom loader in view, keep the instance to stop the loading view
+    ///
+    /// - Parameter view: view to show loader above
+    /// - Returns: A custom UIActivityIndicatorView
     public class func showInView(_ view: UIView) -> UIActivityIndicatorView {
-        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
         activityIndicator.layer.cornerRadius = 30.0
         activityIndicator.startAnimating()
         activityIndicator.center = CGPoint(x: view.bounds.size.width / 2, y: view.bounds.size.height / 2)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.alpha = 0.0
-        activityIndicator.tag = 38383
+        activityIndicator.tag = tvnIndicatorTag
         
         view.addSubview(activityIndicator)
-        view.bringSubview(toFront: activityIndicator)
+        view.bringSubviewToFront(activityIndicator)
         view.isUserInteractionEnabled = false
         view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0))
         view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0))
@@ -43,7 +49,7 @@ extension UIActivityIndicatorView {
     }
     
     public func end(completion: (() -> ())? = nil) {
-        guard self.tag == 38383 else { return }
+        guard self.tag == UIActivityIndicatorView.tvnIndicatorTag else { return }
         self.superview?.isUserInteractionEnabled = true
         let center: CGPoint = self.center
         UIView.animate(withDuration: 0.2, animations: {() -> Void in

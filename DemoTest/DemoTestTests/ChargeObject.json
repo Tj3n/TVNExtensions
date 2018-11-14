@@ -10,7 +10,7 @@
     "object": "charge",
     "risk": "approved",
     "amount_paid": "1",
-    "support_link": "http://example.com",
+    "support_link_asdf": "http://example.com",
     "amount": "1",
     "refunded": false,
     "captured": true,

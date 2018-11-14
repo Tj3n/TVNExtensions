@@ -38,9 +38,9 @@ class DemoTestUITests: XCTestCase {
         XCTAssertTrue(tf.isHittable)
         
         
-        app.buttons["Button"].tap()
-        let nextVCLabel = app.staticTexts["something"]
-        let exist = nextVCLabel.waitForExistence(timeout: 2)
+        app.buttons["Modal"].tap()
+        let nextVCField = app.textFields["something"]
+        let exist = nextVCField.waitForExistence(timeout: 2)
         
         XCTAssertTrue(exist)
     }

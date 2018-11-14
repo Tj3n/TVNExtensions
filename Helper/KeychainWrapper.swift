@@ -442,3 +442,38 @@ open class KeychainWrapper {
         return keychainQueryDictionary
     }
 }
+
+// MARK: - Swift 4 Codable for KeychainWrapper
+public extension KeychainWrapper {
+    
+    /// Returns a Decodable object for a specified key.
+    ///
+    /// - Parameters:
+    ///   - key: The key to lookup data for.
+    ///   - type: The type of the object, must conform to Decodable protocol
+    ///   - decoder: Optional JSONDecoder to decode the object from saved Data
+    ///   - accessibility: Optional accessibility to use when retrieving the keychain item.
+    /// - Returns: The Decodable object associated with the key if it exists. If no data exists, returns nil.
+    public func codableObject<T: Decodable>(forKey key: String, type: T.Type, decoder: JSONDecoder = JSONDecoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> T? {
+        guard let data = self.data(forKey: key) else { return nil }
+        return (try? decoder.decode(T.self, from: data)) as T?
+    }
+    
+    /// Save an Encodable object to the keychain associated with a specified key. If data already exists for the given key, the data will be overwritten with the new value.
+    ///
+    /// - Parameters:
+    ///   - value: The Encodable object to save.
+    ///   - key: The key to save the object under.
+    ///   - encoder: Optional custom encoder to encode the object into Data
+    ///   - accessibility: Optional accessibility to use when setting the keychain item.
+    /// - Returns: True if the save was successful, false otherwise.
+    @discardableResult
+    public func setCodable<T: Encodable>(_ value: T, forKey key: String, encoder: JSONEncoder = JSONEncoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        guard let data = value.getData(encoder: encoder) else {
+            self.removeObject(forKey: key)
+            return false
+        }
+        return set(data, forKey: key, withAccessibility: accessibility)
+        
+    }
+}

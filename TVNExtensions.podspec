@@ -20,7 +20,8 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.frameworks = "UIKit", "Foundation"
+  s.frameworks = "UIKit", "Foundation", "CoreTelephony", "CoreLocation", "AVFoundation" , "LocalAuthentication"
+  s.default_subspec = 'Lite'
 
   s.subspec 'Foundation' do |sp|
     sp.source_files = "Foundation"
@@ -33,6 +34,17 @@ Pod::Spec.new do |s|
   s.subspec 'Helper' do |sp|
     sp.source_files = "Helper"
     sp.dependency 'TVNExtensions/UIKit'
+  end
+
+  s.subspec 'Lite' do |lite|
+    # Default subspec don't include Kingfisher
+    lite.dependency 'TVNExtensions/Helper'
+    lite.dependency 'TVNExtensions/UIKit'
+    lite.dependency 'TVNExtensions/Foundation'
+  end
+
+  s.subspec 'Kingfisher' do |kingfisher|
+    kingfisher.dependency 'Kingfisher'
   end
 
   s.xcconfig = {
