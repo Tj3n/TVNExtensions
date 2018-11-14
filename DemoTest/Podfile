@@ -7,7 +7,7 @@ target 'DemoTest' do
 
   # Pods for DemoTest
   pod 'TVNExtensions', :path => '../.'
-  pod 'TVNExtensions/Kingfisher', :path => '../.'
+#  pod 'TVNExtensions/Kingfisher', :path => '../.'
 
   target 'DemoTestTests' do
     inherit! :search_paths
