@@ -48,43 +48,40 @@ class ViewController: UIViewController {
 //        let viewer = ImageViewerViewController(imageURL: URL(string: "https://www.gstatic.com/webp/gallery3/1.png")!, placeholderImage: imgView.image, from: imgView)
         self.present(viewer, animated: true, completion: nil)
     }
+    
+    func getNextVC() -> NextViewController {
+        let nextVC = NextViewController()
+        nextVC.destinationText = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
+        nextVC.destinationImage = self.imgView.image
+        return nextVC
+    }
 
-    @IBAction func btnTouch(_ sender: Any) {
-        view.endEditing(true)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
-            ///Test animate transistion with sb
-//            self.performSegue(withIdentifier: "show", sender: self) // Disable navigationController?.delegate = animator
-//            self.performSegue(withIdentifier: "push", sender: self) // Disable nextVC.transitioningDelegate = animator
-//            return
-            
-            ///W/o sb
-            let nextVC = NextViewController()
-            nextVC.destinationText = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
-            nextVC.destinationImage = self.imgView.image
-            let _ = nextVC.view
-            
-            ///Test animate transistion without sb
-            self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
-            nextVC.transitioningDelegate = self.animator
-            self.present(nextVC, animated: true, completion: nil)
-//            self.navigationController?.delegate = self.animator
-//            self.navigationController?.pushViewController(nextVC, animated: true)
-            
-            ///Test change rootVC
-//            UIApplication.shared.keyWindow?.changeRootViewController(with: nextVC, animated: true, completion: nil)
-        }
+    @IBAction func modalBtnTouch(_ sender: Any) {
+        let nextVC = getNextVC()
+        self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
+        nextVC.transitioningDelegate = self.animator
+        self.present(nextVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func pushBtnTouch(_ sender: Any) {
+        let nextVC = getNextVC()
+        self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
+        self.navigationController?.delegate = self.animator
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let nextVC = segue.destination as? NextViewController  {
+        if let nextVC = segue.destination as? NextViewControllerAlt {
             nextVC.destinationText = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
             nextVC.destinationImage = self.imgView.image
-            let _ = nextVC.view
+            let _ = nextVC.view // Fix for nil destinationImgView
             
             self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
-            nextVC.transitioningDelegate = self.animator
-            self.navigationController?.delegate = self.animator
+            if segue.identifier == "show" {
+                nextVC.transitioningDelegate = animator
+            } else if segue.identifier == "push" {
+                navigationController?.delegate = animator
+            }
         }
     }
     

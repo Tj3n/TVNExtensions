@@ -10,8 +10,6 @@ import TVNExtensions
 
 class NextViewController: UIViewController {
 
-//    @IBOutlet weak var destinationImgView: UIImageView!
-    
     var destinationImage: UIImage?
     var destinationText: String?
     
@@ -128,23 +126,21 @@ class NextViewController: UIViewController {
         bottomTextfield.right(to: view, by: 16)
         
         //Test auto bottom constraint
-//        let tfBottomConstraint = KeyboardLayoutConstraint.create(with: bottomTextfield, to: view, isToTop: false, constant: 30)
-//        tfBottomConstraint.isActive = true
-//        tfBottomConstraint.excludeOriginConstant = true
+        let tfBottomConstraint = KeyboardLayoutConstraint(from: bottomTextfield, to: view, constant: 50, isToTop: false, relatedBy: .equal, excludeOriginConstant: true, keyboardActiveAmount: 16)
+        tfBottomConstraint.isActive = true
         
         //Test auto top constraint
-//        let tfTopConstraint = KeyboardLayoutConstraint.create(with: bottomTextfield, to: view, isToTop: true, constant: 500)
+//        let tfTopConstraint = KeyboardLayoutConstraint(from: bottomTextfield, to: view, constant: 500, isToTop: true)
 //        tfTopConstraint.isActive = true
-//        tfTopConstraint.excludeOriginConstant = true
         
         //Test keyboard handling class
-        let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
-        self.observeKeyboardEvent { [unowned self] (up, height, duration) in
-            tfBottomConstraint.constant = up ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
-            UIView.animate(withDuration: duration, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
+//        let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
+//        self.observeKeyboardEvent { [unowned self] (up, height, duration) in
+//            tfBottomConstraint.constant = up ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
+//            UIView.animate(withDuration: duration, animations: {
+//                self.view.layoutIfNeeded()
+//            })
+//        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

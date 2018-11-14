@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0487ACC015DD439C9F9C9E32 /* Pods_DemoTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8990A765DF8A412B49B86400 /* Pods_DemoTest.framework */; };
+		848A9B62219C000C0060BE49 /* NextViewControllerAlt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848A9B61219C000C0060BE49 /* NextViewControllerAlt.swift */; };
 		8FA0A8E9C97535E8101B2972 /* Pods_DemoTestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD0C2708EB948D3E276E00A /* Pods_DemoTestUITests.framework */; };
 		9C17F1B521194F8A001F0137 /* Beautiful People Personal Use.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */; };
 		9C435B64207DB8C90015CD46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C435B63207DB8C90015CD46 /* AppDelegate.swift */; };
@@ -49,6 +50,7 @@
 		684D211752C8CF497BAC2FA0 /* Pods_DemoTestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoTestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D519102935BC0AA069148B5 /* Pods-DemoTestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTestTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTestTests/Pods-DemoTestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7EA457162AFA24ECB9B5378D /* Pods-DemoTestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTestTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTestTests/Pods-DemoTestTests.release.xcconfig"; sourceTree = "<group>"; };
+		848A9B61219C000C0060BE49 /* NextViewControllerAlt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewControllerAlt.swift; sourceTree = "<group>"; };
 		8990A765DF8A412B49B86400 /* Pods_DemoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A9F5DEC3FA90C9B2B3C4D /* Pods-DemoTestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTestUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTestUITests/Pods-DemoTestUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Beautiful People Personal Use.ttf"; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				9C435B63207DB8C90015CD46 /* AppDelegate.swift */,
 				9C435B65207DB8C90015CD46 /* ViewController.swift */,
 				9C70CFFC2080C20F00FA2B71 /* NextViewController.swift */,
+				848A9B61219C000C0060BE49 /* NextViewControllerAlt.swift */,
 				9C787E3A2085E7A300B24A9E /* ChargeObject.swift */,
 				9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */,
 				9C435B67207DB8C90015CD46 /* Main.storyboard */,
@@ -403,6 +406,7 @@
 				9C70CFFD2080C20F00FA2B71 /* NextViewController.swift in Sources */,
 				9C787E3B2085E7A300B24A9E /* ChargeObject.swift in Sources */,
 				9C435B64207DB8C90015CD46 /* AppDelegate.swift in Sources */,
+				848A9B62219C000C0060BE49 /* NextViewControllerAlt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

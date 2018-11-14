@@ -10,7 +10,7 @@ import AVFoundation
 import Kingfisher
 #endif
 
-/// Full screen Image Viewer, to handle URL with Kingfisher add to podfile: `pod 'TVNExtensions/Kingfisher'`
+/// Full screen Image Viewer, to handle URL with Kingfisher add to podfile: pod 'TVNExtensions/Kingfisher'
 public class ImageViewerViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
