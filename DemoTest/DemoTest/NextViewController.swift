@@ -14,52 +14,52 @@ class NextViewController: UIViewController {
     var destinationText: String?
     
     lazy var destinationImgView: UIImageView = {
-        let v = UIImageView(image: nil)
-        return v
+        let view = UIImageView(image: nil)
+        return view
     }()
 
     lazy var nextLabel: UILabel = {
-        let v = UILabel(frame: .zero)
-        v.textAlignment = .center
-        v.textColor = .white
-        return v
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = .white
+        return view
     }()
     
     lazy var dismissBtn: UIButton = {
-        let v = UIButton(type: .system)
-        v.setTitle("Close", for: .normal)
-        return v
+        let view = UIButton(type: .system)
+        view.setTitle("Close", for: .normal)
+        return view
     }()
     
     lazy var topLabel: UILabel = {
-        let v = UILabel(frame: .zero)
-        v.textAlignment = .center
-        v.textColor = .white
-        v.text = "Top"
-        return v
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = .white
+        view.text = "Top"
+        return view
     }()
     
     lazy var leftLabel: UILabel = {
-        let v = UILabel(frame: .zero)
-        v.textAlignment = .center
-        v.textColor = .white
-        v.text = "Left"
-        return v
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = .white
+        view.text = "Left"
+        return view
     }()
     
     lazy var rightLabel: UILabel = {
-        let v = UILabel(frame: .zero)
-        v.textAlignment = .center
-        v.textColor = .white
-        v.text = "Right"
-        return v
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = .white
+        view.text = "Right"
+        return view
     }()
     
     lazy var bottomTextfield: UITextField = {
-        let v = UITextField(frame: .zero)
-        v.borderStyle = .roundedRect
-        v.placeholder = "Test"
-        return v
+        let view = UITextField(frame: .zero)
+        view.borderStyle = .roundedRect
+        view.placeholder = "Test"
+        return view
     }()
     
     deinit {
@@ -84,7 +84,7 @@ class NextViewController: UIViewController {
         destinationImgView.image = destinationImage
         bottomTextfield.text = destinationText
         
-        dismissBtn.addTouchUpInsideAction { [unowned self] (btn) in
+        dismissBtn.addTouchUpInsideAction { [unowned self] (_) in
             if let nav = self.navigationController {
                 nav.popViewController(animated: true)
             } else {
@@ -139,8 +139,8 @@ class NextViewController: UIViewController {
         
         //Test keyboard handling class
         let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
-        self.observeKeyboardEvent { [view = self.view] (up, height, duration) in
-            tfBottomConstraint.constant = up ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
+        self.observeKeyboardEvent { [view = self.view] (isUp, height, duration) in
+            tfBottomConstraint.constant = isUp ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
             UIView.animate(withDuration: duration, animations: {
                 view?.layoutIfNeeded()
             })

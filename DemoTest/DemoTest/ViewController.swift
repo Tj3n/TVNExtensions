@@ -76,7 +76,7 @@ class ViewController: UIViewController {
         if let nextVC = segue.destination as? NextViewControllerAlt {
             nextVC.destinationText = self.testTextfield.text!.isEmpty ? self.testTextfield.placeholder : self.testTextfield.text
             nextVC.destinationImage = self.imgView.image
-            let _ = nextVC.view // Fix for nil destinationImgView
+            _ = nextVC.view // Fix for nil destinationImgView
             
             self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
             if segue.identifier == "show" {
