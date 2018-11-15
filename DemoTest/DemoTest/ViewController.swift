@@ -44,8 +44,10 @@ class ViewController: UIViewController {
     
     @objc func testImageViewer(_ sender: UIGestureRecognizer) {
         print(#function)
-        let viewer = ImageViewerViewController(image: imgView.image, from: imgView)
-//        let viewer = ImageViewerViewController(imageURL: URL(string: "https://www.gstatic.com/webp/gallery3/1.png")!, placeholderImage: imgView.image, from: imgView)
+//        let viewer = ImageViewerViewController(image: imgView.image, from: imgView)
+        let viewer = ImageViewerViewController(imageURL: URL(string: "https://www.gstatic.com/webp/gallery3/1.png")!, placeholderImage: imgView.image, from: imgView) { img in
+            self.imgView.image = img
+        }
         self.present(viewer, animated: true, completion: nil)
     }
     

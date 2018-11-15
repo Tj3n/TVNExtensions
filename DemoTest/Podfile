@@ -7,6 +7,8 @@ target 'DemoTest' do
 
   # Pods for DemoTest
   pod 'TVNExtensions', :path => '../.'
+  pod 'ParticleIOS', :path => '../.'
+  pod 'TlvParser', :path => '../.'
   pod 'TVNExtensions/Kingfisher', :path => '../.'
 
   target 'DemoTestTests' do

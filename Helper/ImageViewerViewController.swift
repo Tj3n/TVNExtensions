@@ -53,6 +53,7 @@ public class ImageViewerViewController: UIViewController {
     private var animator: ImageViewerAnimator?
     //    private var isZooming = false
     //    var shouldDismiss = false
+    private var downloadedImgCompletion: ((UIImage?) -> ())?
     
     /// Create imageViewer with transition animation from view/imageview/cell...
     ///
@@ -71,10 +72,12 @@ public class ImageViewerViewController: UIViewController {
     ///   - imageURL: image URL
     ///   - placeholderImage: placeholder image, can be nil
     ///   - view: starting view
-    convenience public init(imageURL: URL, placeholderImage: UIImage?, from view: UIView?) {
+    ///   - completion: completion closure after finished image downloading
+    convenience public init(imageURL: URL, placeholderImage: UIImage?, from view: UIView?, completion: ((UIImage?) -> ())?) {
         self.init(nibName:nil, bundle:nil)
         self.imageURL = imageURL
         self.image = placeholderImage
+        self.downloadedImgCompletion = completion
         setupModalPresention(from: view, image: placeholderImage)
     }
     
@@ -87,18 +90,21 @@ public class ImageViewerViewController: UIViewController {
         
         if let url = imageURL {
             #if canImport(Kingfisher)
+            self.imageView.kf.indicatorType = .activity
             self.imageView.kf.setImage(with: url, placeholder: image) { [weak self] (img, error, cacheType, url) in
                 self?.image = img
                 self?.calculateZoomScale()
+                self?.downloadedImgCompletion?(img)
             }
             #else
             DispatchQueue.global().async {
                 if let imageData = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [weak self] in
                         let newImage = UIImage(data: imageData)
-                        self.image = newImage
-                        self.imageView.image = newImage
-                        self.calculateZoomScale()
+                        self?.image = newImage
+                        self?.imageView.image = newImage
+                        self?.calculateZoomScale()
+                        self?.downloadedImgCompletion?(newImage)
                     }
                 }
             }
