@@ -164,10 +164,9 @@ extension String {
         })
     }
     
-    public func toDate(format: String) -> Date? {
-        let dateFormatter = DateFormatter.shared
+    public func toDate(format: String, dateFormatter: DateFormatter = DateFormatter.shared) -> Date? {
         dateFormatter.dateFormat = format
-        //        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        //dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         return dateFormatter.date(from: self)
     }
     
@@ -177,37 +176,20 @@ extension String {
     
     //To use with currency code
     public func toCurrencySymbol() -> String {
-        return findCurrencySymbolByCode(self)
+        let result = Locale.availableIdentifiers.map{ Locale(identifier: $0) }.first{ $0.currencyCode == self }
+        return result?.currencySymbol ?? self
     }
     
     //To use with number string
-    public func toCurrencyFormatter(currencyCode: String) -> String {
-        if NSDecimalNumber(string: self) != NSDecimalNumber.notANumber {
-            let formatter = NumberFormatter()
+    public func toCurrencyFormatter(currencyCode: String, formatter: NumberFormatter = NumberFormatter()) -> String {
+        let number = NSDecimalNumber(string: self)
+        if number != NSDecimalNumber.notANumber {
             formatter.numberStyle = .currency
             formatter.currencyCode = currencyCode
-            guard let formattedStr = formatter.string(from: NSDecimalNumber(string: self)) else { return self }
+            guard let formattedStr = formatter.string(from: number) else { return self }
             return formattedStr
         }
         return self
-    }
-    
-    fileprivate func findLocaleByCurrencyCode(_ currencyCode: String) -> Locale? {
-        let locales = Locale.availableIdentifiers
-        
-        if let fiteredLocale = locales.index(where: { Locale(identifier: $0).currencyCode == currencyCode }) {
-             return Locale(identifier: locales[fiteredLocale])
-        }
-        
-        return nil
-    }
-    
-    fileprivate func findCurrencySymbolByCode(_ currencyCode: String) -> String {
-        guard let locale = self.findLocaleByCurrencyCode(currencyCode) else { return currencyCode }
-        if let currencySymbol = locale.currencySymbol {
-            return currencySymbol
-        }
-        return currencyCode
     }
     
     public func toCountryName(locale: Locale = Locale(identifier: "en_US")) -> String? {

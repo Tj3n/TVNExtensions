@@ -22,11 +22,6 @@ class DateTest: XCTestCase {
     
     let d = Date(day: 11, month: 4, year: 2018)
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
     func testNumberOfDays() {
         XCTAssertEqual(29, Date.numberOfDayInPeriod(fromDate: d.startOfMonth(), toDate: d.endOfMonth()))
     }
@@ -56,12 +51,4 @@ class DateTest: XCTestCase {
         XCTAssertEqual(d+1.day, Date(day: 12, month: 4, year: 2018))
         XCTAssertEqual(d-1.day, Date(day: 10, month: 4, year: 2018))
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
