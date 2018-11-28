@@ -3,7 +3,7 @@
 //  Passport
 //
 //  Created by Tien Nhat Vu on 6/13/18.
-//  Copyright © 2018 Paymentwall. All rights reserved.
+//  Copyright © 2018 Tien Nhat Vu. All rights reserved.
 //
 
 import Foundation

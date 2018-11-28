@@ -9,6 +9,15 @@ buildNumber=$(($buildNumber + 1))
 - **Project path**: `$(SRCROOT)`
 - **Project name**: `$(PROJECT_NAME)`
 - **Swift module name**: `$(SWIFT_MODULE_NAME)`
+- **[Path list](https://gist.github.com/gdavis/6670468)**
+- **Check path**:
+```
+//Project
+xcodebuild -project yourProject.xcodeproj -target yourTarget -showBuildSettings | grep PROJECT_DIR
+//Workspace
+xcodebuild -workspace yourWorkspace.xcworkspace -scheme yourScheme -showBuildSettings | grep PROJECT_DIR
+```
+
 - **Open new terminal/terminal tab of active XCode project:**
 ```
 #Add to XCode behaviors
@@ -39,6 +48,7 @@ EOD
     - Step 3. Push your changes to your git repo.
 
 - **Travis CI with Pods:**
+    - Make sure to use `xcode_workspace:`
     - Products > Scheme > Manage Schemes
     - Make sure project scheme is Shared
     - Edit project scheme

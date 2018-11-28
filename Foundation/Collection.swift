@@ -3,7 +3,7 @@
 //  MerchantDashboard
 //
 //  Created by Tien Nhat Vu on 1/6/17.
-//  Copyright © 2017 Paymentwall. All rights reserved.
+//  Copyright © 2017 Tien Nhat Vu. All rights reserved.
 //
 
 import Foundation
