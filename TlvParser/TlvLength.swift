@@ -3,7 +3,7 @@
 //  BlingTerminal
 //
 //  Created by Tien Nhat Vu on 12/28/17.
-//  Copyright © 2017 Paymentwall. All rights reserved.
+//  Copyright © 2017 Tien Nhat Vu. All rights reserved.
 //
 
 import Foundation

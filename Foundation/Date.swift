@@ -3,13 +3,12 @@
 //  MerchantDashboard
 //
 //  Created by Tien Nhat Vu on 3/17/16.
-//  Copyright © 2016 Paymentwall. All rights reserved.
+//  Copyright © 2016 Tien Nhat Vu. All rights reserved.
 //
 
 import Foundation
 
 extension DateFormatter {
-    
     /// Careful with date format change, should only be use to work with loop or collectionView,... to prevent recreated of DateFormatter
     static public let shared: DateFormatter = {
         let formatter = DateFormatter()
@@ -45,8 +44,7 @@ extension Date {
         self.init(timeInterval: 0, since: Calendar.gregorian.date(from: comps)!)
     }
     
-    public init?(from string: String, format: String) {
-        let dateFormatter = DateFormatter.shared
+    public init?(from string: String, format: String, dateFormatter: DateFormatter = DateFormatter.shared) {
         dateFormatter.dateFormat = format
         if let date = dateFormatter.date(from: string) {
             self.init(timeInterval: 0, since: date)
@@ -113,8 +111,7 @@ extension Date {
     }
     
     //Convert Date to String
-    public func toString(_ format: String) -> String {
-        let dateFormatter = DateFormatter.shared
+    public func toString(_ format: String, dateFormatter: DateFormatter = DateFormatter.shared) -> String {
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }

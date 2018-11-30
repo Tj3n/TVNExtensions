@@ -1,5 +1,8 @@
 PODS:
   - Kingfisher (4.10.1)
+  - ParticleIOS (0.0.1):
+    - TVNExtensions
+  - TlvParser (0.0.1)
   - TVNExtensions (0.0.1):
     - TVNExtensions/Lite (= 0.0.1)
   - TVNExtensions/Foundation (0.0.1)
@@ -14,6 +17,8 @@ PODS:
   - TVNExtensions/UIKit (0.0.1)
 
 DEPENDENCIES:
+  - ParticleIOS (from `../.`)
+  - TlvParser (from `../.`)
   - TVNExtensions (from `../.`)
   - TVNExtensions/Kingfisher (from `../.`)
 
@@ -22,13 +27,19 @@ SPEC REPOS:
     - Kingfisher
 
 EXTERNAL SOURCES:
+  ParticleIOS:
+    :path: "../."
+  TlvParser:
+    :path: "../."
   TVNExtensions:
     :path: "../."
 
 SPEC CHECKSUMS:
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  ParticleIOS: 22a9bc62af7f30eefa7cc3d92e6e5ca865595ba2
+  TlvParser: e80c707be7b33d8646a80ae7b407bb6dc8d4e3aa
   TVNExtensions: 1292916dc9528d91612f56e90635bdf1b1b9bd0f
 
-PODFILE CHECKSUM: 3f41e9fde54f2f61671bf4c3632067cf295bfbe7
+PODFILE CHECKSUM: 433848bdb782ab0fcf82b33f72d520cf2889973b
 
 COCOAPODS: 1.5.3

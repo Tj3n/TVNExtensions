@@ -8,10 +8,10 @@
 import UIKit
 
 class NextViewControllerAlt: UIViewController {
-    
+
     @IBOutlet weak var destinationImgView: UIImageView!
     @IBOutlet weak var bottomTextfield: UITextField!
-    
+
     var destinationImage: UIImage?
     var destinationText: String?
 
@@ -23,7 +23,7 @@ class NextViewControllerAlt: UIViewController {
         destinationImgView.image = destinationImage
         bottomTextfield.text = destinationText
     }
-    
+
     @IBAction func dismissBtnTouch(_ sender: Any) {
         if let nav = self.navigationController {
             nav.popViewController(animated: true)
@@ -31,7 +31,7 @@ class NextViewControllerAlt: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
