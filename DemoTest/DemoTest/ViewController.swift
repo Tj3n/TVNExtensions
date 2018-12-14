@@ -7,6 +7,7 @@
 
 import UIKit
 import TVNExtensions
+import RxSwift
 
 class ViewController: UIViewController {
 
@@ -42,6 +43,8 @@ class ViewController: UIViewController {
         testTextfield.font = UIFont(name: testFontFamilyName.removeCharacters(from: " "), size: 17)
     }
     
+    let bag = DisposeBag()
+    
     @objc func testImageViewer(_ sender: UIGestureRecognizer) {
         print(#function)
 //        let viewer = ImageViewerViewController(image: imgView.image, from: imgView)
@@ -49,6 +52,18 @@ class ViewController: UIViewController {
             self.imgView.image = img
         }
         self.present(viewer, animated: true, completion: nil)
+    }
+    
+    func biometryAuthenticateWithRx() {
+        BiometryHelper.rx.authenticateUser(with: "test").subscribe { (event) in
+            switch event {
+            case .error(let error):
+                print("error \(error.localizedDescription)")
+            case .completed:
+                print("completed")
+            }
+            }
+            .disposed(by: bag)
     }
     
     func getNextVC() -> NextViewController {

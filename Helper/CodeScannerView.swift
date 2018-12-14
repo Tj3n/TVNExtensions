@@ -50,9 +50,11 @@ public class CodeScannerView: UIView {
     
     public private(set) var isScanning = false
     public private(set) var isFreezing = false
+    public private(set) var scannedMessage: String?
+    public private(set) var scannedErrorMessage: String?
     
+    weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
     private var captureSession: AVCaptureSession?
-    private weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
     private var scanCompleteBlock: ((_ message: String?, _ error: String?)->())?
     private let q = DispatchQueue(label: "CodeScannerViewQueue")
     private lazy var captureMetadataOutput: AVCaptureMetadataOutput = {
@@ -240,6 +242,8 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
         
         defer {
             DispatchQueue.main.async {
+                self.scannedMessage = code
+                self.scannedErrorMessage = error
                 self.scanCompleteBlock?(code, error)
             }
         }

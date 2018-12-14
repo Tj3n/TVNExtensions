@@ -36,11 +36,21 @@ Pod::Spec.new do |s|
     sp.dependency 'TVNExtensions/UIKit'
   end
 
+  s.subspec 'Rx' do |sp|
+    sp.source_files = "Rx"
+    sp.dependency 'TVNExtensions/Helper'
+    sp.dependency 'TVNExtensions/UIKit'
+    sp.dependency 'TVNExtensions/Foundation'
+    sp.dependency 'RxSwift'
+    sp.dependency 'RxCocoa'
+  end 
+
   s.subspec 'Lite' do |lite|
     # Default subspec don't include Kingfisher
     lite.dependency 'TVNExtensions/Helper'
     lite.dependency 'TVNExtensions/UIKit'
     lite.dependency 'TVNExtensions/Foundation'
+    lite.dependency 'TVNExtensions/Rx'
   end
 
   s.subspec 'Kingfisher' do |kingfisher|

@@ -54,3 +54,7 @@ EOD
     - Edit project scheme
     - Press +, add all pods frameworks scheme inside
     - Move all pods scheme to top, Pods-Project schemes middle, Project schemes bottom
+
+- **Log viewController name symbolic breakpoint:**
+    - Symbol: `-[UIViewController viewDidLoad]`
+    - Action - Log message: `--- Didload @(id)[$arg1 description]@ @(id)[$arg1 title]@`
