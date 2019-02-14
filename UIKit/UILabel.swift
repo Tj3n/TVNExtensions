@@ -42,11 +42,17 @@ extension UILabel {
         return shadowView
     }()
     
-    public class func showErrorTooltip(_ message: String, font: UIFont = UIFont.systemFont(ofSize: 14), duration: Double = 3) {
+    public class func showErrorTooltip(_ message: String,
+                                       font: UIFont = UIFont.systemFont(ofSize: 14),
+                                       duration: Double = 3) {
         UILabel.showTooltip(message, font: font, duration: duration, textColor: UIColor(hexString: "F72B1C"))
     }
     
-    public class func showTooltip(_ message: String, font: UIFont = UIFont.systemFont(ofSize: 14), duration: Double = 3, textColor: UIColor = .white, backgroundShadowColor: CGColor = UIColor.darkGray.cgColor) {
+    public class func showTooltip(_ message: String,
+                                  font: UIFont = UIFont.systemFont(ofSize: 14),
+                                  duration: Double = 3,
+                                  textColor: UIColor = .white,
+                                  backgroundShadowColor: CGColor = UIColor.darkGray.cgColor) {
         
         DispatchQueue.global().async {
             var textAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: textColor]
@@ -61,7 +67,10 @@ extension UILabel {
             
             if width > screenW {
                 width = screenW - 25
-                let sizeOfText = (message as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: fontAttributes, context: nil)
+                let sizeOfText = (message as NSString).boundingRect(with: CGSize(width: width,
+                                                                                 height: CGFloat.greatestFiniteMagnitude),
+                                                                    options: [.usesLineFragmentOrigin, .usesFontLeading],
+                                                                    attributes: fontAttributes, context: nil)
                 height = sizeOfText.height + 25
             }
             

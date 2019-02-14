@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = { "tien.vu" => "tienvn3845@gmail.com" }
   s.platform     = :ios, "8.0"
-  #s.source       = { :git => ".", :tag => String(s.version) }
   s.source       = { :git => "https://github.com/Tj3n/TVNExtensions.git", :branch => "master" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -46,7 +45,7 @@ Pod::Spec.new do |s|
   end 
 
   s.subspec 'Lite' do |lite|
-    # Default subspec don't include Kingfisher && Rx
+    # Default subspec don't include Kingfisher & Rx
     lite.dependency 'TVNExtensions/Helper'
     lite.dependency 'TVNExtensions/UIKit'
     lite.dependency 'TVNExtensions/Foundation'
