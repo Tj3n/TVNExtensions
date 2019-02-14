@@ -31,6 +31,10 @@ extension UIColor {
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(alpha))
     }
     
+    public static func hex(_ hexString: String, alpha: CGFloat = 1) -> UIColor {
+        return UIColor(hexString: hexString, alpha: alpha)
+    }
+    
     /**
      UIColor from rgb and alpha
      */
