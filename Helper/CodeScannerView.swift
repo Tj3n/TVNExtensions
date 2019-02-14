@@ -22,6 +22,20 @@ extension AVAuthorizationStatus: Error, LocalizedError {
     }
 }
 
+public enum CodeScannerViewError: Error, LocalizedError {
+    case invalidCode
+    case wrongCodeTypeOrInvalid
+    
+    public var errorDescription: String? {
+        switch self {
+        case .invalidCode:
+            return "Invalid Code"
+        case .wrongCodeTypeOrInvalid:
+            return "Wrong code type or invalid code"
+        }
+    }
+}
+
 /** How to use:
  viewDidLoad: Create `CodeScannerView` with [unowned self] callback, add as subview, run `scannerView.startReading` when needed
  viewDidLayoutSubviews: Update `scannerView.scanRect` if needed
@@ -50,12 +64,10 @@ public class CodeScannerView: UIView {
     
     public private(set) var isScanning = false
     public private(set) var isFreezing = false
-    public private(set) var scannedMessage: String?
-    public private(set) var scannedErrorMessage: String?
     
     weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
     private var captureSession: AVCaptureSession?
-    private var scanCompleteBlock: ((_ message: String?, _ error: String?)->())?
+    internal var scanCompleteBlock: ((_ message: String?, _ error: CodeScannerViewError?)->())?
     private let q = DispatchQueue(label: "CodeScannerViewQueue")
     private lazy var captureMetadataOutput: AVCaptureMetadataOutput = {
         let captureMetadataOutput = AVCaptureMetadataOutput()
@@ -73,6 +85,7 @@ public class CodeScannerView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.captureMetadataOutputObjectsDelegate = self
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -94,9 +107,8 @@ public class CodeScannerView: UIView {
     /// - Parameters:
     ///   - frame: frame
     ///   - scanCompletion: callback closure, must use [unowned self]
-    public init(frame: CGRect = UIScreen.main.bounds, scanCompletion: @escaping (_ message: String?, _ error: String?)->() ) {
+    public init(frame: CGRect = UIScreen.main.bounds, scanCompletion: @escaping (_ message: String?, _ error: CodeScannerViewError?)->() ) {
         super.init(frame: frame)
-        self.captureMetadataOutputObjectsDelegate = self
         self.scanCompleteBlock = scanCompletion
     }
     
@@ -238,28 +250,26 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
         guard isScanning else { return }
         
         var code: String?
-        var error: String?
+        var error: CodeScannerViewError?
         
         defer {
             DispatchQueue.main.async {
-                self.scannedMessage = code
-                self.scannedErrorMessage = error
                 self.scanCompleteBlock?(code, error)
             }
         }
         
         guard metadataObjects.count > 0 else {
-            error = "Invalid Code"
+            error = .invalidCode
             return
         }
         
         guard let obj = metadataObjects.first else {
-            error = "Invalid Code"
+            error = .invalidCode
             return
         }
         
         guard codeTypes.contains(obj.type) else {
-            error = "Wrong code type or invalid code"
+            error = .wrongCodeTypeOrInvalid
             return
         }
         
@@ -281,12 +291,12 @@ extension CodeScannerView: AVCaptureMetadataOutputObjectsDelegate {
         
         if let readableObj = obj as? AVMetadataMachineReadableCodeObject {
             guard let str = readableObj.stringValue else {
-                error = "Invalid Code"
+                error = .invalidCode
                 return
             }
             code = str
         } else {
-            error = "Wrong code type or invalid code"
+            error = .wrongCodeTypeOrInvalid
         }
     }
 }
