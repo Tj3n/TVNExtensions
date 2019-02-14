@@ -13,6 +13,21 @@ public enum ImageType {
 }
 
 public struct ImageHelper {
+    public static func parseMediaInfoToImage(_ info: [UIImagePickerController.InfoKey : Any]) -> UIImage? {
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return nil
+        }
+        return image
+    }
+    
+    public static func parseMediaInfoToImageData(_ info: [UIImagePickerController.InfoKey : Any], type: ImageType) -> Data? {
+        guard let image = parseMediaInfoToImage(info) else {
+            return nil
+        }
+        let compressionFactor: CGFloat = 1.0
+        return type == .jpg ? image.jpegData(compressionQuality: compressionFactor) : image.pngData()
+    }
+    
     public static func getDocumentsURL() -> URL {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsURL
