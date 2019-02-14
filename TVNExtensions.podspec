@@ -46,11 +46,10 @@ Pod::Spec.new do |s|
   end 
 
   s.subspec 'Lite' do |lite|
-    # Default subspec don't include Kingfisher
+    # Default subspec don't include Kingfisher && Rx
     lite.dependency 'TVNExtensions/Helper'
     lite.dependency 'TVNExtensions/UIKit'
     lite.dependency 'TVNExtensions/Foundation'
-    lite.dependency 'TVNExtensions/Rx'
   end
 
   s.subspec 'Kingfisher' do |kingfisher|

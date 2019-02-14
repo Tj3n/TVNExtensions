@@ -10,6 +10,7 @@ target 'DemoTest' do
   pod 'ParticleIOS', :path => '../.'
   pod 'TlvParser', :path => '../.'
   pod 'TVNExtensions/Kingfisher', :path => '../.'
+  pod 'TVNExtensions/Rx', :path => '../.'
 
   target 'DemoTestTests' do
     inherit! :search_paths

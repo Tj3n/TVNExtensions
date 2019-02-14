@@ -18,7 +18,6 @@ PODS:
   - TVNExtensions/Lite (0.0.1):
     - TVNExtensions/Foundation
     - TVNExtensions/Helper
-    - TVNExtensions/Rx
     - TVNExtensions/UIKit
   - TVNExtensions/Rx (0.0.1):
     - RxCocoa
@@ -33,6 +32,7 @@ DEPENDENCIES:
   - TlvParser (from `../.`)
   - TVNExtensions (from `../.`)
   - TVNExtensions/Kingfisher (from `../.`)
+  - TVNExtensions/Rx (from `../.`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -56,8 +56,8 @@ SPEC CHECKSUMS:
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   TlvParser: f37c261a14cc8d1641f42ff26e626d51512a9958
-  TVNExtensions: cec1ca26d1d8af37c5327ceeb80ddb4e81defd2a
+  TVNExtensions: f5482e739b825c56c7e45495ca191e1b1cf3f35d
 
-PODFILE CHECKSUM: 433848bdb782ab0fcf82b33f72d520cf2889973b
+PODFILE CHECKSUM: be21d11e7d1f187a450a25301640b2169c00554b
 
 COCOAPODS: 1.5.3
