@@ -15,7 +15,7 @@ extension Reactive where Base: CodeScannerView {
                 if let message = message {
                     observer.onNext(message)
                 } else if let error = error {
-                    observer.onError(NSError(domain: "com.tvn.domain", code: 500, userInfo: [NSLocalizedDescriptionKey: error]))
+                    observer.onError(NSError(domain: TVNErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: error]))
                 }
             }
             

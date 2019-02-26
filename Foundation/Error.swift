@@ -7,6 +7,8 @@
 
 import Foundation
 
+public let TVNErrorDomain = "com.tvn.errorDomain"
+
 public extension NSError {
     public func show() {
         ErrorAlertView.shared.showError(localizedDescription)

@@ -7,6 +7,7 @@
 
 import UIKit
 import TVNExtensions
+import RxSwift
 
 class NextViewController: UIViewController {
 
@@ -61,6 +62,8 @@ class NextViewController: UIViewController {
         view.placeholder = "Test"
         return view
     }()
+    
+    let bag = DisposeBag()
     
     deinit {
         print(#file+" "+#function)
@@ -139,12 +142,22 @@ class NextViewController: UIViewController {
         
         //Test keyboard handling class
         let tfBottomConstraint = bottomTextfield.bottom(to: view, by: 30)
-        self.observeKeyboardEvent { [view = self.view] (isUp, height, duration) in
-            tfBottomConstraint.constant = isUp ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
-            UIView.animate(withDuration: duration, animations: {
-                view?.layoutIfNeeded()
+//        self.observeKeyboardEvent { [view = self.view] (isUp, height, duration) in
+//            tfBottomConstraint.constant = isUp ? tfBottomConstraint.constant+height : tfBottomConstraint.constant-height
+//            UIView.animate(withDuration: duration, animations: {
+//                view?.layoutIfNeeded()
+//            })
+//        }
+        
+        //RX
+        rx.keyboardTracking()
+            .subscribe(onNext: { [view = self.view] (height, duration) in
+                tfBottomConstraint.constant = 30+height
+                UIView.animate(withDuration: duration, animations: {
+                    view?.layoutIfNeeded()
+                })
             })
-        }
+            .disposed(by: bag)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
