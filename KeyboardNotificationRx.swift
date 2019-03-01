@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-extension Reactive where Base: AnyObject {
+public extension Reactive where Base: AnyObject {
     public func keyboardTracking() -> Observable<(height: CGFloat, duration: Double)> {
         return Observable.from([
             NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
