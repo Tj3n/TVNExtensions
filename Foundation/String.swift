@@ -130,6 +130,14 @@ extension String {
 // MARK: Conversion
 extension String {
     
+    /// Localize string, won't work with genstrings
+    ///
+    /// - Parameter comment: comment
+    /// - Returns: Localized string
+    public func localized(comment: String = "") -> String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: comment)
+    }
+    
     /// Format non-decimal number string to string with decimal dot after numbersAfterDecimal
     ///
     /// - Parameter numbersAfterDecimal: numbers of characters after dot
