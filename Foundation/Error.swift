@@ -11,7 +11,7 @@ public let TVNErrorDomain = "com.tvn.errorDomain"
 
 public extension NSError {
     public func show() {
-        ErrorAlertView.shared.showError(localizedDescription)
+        ErrorAlertView.shared.showError(self)
     }
     
     public var jsonString: String? {
@@ -30,7 +30,7 @@ public extension NSError {
 
 public extension Error {
     public func show() {
-        ErrorAlertView.shared.showError(localizedDescription)
+        ErrorAlertView.shared.showError(self)
     }
     
     public var jsonString: String? {
@@ -59,14 +59,14 @@ private class ErrorAlertView: NSObject, UIAlertViewDelegate {
     var alert: UIAlertView!
     var isShowing: Bool = false
     
-    func showError(_ error: String?) {
+    func showError(_ error: Error?) {
         DispatchQueue.main.async(execute: {
-            guard error != "cancelled" && UIApplication.shared.applicationState == .active else {
+            guard (error as NSError?)?.code != NSURLErrorCancelled && UIApplication.shared.applicationState == .active else {
                 return
             }
             
             self.dismiss()
-            self.alert = UIAlertView(title: "Error", message: error, delegate: self, cancelButtonTitle: "OK")
+            self.alert = UIAlertView(title: "Error", message: error?.localizedDescription, delegate: self, cancelButtonTitle: "OK")
             self.alert.show()
             self.isShowing = true
         })
