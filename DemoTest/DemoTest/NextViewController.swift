@@ -150,7 +150,7 @@ class NextViewController: UIViewController {
 //        }
         
         //RX
-        rx.keyboardTracking()
+        self.rx.keyboardTracking()
             .subscribe(onNext: { [view = self.view] (height, duration) in
                 tfBottomConstraint.constant = 30+height
                 UIView.animate(withDuration: duration, animations: {
