@@ -184,8 +184,12 @@ extension String {
     
     //To use with currency code
     public func toCurrencySymbol() -> String {
-        let result = Locale.availableIdentifiers.map{ Locale(identifier: $0) }.first{ $0.currencyCode == self }
-        return result?.currencySymbol ?? self
+//        let result = Locale.availableIdentifiers.map{ Locale(identifier: $0) }.first{ $0.currencyCode == self }
+//        return result?.currencySymbol ?? self
+        guard let result = Locale.availableIdentifiers.first(where: { (identifier) -> Bool in
+            return Locale(identifier: identifier).currencyCode == self
+        }) else { return self }
+        return Locale(identifier: result).currencySymbol ?? self
     }
     
     //To use with number string
