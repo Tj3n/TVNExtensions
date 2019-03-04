@@ -7,7 +7,6 @@
 
 import Foundation
 import RxSwift
-
 import class Dispatch.DispatchQueue
 
 public enum ReachabilityStatus {
