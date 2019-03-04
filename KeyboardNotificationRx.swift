@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 extension Reactive where Base: NotificationCenter {
     public func keyboardTracking() -> Observable<(height: CGFloat, duration: Double)> {

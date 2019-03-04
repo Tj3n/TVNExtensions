@@ -8,6 +8,7 @@
 import UIKit
 import TVNExtensions
 import RxSwift
+import RxCocoa
 
 class NextViewController: UIViewController {
 
