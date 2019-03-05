@@ -53,10 +53,14 @@ class ViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = scannerBarBtn
         scannerBarBtn.rx.tap
-            .subscribe(onNext: {
-                self.testCodeScannerRX()
+            .subscribe(onNext: { [weak self] in
+                self?.testCodeScannerRX()
             })
             .disposed(by: bag)
+    }
+    
+    deinit {
+        self.navigationController?.delegate = nil
     }
     
     @objc func testImageViewer(_ sender: UIGestureRecognizer) {
@@ -108,19 +112,19 @@ class ViewController: UIViewController {
         scannerView.rx
             .startReading
             .observeOn(MainScheduler.instance)
-            .subscribe { (event) in
+            .subscribe { [weak self] (event) in
                 print(event)
                 scannerView.removeFromSuperview()
-                self.navigationItem.rightBarButtonItem = self.scannerBarBtn
+                self?.navigationItem.rightBarButtonItem = self?.scannerBarBtn
             }
             .disposed(by: bag)
         
         let closeBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = closeBtn
         closeBtn.rx.tap
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
                 scannerView.removeFromSuperview()
-                self.navigationItem.rightBarButtonItem = self.scannerBarBtn
+                self?.navigationItem.rightBarButtonItem = self?.scannerBarBtn
             })
             .disposed(by: bag)
     }

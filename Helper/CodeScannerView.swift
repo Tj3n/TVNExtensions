@@ -178,7 +178,9 @@ public class CodeScannerView: UIView {
                 }
             } catch {
                 captureSession.commitConfiguration()
-                completion?(error)
+                DispatchQueue.main.async {
+                    completion?(error)
+                }
             }
         }
     }
