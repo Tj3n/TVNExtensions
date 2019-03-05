@@ -22,7 +22,10 @@ extension UIImagePickerController {
     ///   - delegate: UIImagePickerControllerDelegate
     /// - Returns: UIImagePickerController
     /// - Throws: ImagePickerError
-    public class func getCameraVC(sourceType: UIImagePickerController.SourceType, delegate: UINavigationControllerDelegate & UIImagePickerControllerDelegate) throws -> UIImagePickerController  {
+    public class func getCameraVC(sourceType: UIImagePickerController.SourceType,
+                                  delegate: (UINavigationControllerDelegate & UIImagePickerControllerDelegate)?,
+                                  configure:((UIImagePickerController)->())? = nil)
+        throws -> UIImagePickerController  {
         
         guard UIImagePickerController.isSourceTypeAvailable(sourceType) else {
             switch sourceType {
@@ -41,8 +44,9 @@ extension UIImagePickerController {
         }
         
         let picker = UIImagePickerController()
-        picker.sourceType = .camera
+        picker.sourceType = sourceType
         picker.allowsEditing = false
+        configure?(picker)
         picker.delegate = delegate
         return picker
     }

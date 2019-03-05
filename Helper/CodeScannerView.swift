@@ -23,11 +23,14 @@ extension AVAuthorizationStatus: Error, LocalizedError {
 }
 
 public enum CodeScannerViewError: Error, LocalizedError {
+    case cameraNotAvailable
     case invalidCode
     case wrongCodeTypeOrInvalid
     
     public var errorDescription: String? {
         switch self {
+        case .cameraNotAvailable:
+            return "Camera not available"
         case .invalidCode:
             return "Invalid Code"
         case .wrongCodeTypeOrInvalid:
@@ -158,7 +161,9 @@ public class CodeScannerView: UIView {
         q.async {
             do {
                 captureSession.beginConfiguration()
-                let captureDevice = AVCaptureDevice.default(for: .video)!
+                guard let captureDevice = AVCaptureDevice.default(for: .video) else {
+                    throw CodeScannerViewError.cameraNotAvailable
+                }
                 let input = try AVCaptureDeviceInput(device: captureDevice)
                 captureSession.addInput(input)
                 let previewLayer = self.setupPreviewLayer(session: captureSession)
