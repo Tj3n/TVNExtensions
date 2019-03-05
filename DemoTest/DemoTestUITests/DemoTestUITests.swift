@@ -32,6 +32,8 @@ class DemoTestUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         let app = XCUIApplication()
         
+        XCUIApplication().tables.staticTexts["Random"].tap()
+        
         let tf = app.textFields["test"]
         tf.tap()
         tf.typeText("something")

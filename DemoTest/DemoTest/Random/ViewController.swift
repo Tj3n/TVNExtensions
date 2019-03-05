@@ -7,6 +7,8 @@
 
 import UIKit
 import TVNExtensions
+import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController {
 
@@ -23,6 +25,14 @@ class ViewController: UIViewController {
             imgView.addGestureRecognizer(tapGesture)
         }
     }
+    
+    var scannerBarBtn: UIBarButtonItem = {
+        let btn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.camera, target: nil, action: nil)
+        return btn
+    }()
+    
+    let bag = DisposeBag()
+    
     var animator: ExpandShrinkAnimator?
     
     override func viewDidLoad() {
@@ -31,15 +41,26 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor(hexString: "fff4e6")
         
         let testFontFamilyName = "Beautiful People Personal Use"
-        guard UIFont.familyNames.contains(testFontFamilyName) else {
+        if UIFont.familyNames.contains(testFontFamilyName) {
+            testTextfield.font = UIFont(name: testFontFamilyName.removeCharacters(from: " "), size: 17)
+            print(UIFont.fontNames(forFamilyName: testFontFamilyName))
+        } else {
             if let font = UIFont.loadFont(fontFileName: testFontFamilyName, fileType: "ttf", bundle: .main, size: 17) {
                 print("font font \(font.fontDescriptor)\n\(font.description)\n\(font.familyName)\n\(UIFont.fontNames(forFamilyName: font.familyName))")
                 testTextfield.font = font
             }
-            return
         }
-        print(UIFont.fontNames(forFamilyName: testFontFamilyName))
-        testTextfield.font = UIFont(name: testFontFamilyName.removeCharacters(from: " "), size: 17)
+        
+        self.navigationItem.rightBarButtonItem = scannerBarBtn
+        scannerBarBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.testCodeScannerRX()
+            })
+            .disposed(by: bag)
+    }
+    
+    deinit {
+        self.navigationController?.delegate = nil
     }
     
     @objc func testImageViewer(_ sender: UIGestureRecognizer) {
@@ -49,6 +70,18 @@ class ViewController: UIViewController {
             self.imgView.image = img
         }
         self.present(viewer, animated: true, completion: nil)
+    }
+    
+    func biometryAuthenticateWithRx() {
+        BiometryHelper.rx.authenticateUser(with: "test").subscribe { (event) in
+            switch event {
+            case .error(let error):
+                print("error \(error.localizedDescription)")
+            case .completed:
+                print("completed")
+            }
+            }
+            .disposed(by: bag)
     }
     
     func getNextVC() -> NextViewController {
@@ -70,6 +103,30 @@ class ViewController: UIViewController {
         self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
         self.navigationController?.delegate = self.animator
         self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    func testCodeScannerRX() {
+        let scannerView = CodeScannerView()
+        scannerView.addTo(view)
+        scannerView.edgesToSuperView()
+        scannerView.rx
+            .startReading
+            .observeOn(MainScheduler.instance)
+            .subscribe { [weak self] (event) in
+                print(event)
+                scannerView.removeFromSuperview()
+                self?.navigationItem.rightBarButtonItem = self?.scannerBarBtn
+            }
+            .disposed(by: bag)
+        
+        let closeBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem = closeBtn
+        closeBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                scannerView.removeFromSuperview()
+                self?.navigationItem.rightBarButtonItem = self?.scannerBarBtn
+            })
+            .disposed(by: bag)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

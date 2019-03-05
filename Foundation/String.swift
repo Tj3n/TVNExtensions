@@ -130,6 +130,14 @@ extension String {
 // MARK: Conversion
 extension String {
     
+    /// Localize string, won't work with genstrings
+    ///
+    /// - Parameter comment: comment
+    /// - Returns: Localized string
+    public func localized(comment: String = "") -> String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: comment)
+    }
+    
     /// Format non-decimal number string to string with decimal dot after numbersAfterDecimal
     ///
     /// - Parameter numbersAfterDecimal: numbers of characters after dot
@@ -176,8 +184,12 @@ extension String {
     
     //To use with currency code
     public func toCurrencySymbol() -> String {
-        let result = Locale.availableIdentifiers.map{ Locale(identifier: $0) }.first{ $0.currencyCode == self }
-        return result?.currencySymbol ?? self
+//        let result = Locale.availableIdentifiers.map{ Locale(identifier: $0) }.first{ $0.currencyCode == self }
+//        return result?.currencySymbol ?? self
+        guard let result = Locale.availableIdentifiers.first(where: { (identifier) -> Bool in
+            return Locale(identifier: identifier).currencyCode == self
+        }) else { return self }
+        return Locale(identifier: result).currencySymbol ?? self
     }
     
     //To use with number string

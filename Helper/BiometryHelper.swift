@@ -33,7 +33,7 @@ public let BiometricEvaluateCompletedNotificationName = NSNotification.Name("Bio
  In `func applicationWillEnterForeground(_ :)` change `applicationWillEnterForeground = true`
  In `func applicationDidBecomeActive(_ :)` check for biometric if `applicationWillEnterForeground = true` and set it to false
  **/
-public struct BiometryHelper {
+public class BiometryHelper {
     public static var isRequestingBiometric: Bool = false
     public static var isBiometryAvailable: Bool {
         get { return biometryAvailableType() != .none }
@@ -67,7 +67,7 @@ public struct BiometryHelper {
         }
     }
     
-    public static func biometryAvailableType() -> BiometryType {
+    public class func biometryAvailableType() -> BiometryType {
         let context = LAContext()
         var error: NSError?
         
@@ -100,7 +100,7 @@ public struct BiometryHelper {
         return .none
     }
     
-    public static func authenticateUser(with reasonStr: String?, completion:@escaping ((_ success: Bool, _ error: BiometryCommonError?)->())) {
+    public class func authenticateUser(with reasonStr: String?, completion:@escaping ((_ success: Bool, _ error: BiometryCommonError?)->())) {
         let reason = reasonStr ?? "Authentication is needed to access."
         let context = LAContext()
         var error: NSError?
@@ -177,7 +177,7 @@ public struct BiometryHelper {
         }
     }
     
-    private static func checkForModified(context: LAContext) -> Bool {
+    private class func checkForModified(context: LAContext) -> Bool {
         let k = "TVN_DS_CHECK"
         guard let oldDomainState = KeychainWrapper.standard.data(forKey: k) else { return false }
         if #available(iOS 9.0, *) {

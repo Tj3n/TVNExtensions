@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = { "tien.vu" => "tienvn3845@gmail.com" }
   s.platform     = :ios, "8.0"
-  #s.source       = { :git => ".", :tag => String(s.version) }
   s.source       = { :git => "https://github.com/Tj3n/TVNExtensions.git", :branch => "master" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -20,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.frameworks = "UIKit", "Foundation", "CoreTelephony", "CoreLocation", "AVFoundation" , "LocalAuthentication"
+  s.frameworks = "UIKit", "Foundation", "AVFoundation"
   s.default_subspec = 'Lite'
 
   s.subspec 'Foundation' do |sp|
@@ -34,13 +33,23 @@ Pod::Spec.new do |s|
   s.subspec 'Helper' do |sp|
     sp.source_files = "Helper"
     sp.dependency 'TVNExtensions/UIKit'
+    sp.frameworks = "CoreTelephony", "CoreLocation", "LocalAuthentication"
   end
 
   s.subspec 'Lite' do |lite|
-    # Default subspec don't include Kingfisher
+    # Default subspec don't include Kingfisher & Rx
     lite.dependency 'TVNExtensions/Helper'
     lite.dependency 'TVNExtensions/UIKit'
     lite.dependency 'TVNExtensions/Foundation'
+  end
+  
+  s.subspec 'Rx' do |sp|
+      sp.source_files = "Rx"
+      sp.dependency 'TVNExtensions/Helper'
+      sp.dependency 'TVNExtensions/UIKit'
+      sp.dependency 'TVNExtensions/Foundation'
+      sp.dependency 'RxSwift'
+      sp.dependency 'RxCocoa'
   end
 
   s.subspec 'Kingfisher' do |kingfisher|

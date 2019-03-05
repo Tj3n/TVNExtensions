@@ -17,12 +17,10 @@ extension AVAudioSession {
         return !currentRoute.outputs.filter { $0.isHeadphones }.isEmpty
     }
     
+    //No way to do for lower iOS, have to use Obj-C
+    @available(iOS 10.0, *)
     public class func mixWithBackgroundMusic() {
-        if #available(iOS 10.0, *) {
-            _ = try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
-        } else {
-            //No way to do right now, have to use Obj-C
-        }
+        _ = try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
     }
 }
 

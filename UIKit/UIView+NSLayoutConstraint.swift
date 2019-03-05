@@ -17,7 +17,7 @@ extension UIView {
     }
     
     @discardableResult
-    func constraintView(from fromView: UIView? = nil, firstAttr: NSLayoutConstraint.Attribute, to toView: UIView?, secondAttr: NSLayoutConstraint.Attribute, relation: NSLayoutConstraint.Relation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
+    public func constraintView(from fromView: UIView? = nil, firstAttr: NSLayoutConstraint.Attribute, to toView: UIView?, secondAttr: NSLayoutConstraint.Attribute, relation: NSLayoutConstraint.Relation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
         self.translatesAutoresizingMaskIntoConstraints = false
         let constraint = NSLayoutConstraint(item: fromView == nil ? self : fromView!,
                                             attribute: firstAttr,
@@ -53,6 +53,11 @@ extension UIView {
     }
     
     @discardableResult
+    public func topMargin(to view: UIView, relation: NSLayoutConstraint.Relation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
+        return constraintView(firstAttr: .top, to: view, secondAttr: .topMargin, relation: relation, mult: mult, by: by, priority: priority)
+    }
+    
+    @discardableResult
     public func topToBottom(of view: UIView, relation: NSLayoutConstraint.Relation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
         return constraintView(firstAttr: .top, to: view, secondAttr: .bottom, relation: relation, mult: mult, by: by, priority: priority)
     }
@@ -60,6 +65,11 @@ extension UIView {
     @discardableResult
     public func bottom(to view: UIView, relation: NSLayoutConstraint.Relation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
         return constraintView(from: view, firstAttr: .bottom, to: self, secondAttr: .bottom, relation: relation, mult: mult, by: by, priority: priority)
+    }
+    
+    @discardableResult
+    public func bottomMargin(to view: UIView, relation: NSLayoutConstraint.Relation = .equal, mult: CGFloat = 1, by: CGFloat = 0, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
+        return constraintView(from: view, firstAttr: .bottom, to: self, secondAttr: .bottomMargin, relation: relation, mult: mult, by: by, priority: priority)
     }
     
     @discardableResult
