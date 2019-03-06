@@ -97,7 +97,8 @@ class RepoListViewModel: ViewModelType {
             }
             .map { url -> URLRequest in
                 var request = URLRequest(url: url)
-                request.addValue("Bearer 0dbe8a1df1e64bfdf526a1ed55607c9efc217dc9", forHTTPHeaderField: "Authorization")
+                //Add if want to use auth
+                //request.addValue("Bearer ...", forHTTPHeaderField: "Authorization")
                 return request
             }
             .flatMap { (request) -> Observable<(response: HTTPURLResponse, data: Data)> in
