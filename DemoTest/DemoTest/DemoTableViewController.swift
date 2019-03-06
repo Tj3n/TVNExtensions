@@ -8,6 +8,7 @@
 import UIKit
 import TVNExtensions
 import RxSwift
+import RxCocoa
 
 class DemoTableViewController: UITableViewController {
     
@@ -72,8 +73,10 @@ class DemoTableViewController: UITableViewController {
 extension DemoTableViewController {
     func updateLocation() {
         LocationHelper.shared.rx.updateLocation
-            .subscribe(onNext: {
+            .subscribe(onSuccess: { [weak self] in
                 print($0)
+                let alert = UIAlertController(title: "Loc", message: $0.description, preferredStyle: .alert, cancelTitle: "OK")
+                self?.present(alert, animated: true, completion: nil)
             })
             .disposed(by: bag)
     }
