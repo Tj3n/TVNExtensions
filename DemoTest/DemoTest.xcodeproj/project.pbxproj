@@ -12,6 +12,13 @@
 		842577EC222D18E1000F2CC3 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842577EB222D18E1000F2CC3 /* ImagePickerViewController.swift */; };
 		8454F53F222E1CE300B3DEF8 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454F53E222E1CE300B3DEF8 /* PreviewViewController.swift */; };
 		8454F541222E222500B3DEF8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8454F540222E222500B3DEF8 /* README.md */; };
+		8464E2E9222F8BB200EC1405 /* RepoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E2222F8BB100EC1405 /* RepoListViewModel.swift */; };
+		8464E2EA222F8BB200EC1405 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E3222F8BB100EC1405 /* Event.swift */; };
+		8464E2EB222F8BB200EC1405 /* RepoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E4222F8BB100EC1405 /* RepoDetailViewModel.swift */; };
+		8464E2EC222F8BB200EC1405 /* RepoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E5222F8BB100EC1405 /* RepoListViewController.swift */; };
+		8464E2ED222F8BB200EC1405 /* Repos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E6222F8BB100EC1405 /* Repos.swift */; };
+		8464E2EE222F8BB200EC1405 /* RepoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E7222F8BB100EC1405 /* RepoDetailViewController.swift */; };
+		8464E2EF222F8BB200EC1405 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E8222F8BB200EC1405 /* User.swift */; };
 		848A9B62219C000C0060BE49 /* NextViewControllerAlt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848A9B61219C000C0060BE49 /* NextViewControllerAlt.swift */; };
 		8FA0A8E9C97535E8101B2972 /* Pods_DemoTestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD0C2708EB948D3E276E00A /* Pods_DemoTestUITests.framework */; };
 		9C17F1B521194F8A001F0137 /* Beautiful People Personal Use.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */; };
@@ -59,6 +66,13 @@
 		842577EB222D18E1000F2CC3 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 		8454F53E222E1CE300B3DEF8 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		8454F540222E222500B3DEF8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
+		8464E2E2222F8BB100EC1405 /* RepoListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoListViewModel.swift; sourceTree = "<group>"; };
+		8464E2E3222F8BB100EC1405 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		8464E2E4222F8BB100EC1405 /* RepoDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoDetailViewModel.swift; sourceTree = "<group>"; };
+		8464E2E5222F8BB100EC1405 /* RepoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoListViewController.swift; sourceTree = "<group>"; };
+		8464E2E6222F8BB100EC1405 /* Repos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repos.swift; sourceTree = "<group>"; };
+		8464E2E7222F8BB100EC1405 /* RepoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoDetailViewController.swift; sourceTree = "<group>"; };
+		8464E2E8222F8BB200EC1405 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		848A9B61219C000C0060BE49 /* NextViewControllerAlt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewControllerAlt.swift; sourceTree = "<group>"; };
 		8990A765DF8A412B49B86400 /* Pods_DemoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A9F5DEC3FA90C9B2B3C4D /* Pods-DemoTestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTestUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTestUITests/Pods-DemoTestUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -164,6 +178,20 @@
 			path = Quicklook;
 			sourceTree = "<group>";
 		};
+		8464E2E1222F8B9A00EC1405 /* RxGithub */ = {
+			isa = PBXGroup;
+			children = (
+				8464E2E7222F8BB100EC1405 /* RepoDetailViewController.swift */,
+				8464E2E4222F8BB100EC1405 /* RepoDetailViewModel.swift */,
+				8464E2E5222F8BB100EC1405 /* RepoListViewController.swift */,
+				8464E2E2222F8BB100EC1405 /* RepoListViewModel.swift */,
+				8464E2E6222F8BB100EC1405 /* Repos.swift */,
+				8464E2E3222F8BB100EC1405 /* Event.swift */,
+				8464E2E8222F8BB200EC1405 /* User.swift */,
+			);
+			path = RxGithub;
+			sourceTree = "<group>";
+		};
 		9C435B57207DB8C90015CD46 = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +220,7 @@
 				8454F540222E222500B3DEF8 /* README.md */,
 				9C435B63207DB8C90015CD46 /* AppDelegate.swift */,
 				842577E6222D1346000F2CC3 /* DemoTableViewController.swift */,
+				8464E2E1222F8B9A00EC1405 /* RxGithub */,
 				842577EA222D188D000F2CC3 /* Quicklook */,
 				842577E9222D1883000F2CC3 /* ImagePicker */,
 				842577E8222D15FD000F2CC3 /* Random */,
@@ -369,21 +398,27 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/ParticleIOS/ParticleIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TVNExtensions/TVNExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/TlvParser/TlvParser.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ParticleIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TVNExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TlvParser.framework",
 			);
@@ -474,10 +509,17 @@
 				9C70CFFD2080C20F00FA2B71 /* NextViewController.swift in Sources */,
 				842577E7222D1346000F2CC3 /* DemoTableViewController.swift in Sources */,
 				9C787E3B2085E7A300B24A9E /* ChargeObject.swift in Sources */,
+				8464E2EC222F8BB200EC1405 /* RepoListViewController.swift in Sources */,
+				8464E2EE222F8BB200EC1405 /* RepoDetailViewController.swift in Sources */,
+				8464E2EA222F8BB200EC1405 /* Event.swift in Sources */,
 				9C435B64207DB8C90015CD46 /* AppDelegate.swift in Sources */,
+				8464E2EF222F8BB200EC1405 /* User.swift in Sources */,
 				848A9B62219C000C0060BE49 /* NextViewControllerAlt.swift in Sources */,
 				842577EC222D18E1000F2CC3 /* ImagePickerViewController.swift in Sources */,
+				8464E2EB222F8BB200EC1405 /* RepoDetailViewModel.swift in Sources */,
+				8464E2ED222F8BB200EC1405 /* Repos.swift in Sources */,
 				8454F53F222E1CE300B3DEF8 /* PreviewViewController.swift in Sources */,
+				8464E2E9222F8BB200EC1405 /* RepoListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

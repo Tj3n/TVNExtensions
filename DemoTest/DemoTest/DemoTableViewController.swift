@@ -17,6 +17,7 @@ class DemoTableViewController: UITableViewController {
         case quicklook = "QLPreviewController"
         case cameraLibrary = "UIImagePickerController"
         case location = "LocationHelper"
+        case rxGithub = "RxGithub"
     }
     
     var demos = DemoType.allCases
@@ -62,6 +63,8 @@ class DemoTableViewController: UITableViewController {
             viewController = ImagePickerViewController()
         case .location:
             updateLocation()
+        case .rxGithub:
+            viewController = RepoListViewController(viewModel: RepoListViewModel())
         }
         
         if let viewController = viewController {

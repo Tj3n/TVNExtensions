@@ -1,12 +1,18 @@
 PODS:
+  - Differentiator (3.1.0)
   - Kingfisher (4.10.1)
   - ParticleIOS (0.0.1):
     - TVNExtensions
   - RxAtomic (4.4.0)
   - RxCocoa (4.4.0):
     - RxSwift (~> 4.0)
+  - RxDataSources (3.1.0):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
   - RxSwift (4.4.0):
     - RxAtomic (~> 4.4)
+  - SnapKit (4.2.0)
   - TlvParser (0.0.1)
   - TVNExtensions (0.0.1):
     - TVNExtensions/Lite (= 0.0.1)
@@ -29,6 +35,8 @@ PODS:
 
 DEPENDENCIES:
   - ParticleIOS (from `../.`)
+  - RxDataSources
+  - SnapKit
   - TlvParser (from `../.`)
   - TVNExtensions (from `../.`)
   - TVNExtensions/Kingfisher (from `../.`)
@@ -36,10 +44,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Differentiator
     - Kingfisher
     - RxAtomic
     - RxCocoa
+    - RxDataSources
     - RxSwift
+    - SnapKit
 
 EXTERNAL SOURCES:
   ParticleIOS:
@@ -50,14 +61,17 @@ EXTERNAL SOURCES:
     :path: "../."
 
 SPEC CHECKSUMS:
+  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   ParticleIOS: 3336a86e74441a1df669570684108f3803101295
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
+  RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   TlvParser: f37c261a14cc8d1641f42ff26e626d51512a9958
   TVNExtensions: 6b00567c09ae7025299556349065b6090fd803bf
 
-PODFILE CHECKSUM: be21d11e7d1f187a450a25301640b2169c00554b
+PODFILE CHECKSUM: 1aa66ad702bcc8de4a77b6b87936c0d9b7624a2f
 
 COCOAPODS: 1.5.3

@@ -11,6 +11,8 @@ target 'DemoTest' do
   pod 'TlvParser', :path => '../.'
   pod 'TVNExtensions/Kingfisher', :path => '../.'
   pod 'TVNExtensions/Rx', :path => '../.'
+  pod 'SnapKit'
+  pod 'RxDataSources'
 
   target 'DemoTestTests' do
     inherit! :search_paths
