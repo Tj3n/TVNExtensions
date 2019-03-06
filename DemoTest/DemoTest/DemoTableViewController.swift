@@ -7,6 +7,7 @@
 
 import UIKit
 import TVNExtensions
+import RxSwift
 
 class DemoTableViewController: UITableViewController {
     
@@ -14,9 +15,11 @@ class DemoTableViewController: UITableViewController {
         case random = "Random"
         case quicklook = "QLPreviewController"
         case cameraLibrary = "UIImagePickerController"
+        case location = "LocationHelper"
     }
     
     var demos = DemoType.allCases
+    var bag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +49,9 @@ class DemoTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var viewController: UIViewController!
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        var viewController: UIViewController?
         switch demos[indexPath.row] {
         case .random:
             viewController = ViewController.instantiate()
@@ -54,8 +59,22 @@ class DemoTableViewController: UITableViewController {
             viewController = PreviewViewController()
         case .cameraLibrary:
             viewController = ImagePickerViewController()
+        case .location:
+            updateLocation()
         }
         
-        self.navigationController?.pushViewController(viewController, animated: true)
+        if let viewController = viewController {
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+}
+
+extension DemoTableViewController {
+    func updateLocation() {
+        LocationHelper.shared.rx.updateLocation
+            .subscribe(onNext: {
+                print($0)
+            })
+            .disposed(by: bag)
     }
 }

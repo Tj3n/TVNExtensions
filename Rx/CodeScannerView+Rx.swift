@@ -14,6 +14,7 @@ extension Reactive where Base: CodeScannerView {
             self.base.scanCompleteBlock = { message, error in
                 if let message = message {
                     observer.onNext(message)
+                    observer.onCompleted()
                 } else if let error = error {
                     observer.onError(NSError(domain: TVNErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: error]))
                 }

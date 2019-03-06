@@ -10,17 +10,17 @@ import RxSwift
 import CoreLocation
 
 extension Reactive where Base: LocationHelper {
-    public var updateLocation: Observable<CLLocation> {
-        return Observable.create({ (observer) -> Disposable in
+    public var updateLocation: Single<CLLocation> {
+        return Single.create(subscribe: { (observer) -> Disposable in
             self.base.update(completion: { (result) in
                 switch result {
                 case .success(loc: let loc):
-                    observer.onNext(loc)
+                    observer(.success(loc))
                 case .failed(error: let err, authStatus: _):
-                    observer.onError(err)
+                    observer(.error(err))
                 }
             })
-            
+        
             return Disposables.create()
         })
     }
