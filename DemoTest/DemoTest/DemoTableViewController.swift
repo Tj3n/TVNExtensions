@@ -18,6 +18,7 @@ class DemoTableViewController: UITableViewController {
         case cameraLibrary = "UIImagePickerController"
         case location = "LocationHelper"
         case rxGithub = "RxGithub"
+        case particle = "Particle"
     }
     
     var demos = DemoType.allCases
@@ -65,6 +66,8 @@ class DemoTableViewController: UITableViewController {
             updateLocation()
         case .rxGithub:
             viewController = RepoListViewController(viewModel: RepoListViewModel())
+        case .particle:
+            viewController = ParticleViewController()
         }
         
         if let viewController = viewController {

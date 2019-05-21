@@ -11,3 +11,6 @@ Install with `gitpath`:
 - `KeychainWrapper` is forked and updated from [SwiftKeychainWrapper](https://github.com/jrendel/SwiftKeychainWrapper).
 - [Kingfisher](https://github.com/onevcat/Kingfisher) dependency can be installed by `pod 'TVNExtensions/Kingfisher'`
 - `Rx` extentions and dependencies can be installed by `pod 'TVNExtensions/Rx'`
+
+### ParticleView:
+[Imgur](https://i.imgur.com/L9ITbQe.gifv)

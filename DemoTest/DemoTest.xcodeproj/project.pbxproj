@@ -35,6 +35,7 @@
 		9C787E3B2085E7A300B24A9E /* ChargeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C787E3A2085E7A300B24A9E /* ChargeObject.swift */; };
 		9C787E3D2085F88A00B24A9E /* ChargeObject.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C787E3C2085F88A00B24A9E /* ChargeObject.json */; };
 		9C95BFB02089982000D5DAF8 /* ExtraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */; };
+		C08F82C522941C34007E7C7B /* ParticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08F82C422941C34007E7C7B /* ParticleViewController.swift */; };
 		E16AA4CA82F633FAB58324B1 /* Pods_DemoTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684D211752C8CF497BAC2FA0 /* Pods_DemoTestTests.framework */; };
 		FAB2E3D920A9D46100C9F491 /* OtherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2E3D820A9D46100C9F491 /* OtherTest.swift */; };
 /* End PBXBuildFile section */
@@ -97,6 +98,7 @@
 		9C787E3C2085F88A00B24A9E /* ChargeObject.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ChargeObject.json; sourceTree = "<group>"; };
 		9C95BFAF2089982000D5DAF8 /* ExtraTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraTest.swift; sourceTree = "<group>"; };
 		B7D49153432EAE4D6960136A /* Pods-DemoTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest.debug.xcconfig"; sourceTree = "<group>"; };
+		C08F82C422941C34007E7C7B /* ParticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleViewController.swift; sourceTree = "<group>"; };
 		EA411FB6181B5D496A0CD585 /* Pods-DemoTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTest/Pods-DemoTest.release.xcconfig"; sourceTree = "<group>"; };
 		FAB2E3D820A9D46100C9F491 /* OtherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -220,6 +222,7 @@
 				8454F540222E222500B3DEF8 /* README.md */,
 				9C435B63207DB8C90015CD46 /* AppDelegate.swift */,
 				842577E6222D1346000F2CC3 /* DemoTableViewController.swift */,
+				C08F82C322941C1B007E7C7B /* Particle */,
 				8464E2E1222F8B9A00EC1405 /* RxGithub */,
 				842577EA222D188D000F2CC3 /* Quicklook */,
 				842577E9222D1883000F2CC3 /* ImagePicker */,
@@ -255,6 +258,14 @@
 				9C435B85207DB8CB0015CD46 /* Info.plist */,
 			);
 			path = DemoTestUITests;
+			sourceTree = "<group>";
+		};
+		C08F82C322941C1B007E7C7B /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				C08F82C422941C34007E7C7B /* ParticleViewController.swift */,
+			);
+			path = Particle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -515,6 +526,7 @@
 				9C435B64207DB8C90015CD46 /* AppDelegate.swift in Sources */,
 				8464E2EF222F8BB200EC1405 /* User.swift in Sources */,
 				848A9B62219C000C0060BE49 /* NextViewControllerAlt.swift in Sources */,
+				C08F82C522941C34007E7C7B /* ParticleViewController.swift in Sources */,
 				842577EC222D18E1000F2CC3 /* ImagePickerViewController.swift in Sources */,
 				8464E2EB222F8BB200EC1405 /* RepoDetailViewModel.swift in Sources */,
 				8464E2ED222F8BB200EC1405 /* Repos.swift in Sources */,

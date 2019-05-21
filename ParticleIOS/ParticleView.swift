@@ -143,6 +143,16 @@ public class ParticleScene: SKScene {
         super.init(coder: aDecoder)
     }
     
+    public override func didChangeSize(_ oldSize: CGSize) {
+        super.didChangeSize(oldSize)
+        
+        lines.removeAll()
+        nodes.removeAll()
+        self.removeChildren(in: nodes)
+        
+        setupNodes()
+    }
+    
     func getRoundNode(size: CGFloat, color: UIColor) -> SKSpriteNode {
         let rectSize = CGSize(width: size, height: size)
         UIGraphicsBeginImageContextWithOptions(rectSize, true, 0)
