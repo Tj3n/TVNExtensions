@@ -1,6 +1,6 @@
 # TVNExtensions
 
-[![Build Status](https://travis-ci.org/Tj3n/TVNExtensions.svg?branch=master)](https://travis-ci.org/Tj3n/TVNExtensions)
+[![Build Status](https://travis-ci.org/Tj3n/TVNExtensions.svg?branch=master)](https://travis-ci.org/Tj3n/TVNExtensions) [![Build Status](https://app.bitrise.io/app/3a7d4c001cf45fbc/status.svg?token=OXAtX6hOmieUDVVK0qW8Sw&branch=master)](https://app.bitrise.io/app/3a7d4c001cf45fbc)
 
 Install with `gitpath`:
 
