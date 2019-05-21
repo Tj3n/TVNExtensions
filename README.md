@@ -13,4 +13,4 @@ Install with `gitpath`:
 - `Rx` extentions and dependencies can be installed by `pod 'TVNExtensions/Rx'`
 
 ### ParticleView:
-[Imgur](https://i.imgur.com/L9ITbQe.gifv)
+![Imgur](https://i.imgur.com/L9ITbQe.gif)
