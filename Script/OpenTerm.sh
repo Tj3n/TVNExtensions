@@ -1,4 +1,5 @@
 #! /bin/bash
+#XCode -> Preference -> Behaviors -> Add Custom behavior -> Run this file
 
 osascript <<EOD
 tell application "Xcode"
