@@ -73,14 +73,14 @@ public class DefaultReachabilityService: ReachabilityService {
 }
 
 extension ObservableConvertibleType {
-    public func retryOnBecomesReachable(_ valueOnFailure:E, reachabilityService: ReachabilityService) -> Observable<E> {
+    public func retryOnBecomesReachable(_ valueOnFailure:Element, reachabilityService: ReachabilityService) -> Observable<Element> {
         return self.asObservable()
-            .catchError { (e) -> Observable<E> in
+            .catchError { (Element) -> Observable<Element> in
                 reachabilityService.reachability
                     .skip(1)
                     .filter { $0.reachable }
                     .flatMap { _ in
-                        Observable.error(e)
+                        Observable.error(Element)
                     }
                     .startWith(valueOnFailure)
             }

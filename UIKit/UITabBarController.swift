@@ -17,7 +17,7 @@ extension UITabBarController {
     public func animateSlide(to viewController: UIViewController) -> Bool {
         guard let tabViewControllers = viewControllers else { return false }
         
-        guard let toIndex = tabViewControllers.index(of: viewController) else { return false }
+        guard let toIndex = tabViewControllers.firstIndex(of: viewController) else { return false }
         
         guard let fromView = selectedViewController!.view else { return false }
         guard let toView = tabViewControllers[toIndex].view  else { return false }

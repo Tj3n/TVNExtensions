@@ -17,12 +17,12 @@ public extension UIViewController {
     ///   - storyboardName: storyboard name, default to "Main"
     ///   - controllerId: controller identifier, default to the same Class name
     /// - Returns: view controller
-    public class func instantiate(fromStoryboard storyboardName: String = "Main", controllerId: String = "") -> Self {
+    class func instantiate(fromStoryboard storyboardName: String = "Main", controllerId: String = "") -> Self {
         let sb = UIStoryboard(name: storyboardName, bundle: Bundle.main)
         return instantiateFromStoryboardHelper(sb, controllerId: controllerId.isEmpty ? String(describing: self) : controllerId)
     }
     
-    public class func instantiate(fromStoryboard storyboard: UIStoryboard?, controllerId: String = "") -> Self {
+    class func instantiate(fromStoryboard storyboard: UIStoryboard?, controllerId: String = "") -> Self {
         return instantiateFromStoryboardHelper(storyboard ?? UIStoryboard(name: "Main", bundle: Bundle.main),
                                                controllerId: controllerId.isEmpty ? String(describing: self) : controllerId)
     }
@@ -31,12 +31,12 @@ public extension UIViewController {
         let controller = storyboard.instantiateViewController(withIdentifier: controllerId) as! T
         return controller
     }
-
+    
     /// Get top view controller from window
     ///
     /// - Parameter window: default UIApplication.shared.keyWindow
     /// - Returns: top view controller, does not detect childViewController
-    public class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
+    class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
         return getTopViewController(from: window?.rootViewController)
     }
     
@@ -60,7 +60,7 @@ public extension UIViewController {
     ///   - controller: Child view controller
     ///   - toView: The view to contain the controller's view
     ///   - animated: Set to true to use custom present animation
-    public func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool, completion: (()->())?) {
+    func addChildViewController(_ childController: UIViewController, toView: UIView, animated: Bool, completion: (()->())?) {
         self.addChild(childController)
         let v = childController.view!
         v.alpha = 0

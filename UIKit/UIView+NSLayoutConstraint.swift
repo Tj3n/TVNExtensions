@@ -180,6 +180,8 @@ extension UIView {
                 if view == views.last {
                     view.right(to: self)
                 }
+            default:
+                break
             }
             prevView = view
         }

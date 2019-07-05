@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-extension ObservableType where E == Bool {
+extension ObservableType where Element == Bool {
     /// Boolean not operator
     public func not() -> Observable<Bool> {
         return self.map(!)
@@ -23,13 +23,13 @@ extension SharedSequenceConvertibleType {
 }
 
 extension ObservableType {
-    public func catchErrorJustComplete() -> Observable<E> {
+    public func catchErrorJustComplete() -> Observable<Element> {
         return catchError { _ in
             return Observable.empty()
         }
     }
     
-    public func asDriverOnErrorJustComplete() -> Driver<E> {
+    public func asDriverOnErrorJustComplete() -> Driver<Element> {
         return asDriver { error in
             return Driver.empty()
         }
@@ -39,7 +39,7 @@ extension ObservableType {
         return map { _ in }
     }
     
-    public func unwrap() -> Observable<E> {
+    public func unwrap() -> Observable<Element> {
         return flatMap { Observable.from(optional: $0) }
     }
 }

@@ -131,7 +131,7 @@ class RepoListViewController: UIViewController {
         }
         
         let searchTrigger = searchController.searchBar.rx.text.orEmpty
-            .throttle(0.5, scheduler: MainScheduler.instance)
+            .throttle(DispatchTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .filter({ $0.count != 0 })
             .asDriver { (_) in

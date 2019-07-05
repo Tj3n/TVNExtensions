@@ -10,11 +10,11 @@ import Foundation
 public let TVNErrorDomain = "com.tvn.errorDomain"
 
 public extension NSError {
-    public func show() {
+    func show() {
         ErrorAlertView.shared.showError(self)
     }
     
-    public var jsonString: String? {
+    var jsonString: String? {
         get {
             let dict = ["code": String(self.code),
                         "description": self.localizedDescription]
@@ -29,11 +29,11 @@ public extension NSError {
 }
 
 public extension Error {
-    public func show() {
+    func show() {
         ErrorAlertView.shared.showError(self)
     }
     
-    public var jsonString: String? {
+    var jsonString: String? {
         get {
             let err = self as NSError
             var dict = ["code": String(err.code)]

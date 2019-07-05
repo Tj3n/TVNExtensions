@@ -156,6 +156,8 @@ public class CodeScannerView: UIView {
             return
         case .notDetermined, .authorized:
             break
+        default:
+            break
         }
         
         q.async {

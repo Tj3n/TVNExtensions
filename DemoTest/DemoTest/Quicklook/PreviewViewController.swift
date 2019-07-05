@@ -82,7 +82,7 @@ class PreviewViewController: UIViewController {
             .disposed(by: bag)
         
         showBtn.rx.tap
-            .throttle(0.5, latest: false, scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self, previewController = self.previewController] in
                 self?.present(previewController, animated: true, completion: nil)
             })

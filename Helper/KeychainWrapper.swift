@@ -43,7 +43,7 @@ private let SecReturnAttributes: String = kSecReturnAttributes as String
 /// KeychainWrapper is a class to help make Keychain access in Swift more straightforward. It is designed to make accessing the Keychain services more like using NSUserDefaults, which is much more familiar to people.
 open class KeychainWrapper {
     
-    @available(*, deprecated: 2.2.1, message: "KeychainWrapper.defaultKeychainWrapper is deprecated, use KeychainWrapper.standard instead")
+    @available(swift, deprecated: 2.2.1, message: "KeychainWrapper.defaultKeychainWrapper is deprecated, use KeychainWrapper.standard instead")
     public static let defaultKeychainWrapper = KeychainWrapper.standard
     
     /// Default keychain wrapper access
@@ -115,7 +115,7 @@ open class KeychainWrapper {
         var keychainQueryDictionary: [String:Any] = [
             SecClass: kSecClassGenericPassword,
             SecAttrService: serviceName,
-            SecReturnAttributes: kCFBooleanTrue,
+            SecReturnAttributes: kCFBooleanTrue!,
             SecMatchLimit: kSecMatchLimitAll,
         ]
 
@@ -317,7 +317,7 @@ open class KeychainWrapper {
         }
     }
 
-    @available(*, deprecated: 2.2.1, message: "remove is deprecated, use removeObject instead")
+    @available(swift, deprecated: 2.2.1, message: "remove is deprecated, use removeObject instead")
     @discardableResult open func remove(key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         return removeObject(forKey: key, withAccessibility: accessibility)
     }
@@ -454,7 +454,7 @@ public extension KeychainWrapper {
     ///   - decoder: Optional JSONDecoder to decode the object from saved Data
     ///   - accessibility: Optional accessibility to use when retrieving the keychain item.
     /// - Returns: The Decodable object associated with the key if it exists. If no data exists, returns nil.
-    public func codableObject<T: Decodable>(forKey key: String, type: T.Type, decoder: JSONDecoder = JSONDecoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> T? {
+    func codableObject<T: Decodable>(forKey key: String, type: T.Type, decoder: JSONDecoder = JSONDecoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> T? {
         guard let data = self.data(forKey: key) else { return nil }
         return (try? decoder.decode(T.self, from: data)) as T?
     }
@@ -468,7 +468,7 @@ public extension KeychainWrapper {
     ///   - accessibility: Optional accessibility to use when setting the keychain item.
     /// - Returns: True if the save was successful, false otherwise.
     @discardableResult
-    public func setCodable<T: Encodable>(_ value: T, forKey key: String, encoder: JSONEncoder = JSONEncoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+    func setCodable<T: Encodable>(_ value: T, forKey key: String, encoder: JSONEncoder = JSONEncoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         guard let data = value.getData(encoder: encoder) else {
             self.removeObject(forKey: key)
             return false

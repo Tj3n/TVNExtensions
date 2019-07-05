@@ -52,7 +52,7 @@ extension Reactive where Base: QLPreviewController {
         (dataSource: DataSource)
         -> (_ source: O)
         -> Disposable
-        where DataSource.Element == O.E {
+        where DataSource.Element == O.Element {
             return { source in
                 let unregisterDelegate = RxQLPreviewControllerDataSourceProxy
                     .installForwardDelegate(dataSource,
