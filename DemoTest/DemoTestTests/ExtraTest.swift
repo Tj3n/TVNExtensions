@@ -33,16 +33,14 @@ class ExtraTest: XCTestCase {
     func testNSErrorToJSON() {
         let err = NSError(domain: "com.tvn.test", code: 500, userInfo: [NSLocalizedDescriptionKey: "somethingerror"])
         if let data = err.jsonString?.data(using: .utf8),
-            let jsonObj = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-            let json = jsonObj {
+            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             XCTAssertEqual(json["code"] as? String, "500")
             XCTAssertEqual(json["description"] as? String, "somethingerror")
         }
 
         let err2 = NSError(domain: "com.tvn.test", code: 500, userInfo: nil)
         if let data = err2.jsonString?.data(using: .utf8),
-            let jsonObj = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-            let json = jsonObj {
+            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             XCTAssertEqual(json["code"] as? String, "500")
             XCTAssertEqual(json["description"] as? String, "The operation couldn’t be completed. (com.tvn.test error 500.)")
         }
