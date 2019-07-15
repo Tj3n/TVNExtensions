@@ -36,7 +36,7 @@ rm -rf ${SRCROOT}/build
 1. Build settings -> Skip Install -> No
 2. Will require strip framework script
 3. Edit scheme -> Archive -> Post-actions
-4. Add Run script, archive to produce framework:
+4. Add Run script, set provide build settings from SDK target, archive to produce framework:
 ```bash
 #Fat framework archiving
 #https://gist.github.com/eladnava/0824d08da8f99419ef2c7b7fb6d4cc78
