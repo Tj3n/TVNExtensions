@@ -18,6 +18,7 @@ xcode_destination: platform=iOS Simulator,OS=13.2,name=iPhone 11
 podfile: DemoTest/PodFile
 
 before_install:
+  - npm install
   - brew install swiftlint
   - gem install cocoapods -v 1.7.3
   - pod repo update
