@@ -19,10 +19,6 @@ podfile: DemoTest/PodFile
 
 before_install:
   - brew install swiftlint
-  - gem uninstall cocoapods
-  - gem install cocoapods -v 1.7.3
-  - npm install
-  - pod repo update
 
 notifications:
   email:
