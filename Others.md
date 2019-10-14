@@ -1,9 +1,9 @@
 
 - **Automatically increase Build number run script:**
 ```bash
-buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${PROJECT_DIR}/${INFOPLIST_FILE}")
+buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${INFOPLIST_FILE}")
 buildNumber=$(($buildNumber + 1))
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "${PROJECT_DIR}/${INFOPLIST_FILE}"
+/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "${INFOPLIST_FILE}"
 ```
 
 - **Project path**: `$(SRCROOT)`
@@ -58,3 +58,12 @@ EOD
 - **Log viewController name symbolic breakpoint:**
     - Symbol: `-[UIViewController viewDidLoad]`
     - Action - Log message: `--- Didload @(id)[$arg1 description]@ @(id)[$arg1 title]@`
+
+- **New Configuration:**
+    - Select main PROJECT target > Info > Configuration > Add copy of Debug & Release > Change name if needed (Prod Debug,..)
+    - Change bundle id (separated app when build): Select app target in TARGETS > Build Settings > Product Bundle Identifier > Change for the selected config
+    - Change app name: Select app target in TARGETS > Build Settings > Product Name > Change for the selected config
+    - Swift custom flags:  Select app target in TARGETS > Build Settings > Active Compilation Conditions > Add flag
+    - Have to add similar configuration to sub-project too
+    - Manage scheme > Add new scheme > Change name > Edit scheme > Change Build Configuration for all step
+    - Rerun pod install

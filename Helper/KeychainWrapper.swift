@@ -455,7 +455,7 @@ public extension KeychainWrapper {
     ///   - accessibility: Optional accessibility to use when retrieving the keychain item.
     /// - Returns: The Decodable object associated with the key if it exists. If no data exists, returns nil.
     func codableObject<T: Decodable>(forKey key: String, type: T.Type, decoder: JSONDecoder = JSONDecoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> T? {
-        guard let data = self.data(forKey: key) else { return nil }
+        guard let data = self.data(forKey: key, withAccessibility: accessibility) else { return nil }
         return (try? decoder.decode(T.self, from: data)) as T?
     }
     
@@ -470,7 +470,7 @@ public extension KeychainWrapper {
     @discardableResult
     func setCodable<T: Encodable>(_ value: T, forKey key: String, encoder: JSONEncoder = JSONEncoder(), withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         guard let data = value.getData(encoder: encoder) else {
-            self.removeObject(forKey: key)
+            self.removeObject(forKey: key, withAccessibility: accessibility)
             return false
         }
         return set(data, forKey: key, withAccessibility: accessibility)
