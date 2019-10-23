@@ -8,7 +8,6 @@ Install with `gitpath`:
     
 - `TLVDecoder` is Swift translated of [SGTLVDecode](https://github.com/saturngod/SGTLVDecode).
 - `ParticleIOS` is simplified Swift version of [Particle.js](https://github.com/VincentGarreau/particles.js/).
-- `KeychainWrapper` is forked and updated from [SwiftKeychainWrapper](https://github.com/jrendel/SwiftKeychainWrapper).
 - [Kingfisher](https://github.com/onevcat/Kingfisher) dependency can be installed by `pod 'TVNExtensions/Kingfisher'`
 - `Rx` extentions and dependencies can be installed by `pod 'TVNExtensions/Rx'`
 

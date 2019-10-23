@@ -44,7 +44,7 @@ DEPENDENCIES:
   - TVNExtensions/Rx (from `../.`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Differentiator
     - Kingfisher
     - RxCocoa
@@ -64,15 +64,15 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
-  ParticleIOS: 7f2896ac9d7ac4a2d4a42b86aaeb717796da03d6
+  ParticleIOS: 28dca137c53f06c85acb662f0666b1df299a1b18
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
-  TlvParser: 26af410b42beea7565ea151f23b6c849768c5549
-  TVNExtensions: 8b8b3064ef526e323b953161451c321c857ca5b4
+  TlvParser: 3cd8e545cc0252de34e6bd318446a461eff6f8f0
+  TVNExtensions: 4f9b982a12ca18db969157a0ccd6cbf56a11bac7
 
-PODFILE CHECKSUM: b121df78b95956889610d41c8c4fbf775db1aefb
+PODFILE CHECKSUM: a0db187c8fcf7a11fa0e9a8f7121ec2c6849dc53
 
-COCOAPODS: 1.7.3
+COCOAPODS: 1.8.4

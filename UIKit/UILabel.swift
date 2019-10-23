@@ -128,7 +128,7 @@ extension UILabel {
     @objc dynamic public var substituteFontName : String {
         get { return self.font.fontName }
         set {
-            if let _ = self.attributedText {
+            if let attrText = self.attributedText, attrText.string != self.text {
                 return
             }
             
@@ -167,7 +167,7 @@ extension UILabel {
     @objc dynamic public var substituteSystemFontName : String {
         get { return self.font.fontName }
         set {
-            if let _ = self.attributedText {
+            if let attrText = self.attributedText, attrText.string != self.text {
                 return
             }
             

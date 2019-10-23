@@ -178,14 +178,14 @@ public class BiometryHelper {
     }
     
     private class func checkForModified(context: LAContext) -> Bool {
-        let k = "TVN_DS_CHECK"
-        guard let oldDomainState = KeychainWrapper.standard.data(forKey: k) else { return false }
+        let k = "com.tvn.TVN_DS_CHECK"
+        guard let oldDomainState = UserDefaults.standard.data(forKey: k) else { return false }
         if #available(iOS 9.0, *) {
             if let domainState = context.evaluatedPolicyDomainState {
                 if domainState == oldDomainState {
                     return false
                 } else {
-                    KeychainWrapper.standard.set(domainState, forKey: k)
+                    UserDefaults.standard.set(domainState, forKey: k)
                     return true
                 }
             } else {
