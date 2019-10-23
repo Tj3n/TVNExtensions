@@ -160,8 +160,7 @@ extension UILabel {
         }
     }
     
-    private static let tvnSystemFontTextName = ".sfuitext"
-    private static let tvnSystemFontDisplayName = ".sfuidisplay"
+    private static let tvnSystemFontTextName = ".sfui"
     
     /// Replace ONLY system font with font name, keep size and type, can be use with UILabel.appearance(), ignore attributedText
     @objc dynamic public var substituteSystemFontName : String {
@@ -171,8 +170,8 @@ extension UILabel {
                 return
             }
             
-            let fontNameToTest = self.font.description.lowercased()+self.font.fontName.lowercased()
-            guard fontNameToTest.contains(UILabel.tvnSystemFontTextName) || fontNameToTest.contains(UILabel.tvnSystemFontDisplayName) else {
+            let fontNameToTest = self.font.fontName.lowercased()
+            guard fontNameToTest.contains(UILabel.tvnSystemFontTextName) else {
                 return
             }
             var subFontName = newValue
