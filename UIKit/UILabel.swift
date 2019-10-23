@@ -170,7 +170,7 @@ extension UILabel {
                 return
             }
             
-            let fontNameToTest = self.font.fontName.lowercased()
+            let fontNameToTest = self.font.description.lowercased()+self.font.fontName.lowercased()
             guard fontNameToTest.contains(UILabel.tvnSystemFontTextName) else {
                 return
             }
