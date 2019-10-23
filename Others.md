@@ -56,8 +56,8 @@ EOD
     - Move all pods scheme to top, Pods-Project schemes middle, Project schemes bottom
 
 - **Log viewController name symbolic breakpoint:**
-    - Symbol: `-[UIViewController viewDidLoad]`
-    - Action - Log message: `--- Didload @(id)[$arg1 description]@ @(id)[$arg1 title]@`
+    - Symbol: `-[UIViewController dealloc]`
+    - Action - Log message: `--- Dealloc @(id)[$arg1 description]@ @(id)[$arg1 title]@`
 
 - **New Configuration:**
     - Select main PROJECT target > Info > Configuration > Add copy of Debug & Release > Change name if needed (Prod Debug,..)

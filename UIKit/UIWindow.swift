@@ -12,6 +12,7 @@ import UIKit
 extension UIWindow {
     
     /// Switch window's rootViewController with animation
+    /// Dismiss any presenting/child controllers to prevent leak!
     ///
     /// - Parameters:
     ///   - viewController: viewController to replace current rootViewController
@@ -22,6 +23,10 @@ extension UIWindow {
             self.rootViewController = viewController
             completion?()
             return
+        }
+        
+        if let _ = oldVC.presentingViewController {
+            print("Dismiss any presenting/child controllers from stack before changeRootViewController!")
         }
         
         let oldView = oldVC.view!
@@ -54,10 +59,20 @@ extension UIWindow {
         }
     }
     
+    /// Switch window's rootViewController with animation
+    /// Dismiss any presenting/child controllers to prevent leak!
+    ///
+    /// - Parameter viewController: viewController to replace current rootViewController
     public class func changeRootViewController(with viewController: UIViewController) {
         UIWindow.changeRootViewController(with: viewController, animated: true, completion: nil)
     }
     
+    /// Switch window's rootViewController with animation
+    /// Dismiss any presenting/child controllers to prevent leak!
+    ///
+    /// - Parameter viewController: viewController to replace current rootViewController
+    /// - Parameter animated: replace with animation
+    /// - Parameter completion: completion handler
     public class func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
         UIApplication.shared.keyWindow?.changeRootViewController(with: viewController, animated: animated, completion: completion)
     }
