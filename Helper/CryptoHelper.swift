@@ -9,7 +9,7 @@ import Foundation
 
 public struct CryptoHelper {
     public static func SHA256ToHex(with dict: [String: String], salt: String?) -> String {
-        var keys = dict.keys.sorted()
+        let keys = dict.keys.sorted()
         var signStr = ""
         for i in 0..<keys.count {
             signStr.append("\(keys[i])=\(dict[keys[i]]!)")

@@ -35,7 +35,11 @@ class ImagePickerViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         view.addSubview(cameraBtn)
-        cameraBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        if #available(iOS 11.0, *) {
+            cameraBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        } else {
+            cameraBtn.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 30).isActive = true
+        }
         cameraBtn.centerX(to: view)
         cameraBtn.setRelativeWidth(to: view, ratio: 0.7)
         cameraBtn.setHeight(40)

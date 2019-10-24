@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CCommonCrypto
+import CommonCrypto
 
 extension Data {
     public func SHA256() -> Data {

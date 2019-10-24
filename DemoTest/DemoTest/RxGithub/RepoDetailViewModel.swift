@@ -32,7 +32,11 @@ class RepoDetailViewModel: ViewModelType {
             .map { self.repo.htmlURL }
             .flatMap { Driver.from(optional: URL(string: $0)) }
             .do(onNext: { (url) in
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
             })
             .map({ _ in })
         
