@@ -15,6 +15,11 @@ public protocol IndexableItem {
 /// Use to generate the indexSectionTitles for custom object
 /// See example below
 public class IndexedListCollator<Item: IndexableItem> {
+    
+    public init() {
+        
+    }
+    
     /// Unfortunately, `UILocalizedIndexedCollation` only works with selectors which require attributes to be exposed via @objc. Structs do not support exposing attributes via this tag. This little wrapper helps in those cases.
     private final class CollationWrapper: NSObject {
         let value: Any
