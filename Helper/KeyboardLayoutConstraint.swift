@@ -13,6 +13,8 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     @IBInspectable public var excludeOriginConstant: Bool = false
     ///Set to true to flip the added height
     @IBInspectable public var isTopConstraint: Bool = false
+    /// Set to true if is attached to a tabBar to exclude it's height
+    @IBInspectable public var isWithTabBar: Bool = false
     ///Constraint constant to use if `excludeOriginConstant` = true
     @IBInspectable public var keyboardActiveAmount: CGFloat = 0
     
@@ -20,6 +22,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
     private var defaultKeyboardActiveHeight: CGFloat = 0.0
     private var keyboardHeight: CGFloat = 0.0
     private var isKeyboardShow: Bool = false
+    private lazy var tabbarHeight = UITabBarController().tabBar.frame.size.height
     
     /// Create constraint with automatically keyboard handling
     ///
@@ -117,6 +120,10 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
             }
         }
         
+        if isWithTabBar {
+            constant -= tabbarHeight
+        }
+        
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: UIView.KeyframeAnimationOptions(rawValue: curve), animations: {
             UIApplication.shared.keyWindow?.layoutIfNeeded()
         }, completion: nil)
@@ -142,6 +149,10 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
             } else {
                 constant -= keyboardHeight
             }
+        }
+        
+        if isWithTabBar {
+            constant += tabbarHeight
         }
         
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: UIView.KeyframeAnimationOptions(rawValue: curve), animations: {
