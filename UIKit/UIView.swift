@@ -128,8 +128,8 @@ extension UIView {
     /// - Parameters:
     ///   - corner: the corner to be rounded
     ///   - radius: radius
-    public func customCornerRadius(_ corner: UIRectCorner, radius: CGSize) {
-        let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners: corner, cornerRadii: radius)
+    public func customCornerRadius(_ corner: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners: corner, cornerRadii: CGSize(width: radius, height: radius))
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath
         self.layer.mask = maskLayer
