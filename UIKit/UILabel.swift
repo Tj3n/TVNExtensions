@@ -124,7 +124,7 @@ extension UILabel {
         }
     }
     
-    /// Change font for whole app, keep size, type, can be use with UILabel.appearance(), ignore attributedText
+    /// Change font for whole app, keep size, type, can be use with UILabel.appearance(), ignore attributedText, require attributedText != text to be ignored
     @objc dynamic public var substituteFontName : String {
         get { return self.font.fontName }
         set {
@@ -156,13 +156,16 @@ extension UILabel {
             } else {
                 subFontName += "-Regular"
             }
+            //Work around for font that have too big width
+            self.adjustsFontSizeToFitWidth = true
+            self.minimumScaleFactor = 0.8
             self.font = UIFont(name: subFontName, size: self.font.pointSize)
         }
     }
     
     private static let tvnSystemFontTextName = ".sfui"
     
-    /// Replace ONLY system font with font name, keep size and type, can be use with UILabel.appearance(), ignore attributedText
+    /// Replace ONLY system font with font name, keep size and type, can be use with UILabel.appearance(), ignore attributedText, require attributedText != text to be ignored
     @objc dynamic public var substituteSystemFontName : String {
         get { return self.font.fontName }
         set {
@@ -197,6 +200,9 @@ extension UILabel {
             } else {
                 subFontName += "-Regular"
             }
+            //Work around for font that have too big width
+            self.adjustsFontSizeToFitWidth = true
+            self.minimumScaleFactor = 0.8
             self.font = UIFont(name: subFontName, size: self.font.pointSize)
         }
     }

@@ -13,3 +13,11 @@ Install with `gitpath`:
 
 ### ParticleView:
 ![Imgur](https://i.imgur.com/L9ITbQe.gif)
+
+### Info.plist requirements:
+- Hard requirement:
+    - NSCameraUsageDescription
+    - NSPhotoLibraryUsageDescription
+
+- Require if use any:
+    - NSFaceIDUsageDescription
