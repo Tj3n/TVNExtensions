@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-extension UIImage {
-    public convenience init?(qrString: String, size: CGSize) {
+public extension UIImage {
+    convenience init?(qrString: String, size: CGSize) {
         let data = qrString.data(using: .isoLatin1, allowLossyConversion: false)
         let filter = CIFilter(name: "CIQRCodeGenerator")
         filter?.setValue(data, forKey: "inputMessage")
@@ -20,7 +20,7 @@ extension UIImage {
             let transformedImage = qrCodeImg.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
             self.init(ciImage: transformedImage)
         } else {
-//            self.init()
+            //            self.init()
             return nil
         }
     }
@@ -31,6 +31,20 @@ extension UIImage {
     
     var isDark: Bool {
         return brightness < 125
+    }
+    
+    convenience init?(color: UIColor) {
+        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        
+        let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let cgImage = image?.cgImage else { return nil }
+        self.init(cgImage: cgImage)
     }
 }
 
