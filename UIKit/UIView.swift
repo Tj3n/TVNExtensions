@@ -103,13 +103,20 @@ extension UIView {
      - parameter startPoint: min 0 max 1
      - parameter endPoint:   min 0 max 1
      */
-    public func setGradientBackground(color startCol: UIColor, endCol: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
+    @discardableResult
+    public func setGradientBackground(color startCol: UIColor, endCol: UIColor, startPoint: CGPoint, endPoint: CGPoint) -> CALayer {
+        return setGradientBackground(colors: [startCol, endCol], startPoint: startPoint, endPoint: endPoint)
+    }
+    
+    @discardableResult
+    public func setGradientBackground(colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint) -> CALayer {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = self.bounds
-        gradient.colors = [startCol.cgColor, endCol.cgColor]
+        gradient.colors = colors.map({ $0.cgColor })
         self.layer.insertSublayer(gradient, at: 0)
-        gradient.startPoint = startPoint;
-        gradient.endPoint = endPoint;
+        gradient.startPoint = startPoint
+        gradient.endPoint = endPoint
+        return gradient
     }
     
     /// Add simple fadeTransition for the duration
