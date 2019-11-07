@@ -34,9 +34,9 @@ extension UIWindow {
         switch animated {
         case true:
             let toView = viewController.view!
-            toView.layoutIfNeeded()
+//            toView.layoutIfNeeded()
             
-            let newView = viewController.view!.resizableSnapshotView(from: bounds, afterScreenUpdates: true, withCapInsets: .zero)!
+            let newView = toView.resizableSnapshotView(from: bounds, afterScreenUpdates: true, withCapInsets: .zero)!
             newView.alpha = 0
             self.addSubview(newView)
             newView.layer.transform = CATransform3DMakeTranslation(0, UIScreen.main.bounds.maxY, 0)
