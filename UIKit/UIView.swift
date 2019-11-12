@@ -10,23 +10,23 @@ import Foundation
 import UIKit
 
 // MARK: Some frame value and class func
-extension UIView {
-    public var width: CGFloat {
+public extension UIView {
+    var width: CGFloat {
         set { self.frame = CGRect(origin: frame.origin, size: CGSize(width: newValue, height: height)) }
         get { return self.frame.size.width }
     }
     
-    public var height: CGFloat {
+    var height: CGFloat {
         set { self.frame = CGRect(origin: frame.origin, size: CGSize(width: width, height: newValue)) }
         get { return self.frame.size.height }
     }
     
-    public var originX: CGFloat {
+    var originX: CGFloat {
         set { self.frame.origin.x = newValue }
         get { return self.frame.origin.x }
     }
     
-    public var originY: CGFloat {
+    var originY: CGFloat {
         set { self.frame.origin.y = newValue }
         get { return self.frame.origin.y }
     }
@@ -34,7 +34,7 @@ extension UIView {
     /// Create view from same name's nib
     ///
     /// - Returns: view
-    public class func viewWithNib() -> Self? {
+    class func viewWithNib() -> Self? {
         return viewWithNibHelper()
     }
     
@@ -48,7 +48,7 @@ extension UIView {
         return nil
     }
     
-    public func findFirstResponder() -> UIView? {
+    func findFirstResponder() -> UIView? {
         guard !isFirstResponder else { return self }
         
         for subview in subviews {
@@ -60,7 +60,7 @@ extension UIView {
         return nil
     }
     
-    public func allSubViews() -> [UIView] {
+    func allSubViews() -> [UIView] {
         var subViews = self.subviews
         for v in subviews {
             subViews.append(contentsOf: v.allSubViews())
@@ -73,7 +73,7 @@ extension UIView {
      
      - returns: uiview contains snapshot image with shadow
      */
-    public func snapshot() -> UIView? {
+    func snapshot() -> UIView? {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0.0)
         self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
@@ -104,12 +104,12 @@ extension UIView {
      - parameter endPoint:   min 0 max 1
      */
     @discardableResult
-    public func setGradientBackground(color startCol: UIColor, endCol: UIColor, startPoint: CGPoint, endPoint: CGPoint) -> CALayer {
+    func setGradientBackground(color startCol: UIColor, endCol: UIColor, startPoint: CGPoint, endPoint: CGPoint) -> CALayer {
         return setGradientBackground(colors: [startCol, endCol], startPoint: startPoint, endPoint: endPoint)
     }
     
     @discardableResult
-    public func setGradientBackground(colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint) -> CALayer {
+    func setGradientBackground(colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint) -> CALayer {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = colors.map({ $0.cgColor })
@@ -122,7 +122,7 @@ extension UIView {
     /// Add simple fadeTransition for the duration
     ///
     /// - Parameter duration: duration
-    public func fadeTransition(_ duration:CFTimeInterval) {
+    func fadeTransition(_ duration:CFTimeInterval) {
         let animation:CATransition = CATransition()
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         animation.type = CATransitionType.fade
@@ -135,7 +135,7 @@ extension UIView {
     /// - Parameters:
     ///   - corner: the corner to be rounded
     ///   - radius: radius
-    public func customCornerRadius(_ corner: UIRectCorner, radius: CGFloat) {
+    func customCornerRadius(_ corner: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners: corner, cornerRadii: CGSize(width: radius, height: radius))
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath
@@ -148,7 +148,7 @@ extension UIView {
     /// - Parameters:
     ///   - shadowRadius: Shadow radius
     ///   - offset: Shadow offset
-    public func setDropShadow(radius: CGFloat, offset: CGSize = .zero, color: UIColor? = nil) {
+    func setDropShadow(radius: CGFloat, offset: CGSize = .zero, color: UIColor? = nil) {
         layer.shadowRadius = radius;
         layer.masksToBounds = false;
         layer.shadowColor = (color ?? backgroundColor ?? tintColor).cgColor
@@ -158,14 +158,14 @@ extension UIView {
         layer.shadowPath = path.cgPath
     }
     
-    public func getTopMostSuperView() -> UIView {
+    func getTopMostSuperView() -> UIView {
         if let v = self.superview {
             return v.getTopMostSuperView()
         }
         return self
     }
     
-    public func maskRect(_ maskRect: CGRect, invert: Bool = false) {
+    func maskRect(_ maskRect: CGRect, invert: Bool = false) {
         let maskLayer = CAShapeLayer()
         let path = CGMutablePath()
         if (invert) {
@@ -184,7 +184,7 @@ extension UIView {
 }
 
 // MARK: - Some IBInspectable
-extension UIView {
+public extension UIView {
     @IBInspectable var cornerRadius: CGFloat {
         get {
             return layer.cornerRadius
