@@ -60,10 +60,11 @@ public class ImageViewerViewController: UIViewController {
     /// - Parameters:
     ///   - image: image
     ///   - view: starting view
-    convenience public init(image: UIImage?, from view: UIView?) {
+    ///   - clippingTransition: Set to false if the from view has bound clipping
+    convenience public init(image: UIImage?, from view: UIView?, clippingTransition: Bool = true) {
         self.init(nibName:nil, bundle:nil)
         self.image = image
-        setupModalPresention(from: view, image: image)
+        setupModalPresention(from: view, image: image, clippingTransition: clippingTransition)
     }
     
     /// Create imageViewer from URL with transition animation from view/imageview/cell...
@@ -72,13 +73,14 @@ public class ImageViewerViewController: UIViewController {
     ///   - imageURL: image URL
     ///   - placeholderImage: placeholder image, can be nil
     ///   - view: starting view
+    ///   - clippingTransition: Set to false if the from view has bound clipping
     ///   - completion: completion closure after finished image downloading
-    convenience public init(imageURL: URL, placeholderImage: UIImage?, from view: UIView?, completion: ((UIImage?) -> ())?) {
+    convenience public init(imageURL: URL, placeholderImage: UIImage?, from view: UIView?, clippingTransition: Bool = true, completion: ((UIImage?) -> ())?) {
         self.init(nibName:nil, bundle:nil)
         self.imageURL = imageURL
         self.image = placeholderImage
         self.downloadedImgCompletion = completion
-        setupModalPresention(from: view, image: placeholderImage)
+        setupModalPresention(from: view, image: placeholderImage, clippingTransition: clippingTransition)
     }
     
     override public func viewDidLoad() {
@@ -116,13 +118,13 @@ public class ImageViewerViewController: UIViewController {
         return .lightContent
     }
     
-    private func setupModalPresention(from view: UIView?, image: UIImage?) {
+    private func setupModalPresention(from view: UIView?, image: UIImage?, clippingTransition: Bool) {
         modalPresentationStyle = .overFullScreen
         modalTransitionStyle = .crossDissolve
         modalPresentationCapturesStatusBarAppearance = true
         
         guard let view = view, let image = image else { return }
-        animator = ImageViewerAnimator(from: view, image: image)
+        animator = ImageViewerAnimator(from: view, image: image, clippingTransition: clippingTransition)
         transitioningDelegate = animator
     }
     

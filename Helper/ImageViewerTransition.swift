@@ -12,10 +12,12 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
     var fromImage: UIImage?
     var isPresenting: Bool = false
     var dismissFromView: UIView?
+    var clippingTransition: Bool = true
     
-    init(from view: UIView, image: UIImage?) {
+    init(from view: UIView, image: UIImage?, clippingTransition: Bool) {
         self.fromView = view
         self.fromImage = image
+        self.clippingTransition = clippingTransition
         super.init()
     }
     
@@ -42,6 +44,7 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         }
         imageView.frame = isPresenting ? fromViewFrame : dismissingFrame
         imageView.contentMode = isPresenting ? .scaleAspectFit : fromView.contentMode
+        imageView.clipsToBounds = clippingTransition
         
         let fadeView = isPresenting ? UIVisualEffectView(effect: nil) : UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         fadeView.frame = toView.frame
@@ -61,7 +64,7 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(imageView)
         
         if #available(iOS 10.0, *) {
-            let animator = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), dampingRatio: 0.7) {
+            let animator = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), dampingRatio: 0.8) {
                 fadeView.effect = self.isPresenting ? UIBlurEffect(style: .dark) : nil
                 imageView.frame = self.isPresenting ? containerView.bounds : fromViewFrame
             }
@@ -69,7 +72,9 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             animator.addCompletion { (position) in
                 if position == .end {
                     toView.alpha = 1
-                    self.fromView.alpha = 1
+                    if !self.isPresenting {
+                        self.fromView.alpha = 1
+                    }
                     snapshot.removeFromSuperview()
                     fadeView.removeFromSuperview()
                     imageView.removeFromSuperview()
@@ -81,16 +86,17 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         } else {
             UIView.animate(withDuration: transitionDuration(using: transitionContext),
                            delay: 0,
-                           usingSpringWithDamping: 0.7,
+                           usingSpringWithDamping: 0.8,
                            initialSpringVelocity: 0,
                            options: .curveEaseOut,
                            animations: {
                             fadeView.effect = self.isPresenting ? UIBlurEffect(style: .dark) : nil
-                            imageView.contentMode = .scaleAspectFit
                             imageView.frame = self.isPresenting ? containerView.bounds : fromViewFrame
             }, completion: { _ in
                 toView.alpha = 1
-                self.fromView.alpha = 1
+                if !self.isPresenting {
+                    self.fromView.alpha = 1
+                }
                 snapshot.removeFromSuperview()
                 fadeView.removeFromSuperview()
                 imageView.removeFromSuperview()

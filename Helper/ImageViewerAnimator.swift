@@ -10,12 +10,12 @@ class ImageViewerAnimator: NSObject, UIViewControllerTransitioningDelegate {
     let presentationTransition: ImageViewerTransition
     
     init(from imageView: UIImageView) {
-        presentationTransition = ImageViewerTransition(from: imageView, image: imageView.image)
+        presentationTransition = ImageViewerTransition(from: imageView, image: imageView.image, clippingTransition: true)
         super.init()
     }
     
-    init(from view: UIView, image: UIImage?) {
-        presentationTransition = ImageViewerTransition(from: view, image: image)
+    init(from view: UIView, image: UIImage?, clippingTransition: Bool = true) {
+        presentationTransition = ImageViewerTransition(from: view, image: image, clippingTransition: clippingTransition)
         super.init()
     }
     

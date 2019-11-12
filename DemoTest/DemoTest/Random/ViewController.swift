@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     @objc func testImageViewer(_ sender: UIGestureRecognizer) {
         print(#function)
 //        let viewer = ImageViewerViewController(image: imgView.image, from: imgView)
-        let viewer = ImageViewerViewController(imageURL: URL(string: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg")!, placeholderImage: imgView.image, from: imgView) { img in
+        let viewer = ImageViewerViewController(imageURL: URL(string: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg")!, placeholderImage: imgView.image, from: imgView, clippingTransition: false) { img in
             self.imgView.image = img
         }
         self.present(viewer, animated: true, completion: nil)
