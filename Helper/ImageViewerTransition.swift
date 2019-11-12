@@ -41,7 +41,7 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             dismissingFrame = dismissFromView.frame
         }
         imageView.frame = isPresenting ? fromViewFrame : dismissingFrame
-        imageView.contentMode = isPresenting ? fromView.contentMode : .scaleAspectFit
+        imageView.contentMode = isPresenting ? .scaleAspectFit : fromView.contentMode
         
         let fadeView = isPresenting ? UIVisualEffectView(effect: nil) : UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         fadeView.frame = toView.frame
@@ -63,7 +63,6 @@ class ImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         if #available(iOS 10.0, *) {
             let animator = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), dampingRatio: 0.7) {
                 fadeView.effect = self.isPresenting ? UIBlurEffect(style: .dark) : nil
-                imageView.contentMode = .scaleAspectFit
                 imageView.frame = self.isPresenting ? containerView.bounds : fromViewFrame
             }
             

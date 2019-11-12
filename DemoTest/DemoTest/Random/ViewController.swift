@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     @objc func testImageViewer(_ sender: UIGestureRecognizer) {
         print(#function)
 //        let viewer = ImageViewerViewController(image: imgView.image, from: imgView)
-        let viewer = ImageViewerViewController(imageURL: URL(string: "https://www.gstatic.com/webp/gallery3/1.png")!, placeholderImage: imgView.image, from: imgView) { img in
+        let viewer = ImageViewerViewController(imageURL: URL(string: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg")!, placeholderImage: imgView.image, from: imgView) { img in
             self.imgView.image = img
         }
         self.present(viewer, animated: true, completion: nil)
@@ -93,6 +93,7 @@ class ViewController: UIViewController {
 
     @IBAction func modalBtnTouch(_ sender: Any) {
         let nextVC = getNextVC()
+        nextVC.modalPresentationStyle = .fullScreen
         self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
         nextVC.transitioningDelegate = self.animator
         self.present(nextVC, animated: true, completion: nil)
@@ -137,6 +138,7 @@ class ViewController: UIViewController {
             
             self.animator = ExpandShrinkAnimator(fromView: self.imgView, toView: nextVC.destinationImgView)
             if segue.identifier == "show" {
+                nextVC.modalPresentationStyle = .fullScreen
                 nextVC.transitioningDelegate = animator
             } else if segue.identifier == "push" {
                 navigationController?.delegate = animator

@@ -86,6 +86,8 @@ class ExpandShrinkTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 return
         }
         
+        assert(toVC.modalPresentationStyle != .overFullScreen && toVC.modalPresentationStyle != .overCurrentContext, ".overFullScreen or .overCurrentContext will cause black screen with ExpandShrinkTransition")
+        
         var initialF = CGRect.zero
         var finalF = CGRect.zero
         
