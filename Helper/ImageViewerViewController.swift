@@ -32,6 +32,7 @@ public class ImageViewerViewController: UIViewController {
         v.isUserInteractionEnabled = true
         v.addGestureRecognizer(panGesture)
         v.addGestureRecognizer(doubleTapGesture)
+        panGesture.delegate = self
         return v
     }()
     
@@ -179,14 +180,21 @@ public class ImageViewerViewController: UIViewController {
         case .ended:
             let velocity = panGesture.velocity(in: view)
             if velocity.y >= 1500 {
-                UIView.animate(withDuration: 0.2 , animations: {
-                    self.imageView.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
-                }, completion: { (isCompleted) in
+                if #available(iOS 13.0, *) {
+                    self.imageView.transform = CGAffineTransform(translationX: translation.x, y: translation.y).concatenating(CGAffineTransform(scaleX: scrollView.zoomScale, y: scrollView.zoomScale))
+                }
+                UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
+                    if #available(iOS 13.0, *) {
+                        self.imageView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+                    } else {
+                        self.imageView.layer.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
+                    }
+                }) { (isCompleted) in
                     if isCompleted {
                         self.animator?.prepareForDismiss(from: self.imageView)
                         self.dismiss(animated: true, completion: nil)
                     }
-                })
+                }
             } else {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.imageView.center = self.originalPosition
@@ -212,6 +220,17 @@ extension ImageViewerViewController {
     
     func aspectFitRect(forSize size: CGSize, insideRect: CGRect) -> CGRect {
         return AVMakeRect(aspectRatio: size, insideRect: insideRect)
+    }
+}
+
+//MARK:
+extension ImageViewerViewController: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer is UIPanGestureRecognizer || gestureRecognizer is UIRotationGestureRecognizer) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 
