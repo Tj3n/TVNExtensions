@@ -66,4 +66,16 @@ EOD
     - Swift custom flags:  Select app target in TARGETS > Build Settings > Active Compilation Conditions > Add flag
     - Have to add similar configuration to sub-project too
     - Manage scheme > Add new scheme > Change name > Edit scheme > Change Build Configuration for all step
-    - Rerun pod install
+    - Rerun `pod install`
+    
+- **Simulation track:**
+    - Create `.gpx` track via [http://www.bikehike.co.uk](http://www.bikehike.co.uk).
+    - Replace regex: `\s+<trkpt\s(.+)\n.+\n\s+(.+)\n.+` to `\n<wpt $1$2</wpt>`
+    - Change the rest to 
+    ```
+        <?xml version="1.0" encoding="UTF-8"?>
+        <gpx>
+            <wpt>
+            ...
+        </gpx>
+    ```
