@@ -48,6 +48,22 @@ public class ImageViewerViewController: UIViewController {
         return v
     }()
     
+    private lazy var closeBtn: UIButton = {
+        var v: UIButton
+        if #available(iOS 13.0, *) {
+            v = UIButton(type: .close)
+        } else {
+            v = UIButton(type: .roundedRect)
+            v.setTitle("X", for: .normal)
+            v.tintColor = .white
+            v.borderWidth = 1
+            v.borderColor = .white
+            v.cornerRadius = 15
+        }
+        v.addTarget(self, action: #selector(closeBtnTouch(_:)), for: .touchUpInside)
+        return v
+    }()
+    
     private var image: UIImage?
     private lazy var originalPosition: CGPoint = view.center
     private var imageURL: URL?
@@ -139,12 +155,37 @@ public class ImageViewerViewController: UIViewController {
         view.addSubview(blurredView)
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
+        view.addSubview(closeBtn)
         
         blurredView.edgesToSuperView()
         scrollView.edgesToSuperView()
         imageView.edgesToSuperView()
         imageView.setRelativeWidth(to: view)
         imageView.setRelativeHeight(to: view)
+        closeBtn.topMargin(to: view, by: 16)
+        closeBtn.right(to: view, by: 16)
+        
+        if #available(iOS 13.0, *) {
+            
+        } else {
+            closeBtn.setWidth(30)
+            closeBtn.setHeight(30)
+        }
+    }
+    
+    @objc func closeBtnTouch(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
+            if #available(iOS 13.0, *) {
+                self.imageView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+            } else {
+                self.imageView.layer.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
+            }
+        }) { (isCompleted) in
+            if isCompleted {
+                self.animator?.prepareForDismiss(from: self.imageView)
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     /// If horizontal image then get max zoom by height, else by width
@@ -187,7 +228,7 @@ public class ImageViewerViewController: UIViewController {
                     if #available(iOS 13.0, *) {
                         self.imageView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
                     } else {
-                        self.imageView.layer.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
+                        self.imageView.layer.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.imageView.frame.size.height)
                     }
                 }) { (isCompleted) in
                     if isCompleted {
@@ -226,11 +267,12 @@ extension ImageViewerViewController {
 //MARK:
 extension ImageViewerViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if (gestureRecognizer is UIPanGestureRecognizer || gestureRecognizer is UIRotationGestureRecognizer) {
-            return true
-        } else {
-            return false
+        if #available(iOS 13, *) {
+            if (gestureRecognizer is UIPanGestureRecognizer || gestureRecognizer is UIRotationGestureRecognizer) {
+                return true
+            }
         }
+        return false
     }
 }
 
