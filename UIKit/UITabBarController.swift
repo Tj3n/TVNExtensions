@@ -11,18 +11,37 @@ import UIKit
 extension UITabBarController {
     
     /// Use with UITabBarControllerDelegate's `tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool`
+    /// Support pop to root for custom UITabBarController class
+    ///
+    /// - Parameters:
+    ///   - viewController: The viewController will be selected
+    public func checkAndPopToRoot(onSelectingViewController viewController: UIViewController) {
+        guard let willSelectIndex = self.viewControllers?.firstIndex(of: viewController), self.selectedIndex == willSelectIndex else {
+            return
+        }
+        
+        if let viewController = viewController as? UINavigationController {
+            viewController.popToRootViewController(animated: true)
+        } else if let viewController = viewController as? UISplitViewController {
+            viewController.viewControllers.forEach({ [weak self] in
+                self?.checkAndPopToRoot(onSelectingViewController: $0)
+            })
+        }
+    }
+    
+    /// Use with UITabBarControllerDelegate's `tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool`
     ///
     /// - Parameter viewController: viewController
     /// - Returns: Bool
+    @discardableResult
     public func animateSlide(to viewController: UIViewController) -> Bool {
-        guard let tabViewControllers = viewControllers else { return false }
-        
-        guard let toIndex = tabViewControllers.firstIndex(of: viewController) else { return false }
-        
-        guard let fromView = selectedViewController!.view else { return false }
-        guard let toView = tabViewControllers[toIndex].view  else { return false }
-        
-        guard selectedIndex != toIndex else { return false }
+        guard let tabViewControllers = viewControllers,
+            let toIndex = tabViewControllers.firstIndex(of: viewController),
+            selectedIndex != toIndex,
+            let fromView = selectedViewController?.view,
+            let toView = viewController.view else {
+                return false
+        }
         
         fromView.superview!.addSubview(toView)
         
@@ -51,6 +70,7 @@ extension UITabBarController {
     ///   - tabBarController: tabBarController
     ///   - viewController: viewController
     /// - Returns: Bool
+    @discardableResult
     public func animateCrossDissolve(to viewController: UIViewController) -> Bool {
         let fromView: UIView = selectedViewController!.view
         let toView  : UIView = viewController.view
