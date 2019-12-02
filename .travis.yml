@@ -14,7 +14,7 @@ xcode_workspace: DemoTest/DemoTest.xcworkspace
 xcode_scheme: 
   - DemoTest
 
-xcode_destination: platform=iOS Simulator,OS=13.2,name=iPhone 11
+xcode_destination: platform=iOS Simulator,OS=12.4,name=iPhone XS
 podfile: DemoTest/PodFile
 
 before_install:
