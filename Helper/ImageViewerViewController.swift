@@ -166,7 +166,7 @@ public class ImageViewerViewController: UIViewController {
         closeBtn.right(to: view, by: 16)
         
         if #available(iOS 13.0, *) {
-            
+            overrideUserInterfaceStyle = .dark //Light mode for close button will be hard to see
         } else {
             closeBtn.setWidth(30)
             closeBtn.setHeight(30)
