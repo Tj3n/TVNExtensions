@@ -102,6 +102,13 @@ extension String {
         let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: attribute, context: nil)
         return sizeOfText
     }
+    
+    /// Will have hyphen (-) on word break
+    public func hyphenationString() -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.hyphenationFactor = 1.0
+        return NSMutableAttributedString(string: self, attributes: [NSAttributedString.Key.paragraphStyle:paragraphStyle])
+    }
 }
 
 // MARK: Validation
