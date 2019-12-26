@@ -38,7 +38,7 @@ public extension UIView {
         return viewWithNibHelper()
     }
     
-    fileprivate class func viewWithNibHelper<T>() -> T? {
+    fileprivate class func viewWithNibHelper<T>() -> T? where T: UIView {
         let viewsArray = Bundle.main.loadNibNamed(String(describing: self), owner: nil, options: nil)
         guard let viewArray = viewsArray else { return nil }
         if viewArray.count > 0 {
@@ -46,6 +46,13 @@ public extension UIView {
         }
         
         return nil
+    }
+    
+    class func fromNib() -> Self {
+        guard let view = viewWithNibHelper() as? Self else {
+            fatalError("Invalid Nib name")
+        }
+        return view
     }
     
     func findFirstResponder() -> UIView? {

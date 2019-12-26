@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SafariServices
 
 public extension UIViewController {
     
@@ -117,5 +118,20 @@ public extension UIViewController {
             newViewController.didMove(toParent: self)
             completion?()
         }
+    }
+    
+    /// Open the URL string with SFSafariViewController, do nothing if url is invalid
+    /// - Parameters:
+    ///   - urlString: urlString
+    ///   - completion: view present completion
+    func openURL(_ urlString: String, completion: (()->Void)?) {
+        let urlString = urlString.trim()
+        var url = URL(string: urlString)
+        if url?.scheme == nil {
+            url  = URL(string: "https://"+urlString)
+        }
+        guard let unwrappedURL = url else { return }
+        let svc = SFSafariViewController(url: unwrappedURL)
+        present(svc, animated: true, completion: completion)
     }
 }
