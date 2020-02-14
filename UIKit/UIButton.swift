@@ -10,8 +10,33 @@ import Foundation
 import UIKit
 import ObjectiveC
 
-extension UIButton {
-    open var isEnabledWithBG: Bool {
+public extension UIButton {
+    
+    /// To add padding to UIButton
+    ///
+    /// Example
+    /// ```
+    /// button.setInsets(forContentPadding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16), imageTitlePadding: 8)
+    /// ```
+    /// - Parameters:
+    ///   - contentPadding: Padding for content edge
+    ///   - imageTitlePadding: Padding between image and title
+    func setInsets(forContentPadding contentPadding: UIEdgeInsets, imageTitlePadding: CGFloat) {
+        self.contentEdgeInsets = UIEdgeInsets(
+            top: contentPadding.top,
+            left: contentPadding.left,
+            bottom: contentPadding.bottom,
+            right: contentPadding.right + imageTitlePadding
+        )
+        self.titleEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: imageTitlePadding,
+            bottom: 0,
+            right: -imageTitlePadding
+        )
+    }
+    
+    var isEnabledWithBG: Bool {
         get {
             return self.isEnabled
         }
