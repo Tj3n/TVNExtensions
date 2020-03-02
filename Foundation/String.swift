@@ -126,8 +126,10 @@ extension String {
     }
     
     public func isValidURL() -> Bool {
-        if let url = URL(string: self), let _ = url.scheme, let _ = url.host {
-            return true
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            // it is a link, if the match covers the whole string
+            return match.range.length == self.utf16.count
         } else {
             return false
         }
