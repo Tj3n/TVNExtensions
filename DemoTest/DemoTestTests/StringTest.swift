@@ -60,9 +60,11 @@ class StringTest: XCTestCase {
     
     func testIsValidURL() {
         XCTAssertFalse(s.isValidURL())
-        XCTAssertFalse("google.com".isValidURL())
-        XCTAssertFalse("www.googl.com".isValidURL())
+        XCTAssertFalse("google.  com".isValidURL())
+        XCTAssertFalse("www. google.com".isValidURL())
         
+        XCTAssertTrue("google.com".isValidURL())
+        XCTAssertTrue("www.googl.com".isValidURL())
         XCTAssertTrue("http://www.google.com".isValidURL())
         XCTAssertTrue("https://google.com/asdf?zz=ss".isValidURL())
     }
