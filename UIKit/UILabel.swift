@@ -102,22 +102,20 @@ extension UILabel {
                 topWindow?.addSubview(label)
                 topWindow?.bringSubviewToFront(label)
                 
-                UIView.animate(withDuration: 0.5, animations: {
+                UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
                     shadowView.originY -= 10
                     label.originY -= 10
                     shadowView.alpha = 1
                     label.alpha = 1
                 }, completion: { (complete) in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                        UIView.animate(withDuration: 0.5, animations: {
-                            shadowView.originY += 10
-                            label.originY += 10
-                            label.alpha = 0
-                            shadowView.alpha = 0
-                        }, completion: { (completed) in
-                            label.removeFromSuperview()
-                            shadowView.removeFromSuperview()
-                        })
+                    UIView.animate(withDuration: 0.5, delay: duration, options: [.curveEaseOut], animations: {
+                        shadowView.originY += 10
+                        label.originY += 10
+                        label.alpha = 0
+                        shadowView.alpha = 0
+                    }) { (_) in
+                        label.removeFromSuperview()
+                        shadowView.removeFromSuperview()
                     }
                 })
             }
