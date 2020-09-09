@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ParallaxBackgroundView <T: UIImageView> : UIView {
+public class ParallaxBackgroundView <T: UIImageView> : UIView {
     
     var backgroundImageView: T!
     var backgroundImageViewHeightConstraint: NSLayoutConstraint!
@@ -35,7 +35,7 @@ class ParallaxBackgroundView <T: UIImageView> : UIView {
         backgroundImageView.clipsToBounds = true
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         self.sendSubviewToBack(backgroundImageView)
     }
