@@ -22,7 +22,7 @@ public class LoadMoreActivityIndicator {
 
     deinit { activityIndicatorView?.removeFromSuperview() }
 
-    init (scrollView: UIScrollView, spacingFromLastCell: CGFloat, spacingFromLastCellWhenLoadMoreActionStart: CGFloat) {
+    public init (scrollView: UIScrollView, spacingFromLastCell: CGFloat, spacingFromLastCellWhenLoadMoreActionStart: CGFloat) {
         self.scrollView = scrollView
         self.spacingFromLastCell = spacingFromLastCell
         self.spacingFromLastCellWhenLoadMoreActionStart = spacingFromLastCellWhenLoadMoreActionStart
@@ -40,7 +40,7 @@ public class LoadMoreActivityIndicator {
         return scrollView.contentSize.height < scrollView.frame.size.height
     }
 
-    func start(closure: (() -> Void)?) {
+    public func start(closure: (() -> Void)?) {
         guard let scrollView = scrollView, let activityIndicatorView = activityIndicatorView else { return }
         let offsetY = scrollView.contentOffset.y
         activityIndicatorView.isHidden = isHidden
@@ -76,7 +76,7 @@ public class LoadMoreActivityIndicator {
         }
     }
 
-    func stop(completion: (() -> Void)? = nil) {
+    public func stop(completion: (() -> Void)? = nil) {
         guard let scrollView = scrollView , let activityIndicatorView = activityIndicatorView else { return }
         let contentDelta = scrollView.contentSize.height - scrollView.frame.size.height
         let offsetDelta = scrollView.contentOffset.y - contentDelta
