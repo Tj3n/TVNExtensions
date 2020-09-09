@@ -46,6 +46,18 @@ extension Double {
         formatter.locale = Locale(identifier: "en_US")
         return formatter.string(from: NSNumber(floatLiteral: self))
     }
+    
+    func toKm() -> Self {
+        return self/1000.0
+    }
+    
+    func toMiles() -> Self {
+        return self/1609.344
+    }
+    
+    func toFeet() -> Self {
+        return self*3.281
+    }
 }
 
 extension Decimal {

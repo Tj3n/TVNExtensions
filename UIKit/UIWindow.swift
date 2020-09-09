@@ -1,6 +1,6 @@
 //
 //  UIWindowExtension.swift
-//  MerchantDashboard
+//  TVNExtensions
 //
 //  Created by Tien Nhat Vu on 4/1/16.
 //  Copyright © 2016 Tien Nhat Vu. All rights reserved.
