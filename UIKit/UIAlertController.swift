@@ -34,10 +34,14 @@ extension UIAlertController {
     }
     
     public func show() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.windowLevel = UIWindow.Level.statusBar
-        window.rootViewController = UIViewController()
-        window.makeKeyAndVisible()
-        window.rootViewController?.present(self, animated: true, completion: nil)
+        if let topVC = UIViewController.getTopViewController() {
+            topVC.present(self, animated: true, completion: nil)
+        } else {
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            window.windowLevel = UIWindow.Level.statusBar
+            window.rootViewController = UIViewController()
+            window.makeKeyAndVisible()
+            window.rootViewController?.present(self, animated: true, completion: nil)
+        }
     }
 }

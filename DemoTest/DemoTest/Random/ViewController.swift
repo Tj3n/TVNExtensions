@@ -149,6 +149,17 @@ class ViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
+//        testShowError()
+    }
+    
+    func testShowError() { 
+        let error = NSError(domain: "com.tvn.test", code: 500, userInfo: [NSLocalizedDescriptionKey: String.generateRandomString(length: 4)])
+        error.show()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+2) {
+            let error = NSError(domain: "com.tvn.test", code: 500, userInfo: [NSLocalizedDescriptionKey: String.generateRandomString(length: 4)])
+            error.show()
+        }
     }
 }
 

@@ -54,10 +54,9 @@ public extension Error {
     }
 }
 
-private class ErrorAlertView: NSObject, UIAlertViewDelegate {
+private class ErrorAlertView {
     static let shared = ErrorAlertView()
-    var alert: UIAlertView!
-    var isShowing: Bool = false
+    var alert: UIAlertController?
     
     func showError(_ error: Error?) {
         DispatchQueue.main.async(execute: {
@@ -65,20 +64,12 @@ private class ErrorAlertView: NSObject, UIAlertViewDelegate {
                 return
             }
             
-            self.dismiss()
-            self.alert = UIAlertView(title: "Error", message: error?.localizedDescription, delegate: self, cancelButtonTitle: "OK")
-            self.alert.show()
-            self.isShowing = true
+            if let alert = self.alert, let _ = alert.presentingViewController {
+                alert.message = error?.localizedDescription
+            } else {
+                self.alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert, cancelTitle: "OK")
+                self.alert?.show()
+            }
         })
-    }
-    
-    func alertViewCancel(_ alertView: UIAlertView) {
-        isShowing = false
-    }
-    
-    func dismiss() {
-        if self.isShowing == true {
-            self.alert.dismiss(withClickedButtonIndex: self.alert.cancelButtonIndex, animated: true)
-        }
     }
 }

@@ -53,7 +53,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Kingfisher' do |kingfisher|
-    kingfisher.dependency 'Kingfisher'
+    kingfisher.dependency 'Kingfisher', "~> 5.3.1"
   end
 
 # XCode 10 will have module CommonCrypto
