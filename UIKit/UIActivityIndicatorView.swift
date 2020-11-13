@@ -16,15 +16,15 @@ extension UIActivityIndicatorView {
     ///
     /// - Parameter view: view to show loader above
     /// - Returns: A custom UIActivityIndicatorView
-    public class func showInView(_ view: UIView) -> UIActivityIndicatorView {
+    public class func showInView(_ view: UIView, withBackground: Bool = true) -> UIActivityIndicatorView {
         let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
-        activityIndicator.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        activityIndicator.backgroundColor = withBackground ? UIColor(white: 0.0, alpha: 0.4) : .clear
         activityIndicator.layer.cornerRadius = 30.0
         activityIndicator.startAnimating()
         activityIndicator.center = CGPoint(x: view.bounds.size.width / 2, y: view.bounds.size.height / 2)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.alpha = 0.0
-        activityIndicator.tag = tvnIndicatorTag
+        activityIndicator.tag = Int.random(between: tvnIndicatorTag * 100, and: tvnIndicatorTag * 100 + 99)
         
         view.addSubview(activityIndicator)
         view.bringSubviewToFront(activityIndicator)
@@ -49,7 +49,7 @@ extension UIActivityIndicatorView {
     }
     
     public func end(completion: (() -> ())? = nil) {
-        guard self.tag == UIActivityIndicatorView.tvnIndicatorTag else { return }
+        guard self.tag / 100 == UIActivityIndicatorView.tvnIndicatorTag else { return }
         self.superview?.isUserInteractionEnabled = true
         let center: CGPoint = self.center
         UIView.animate(withDuration: 0.2, animations: {() -> Void in
