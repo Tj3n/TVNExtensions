@@ -17,7 +17,12 @@ extension UIActivityIndicatorView {
     /// - Parameter view: view to show loader above
     /// - Returns: A custom UIActivityIndicatorView
     public class func showInView(_ view: UIView, withBackground: Bool = true) -> UIActivityIndicatorView {
-        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: withBackground ? .whiteLarge : .gray)
+        let activityIndicator: UIActivityIndicatorView
+        if #available(iOS 13.0, *) {
+            activityIndicator = UIActivityIndicatorView(style: .large)
+        } else {
+            activityIndicator = UIActivityIndicatorView(style: withBackground ? .whiteLarge : .gray)
+        }
         activityIndicator.backgroundColor = withBackground ? UIColor(white: 0.0, alpha: 0.4) : .clear
         activityIndicator.layer.cornerRadius = 30.0
         activityIndicator.startAnimating()
