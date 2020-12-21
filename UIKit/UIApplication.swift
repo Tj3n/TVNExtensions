@@ -64,4 +64,17 @@ extension UIApplication {
     public class func appName() -> String {
         return Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
+    
+    /// Check if is app downloaded and run from AppStore
+    /// - Returns: return `false` when run in debug mode, simulator or testflight
+    public class func isProduction() -> Bool {
+        #if DEBUG
+        return false
+        #else
+        guard let path = Bundle.main.appStoreReceiptURL?.path else {
+            return true
+        }
+        return !(path.contains("CoreSimulator") || path.contains("sandboxReceipt"))
+        #endif
+    }
 }
