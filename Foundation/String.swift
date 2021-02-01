@@ -253,4 +253,25 @@ extension String {
         
         return string
     }
+    
+    /// Convert all the apostrophe into the keyboard-coded characters
+    /// - Parameter reverse: true will reverse to the other way of replacing
+    /// - Returns: string
+    public func convertQuoteCharacters(reverse: Bool = false) -> String {
+        let single = reverse ? "'" : "’"
+        let double = reverse ? "\"" : "”"
+        let singleReplace = reverse ? "’" : "'"
+        let doubleReplace = reverse ? "”" : "\""
+        
+        return self.map({ char in
+            let c = String(char)
+            if c == single {
+                return singleReplace
+            } else if c == double {
+                return doubleReplace
+            }
+            return c
+        }).joined()
+//        return self.replacingOccurrences(of: "’", with: "'").replacingOccurrences(of: "”", with: "\"")
+    }
 }

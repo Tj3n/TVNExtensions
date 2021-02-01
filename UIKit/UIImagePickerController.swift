@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MobileCoreServices
 
 public enum ImagePickerError: Error {
     case noCameraAvailable
@@ -22,10 +23,11 @@ extension UIImagePickerController {
     ///   - delegate: UIImagePickerControllerDelegate
     /// - Returns: UIImagePickerController
     /// - Throws: ImagePickerError
+    @available(*, deprecated, message: "Use getCameraVC(sourceType:allowVideo:delegate:configure: instead")
     public class func getCameraVC(sourceType: UIImagePickerController.SourceType,
                                   delegate: (UINavigationControllerDelegate & UIImagePickerControllerDelegate)?,
                                   configure:((UIImagePickerController)->())? = nil)
-        throws -> UIImagePickerController  {
+        throws -> UIImagePickerController {
         
         guard UIImagePickerController.isSourceTypeAvailable(sourceType) else {
             switch sourceType {
@@ -44,6 +46,38 @@ extension UIImagePickerController {
         }
         
         let picker = UIImagePickerController()
+        picker.sourceType = sourceType
+        picker.allowsEditing = false
+        configure?(picker)
+        picker.delegate = delegate
+        return picker
+    }
+    
+    /// Simplify create UIImagePickerController for library or camera, to parse with delegate use ImageHelper.parseMediaInfoToImage
+    /// - Parameters:
+    ///   - sourceType: SourceType - camera/library
+    ///   - allowVideo: Allow picking/capturing video
+    ///   - delegate: UIImagePickerControllerDelegate
+    ///   - configure: Extra configuration
+    /// - Returns: UIImagePickerController will have allowsEditing = false by default
+    public class func getCameraVC(sourceType: UIImagePickerController.SourceType,
+                                  allowVideo: Bool,
+                                  delegate: (UINavigationControllerDelegate & UIImagePickerControllerDelegate)?,
+                                  configure:((UIImagePickerController)->())? = nil)
+        -> UIImagePickerController {
+        
+        let picker = UIImagePickerController()
+        
+        guard UIImagePickerController.isSourceTypeAvailable(sourceType) else {
+            // Support simulator
+            picker.sourceType = .photoLibrary;
+            return picker
+        }
+        
+        if allowVideo, let mediaTypes = UIImagePickerController.availableMediaTypes(for: sourceType), mediaTypes.contains(String(kUTTypeMovie)) {
+            picker.mediaTypes = mediaTypes
+        }
+        
         picker.sourceType = sourceType
         picker.allowsEditing = false
         configure?(picker)

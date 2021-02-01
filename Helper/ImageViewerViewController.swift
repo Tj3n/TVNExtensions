@@ -110,7 +110,7 @@ public class ImageViewerViewController: UIViewController {
         if let url = imageURL {
             #if canImport(Kingfisher)
             self.imageView.kf.indicatorType = .activity
-            self.imageView.kf.setImage(with: url, placeholder: image) { [weak self] (img, error, cacheType, url) in
+            self.imageView.kf.setImage(with: url, placeholder: image, options: nil, progressBlock: nil) { [weak self] (img, _, _, _) in
                 self?.image = img
                 self?.calculateZoomScale()
                 self?.downloadedImgCompletion?(img)

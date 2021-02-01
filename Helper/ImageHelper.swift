@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MobileCoreServices
 
 public enum ImageType {
     case png
@@ -13,6 +14,32 @@ public enum ImageType {
 }
 
 public struct ImageHelper {
+    
+    /// Parse media info from UIImagePickerController
+    /// - Parameters:
+    ///   - info: media info
+    ///   - isEdited: return editted image
+    ///   - completion: return image & url if is image, return url if is video
+    public static func parseMediaInfo(_ info: [UIImagePickerController.InfoKey : Any], isEdited: Bool = false, completion: (UIImage?, URL?)->()) {
+        guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String else {
+            completion(nil, nil)
+            return
+        }
+        
+        if mediaType == String(kUTTypeImage),
+           let image = info[isEdited ? UIImagePickerController.InfoKey.originalImage : UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            if #available(iOS 11.0, *), let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
+                completion(image, url)
+            } else {
+                completion(image, nil)
+            }
+        } else if mediaType == String(kUTTypeMovie), let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+            completion(nil, url)
+        } else {
+            completion(nil, nil)
+        }
+    }
+    
     public static func parseMediaInfoToImage(_ info: [UIImagePickerController.InfoKey : Any]) -> UIImage? {
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
             return nil
