@@ -30,6 +30,6 @@ jobs:
         pod install --repo-update
       shell: bash
     - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+      run: xcodebuild -workspace DemoTest.xcworkspace -scheme DemoTest -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14 Pro,'
+    - name: Test
+      run: xcodebuild -workspace DemoTest.xcworkspace -scheme DemoTest -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14 Pro' test
