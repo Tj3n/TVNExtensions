@@ -118,7 +118,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         }
         
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: UIView.KeyframeAnimationOptions(rawValue: curve), animations: {
-            UIApplication.shared.keyWindow?.layoutIfNeeded()
+            UIApplication.keyWindow?.layoutIfNeeded()
         }, completion: nil)
         
         keyboardHeight = deltaHeight
@@ -145,7 +145,7 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
         }
         
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: UIView.KeyframeAnimationOptions(rawValue: curve), animations: {
-            UIApplication.shared.keyWindow?.layoutIfNeeded()
+            UIApplication.keyWindow?.layoutIfNeeded()
         }, completion: nil)
         
         keyboardHeight = 0

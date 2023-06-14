@@ -110,10 +110,15 @@ public class ImageViewerViewController: UIViewController {
         if let url = imageURL {
             #if canImport(Kingfisher)
             self.imageView.kf.indicatorType = .activity
-            self.imageView.kf.setImage(with: url, placeholder: image, options: nil, progressBlock: nil) { [weak self] (img, _, _, _) in
-                self?.image = img
-                self?.calculateZoomScale()
-                self?.downloadedImgCompletion?(img)
+            self.imageView.kf.setImage(with: url, placeholder: image, options: nil, progressBlock: nil) { [weak self] result in
+                switch result {
+                case .success(let success):
+                    self?.image = success.image
+                    self?.calculateZoomScale()
+                    self?.downloadedImgCompletion?(success.image)
+                default:
+                    break
+                }
             }
             #else
             DispatchQueue.global().async {

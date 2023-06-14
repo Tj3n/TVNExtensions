@@ -45,8 +45,13 @@ public class LocationHelper: NSObject {
     /// - Returns: isoCountryCode
     public func getCurrentCountryCodeFromCarrier() -> String? {
         let netInfo = CTTelephonyNetworkInfo()
-        let carrier = netInfo.subscriberCellularProvider
-        return carrier?.isoCountryCode
+        guard let providers = netInfo.serviceSubscriberCellularProviders,
+              let carrier = providers
+            .values
+            .compactMap({ $0 })
+            .first else { return nil }
+            
+        return carrier.isoCountryCode
     }
     
     /// Convert country iso code to mobile code

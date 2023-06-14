@@ -1,6 +1,6 @@
 PODS:
   - Differentiator (4.0.1)
-  - Kingfisher (4.10.1)
+  - Kingfisher (7.8.0)
   - ParticleIOS (0.0.1):
     - TVNExtensions
   - RxCocoa (5.0.0):
@@ -13,7 +13,7 @@ PODS:
   - RxRelay (5.0.0):
     - RxSwift (~> 5)
   - RxSwift (5.0.0)
-  - SnapKit (4.2.0)
+  - SnapKit (5.6.0)
   - TlvParser (0.0.1)
   - TVNExtensions (0.0.1):
     - TVNExtensions/Lite (= 0.0.1)
@@ -21,7 +21,7 @@ PODS:
   - TVNExtensions/Helper (0.0.1):
     - TVNExtensions/UIKit
   - TVNExtensions/Kingfisher (0.0.1):
-    - Kingfisher (~> 4.10.1)
+    - Kingfisher (~> 7.0)
   - TVNExtensions/Lite (0.0.1):
     - TVNExtensions/Foundation
     - TVNExtensions/Helper
@@ -63,16 +63,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
-  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
-  ParticleIOS: 28dca137c53f06c85acb662f0666b1df299a1b18
+  Kingfisher: 0656e1b064bfc1ca1cd04e033f617a86559696e9
+  ParticleIOS: ca158770bb994083b9143a8c3345487b4ed54bf4
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
-  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
-  TlvParser: 3cd8e545cc0252de34e6bd318446a461eff6f8f0
-  TVNExtensions: 68a40bf503ed2a20f8bf617d610e1a9efb9e2e76
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  TlvParser: 20520cff424732b2415767441cee614e61b6249e
+  TVNExtensions: a7507e6e16ca33370de2c6c1df28dded28335fb6
 
-PODFILE CHECKSUM: 7820b7e5f034a5c7d8d43e124880347c40396026
+PODFILE CHECKSUM: 7b3cedf64bc4436c81d4dd0864207da97f612d73
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.11.3

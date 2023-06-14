@@ -27,7 +27,7 @@ class ImagePickerViewController: UIViewController {
     var imageView = UIImageView(image: nil)
     
     var bag = DisposeBag()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +57,7 @@ class ImagePickerViewController: UIViewController {
         imageView.setRelativeWidth(to: view, ratio: 0.7)
         imageView.setWidthHeightRatio()
         
-//        setupImagePickerRx()
+        //        setupImagePickerRx()
         setupImagePickerDefault()
     }
     
@@ -67,9 +67,9 @@ class ImagePickerViewController: UIViewController {
                 return UIImagePickerController.rx.createWithParent(self) { picker in
                     picker.sourceType = .photoLibrary
                     picker.allowsEditing = false
-                    }
-                    .flatMap { $0.rx.didFinishPickingMediaWithInfo }
-                    .take(1)
+                }
+                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
+                .take(1)
             }
             .map { info in
                 return info[UIImagePickerController.InfoKey.originalImage] as? UIImage
@@ -82,9 +82,9 @@ class ImagePickerViewController: UIViewController {
                 return UIImagePickerController.rx.createWithParent(self) { picker in
                     picker.sourceType = .camera
                     picker.allowsEditing = false
-                    }
-                    .flatMap { $0.rx.didFinishPickingMediaWithInfo }
-                    .take(1)
+                }
+                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
+                .take(1)
             }
             .map { info in
                 return info[UIImagePickerController.InfoKey.originalImage] as? UIImage
@@ -99,23 +99,15 @@ class ImagePickerViewController: UIViewController {
     }
     
     @objc func showCamera(_ sender: UIButton) {
-        do {
-            let picker = try UIImagePickerController.getCameraVC(sourceType: .camera, delegate: self)
-            self.present(picker, animated: true, completion: nil)
-        } catch {
-            print(error)
-        }
+        let picker = UIImagePickerController.getCameraVC(sourceType: .camera, allowVideo: true, delegate: self)
+        self.present(picker, animated: true, completion: nil)
     }
     
     @objc func showLibrary(_ sender: UIButton) {
-        do {
-            let picker = try UIImagePickerController.getCameraVC(sourceType: .photoLibrary, delegate: self, configure: {
-                $0.allowsEditing = true
-            })
-            self.present(picker, animated: true, completion: nil)
-        } catch {
-            print(error)
-        }
+        let picker = UIImagePickerController.getCameraVC(sourceType: .photoLibrary, allowVideo: true, delegate: self, configure: {
+            $0.allowsEditing = true
+        })
+        self.present(picker, animated: true, completion: nil)
     }
 }
 

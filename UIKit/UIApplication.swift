@@ -9,6 +9,14 @@ import Foundation
 
 extension UIApplication {
     
+    public class var keyWindow: UIWindow? {
+        return UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .last { $0.isKeyWindow }
+    }
+    
     /// Check if the app is first run, only activate once calling
     ///
     /// - Returns: Bool
@@ -22,6 +30,7 @@ extension UIApplication {
         return false
     }
     
+    @available(iOS, deprecated: 10.0)
     public class func requestNotificationRegister(settingTypes: UIUserNotificationType = [.badge, .sound, .alert]) {
         let notificationSettings = UIUserNotificationSettings(types: settingTypes, categories: nil)
         UIApplication.shared.registerUserNotificationSettings(notificationSettings)

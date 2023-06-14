@@ -72,28 +72,14 @@ public class BiometryHelper {
         var error: NSError?
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            if #available(iOS 11.2, *) {
-                if context.biometryType == .faceID {
-                    return .faceID
-                } else if context.biometryType == .touchID {
-                    return .touchID
-                } else if context.biometryType != .none {
-                    return .undetermined
-                } else {
-                    return .none
-                }
-            } else if #available(iOS 11.0, *) {
-                if context.biometryType == .faceID {
-                    return .faceID
-                } else if context.biometryType == .touchID {
-                    return .touchID
-                } else if context.biometryType != LABiometryType.LABiometryNone {
-                    return .undetermined
-                } else {
-                    return .none
-                }
-            } else {
+            if context.biometryType == .faceID {
+                return .faceID
+            } else if context.biometryType == .touchID {
+                return .touchID
+            } else if context.biometryType != .none {
                 return .undetermined
+            } else {
+                return .none
             }
         }
         

@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/Tj3n"
   s.license      = "MIT"
   s.author       = { "tien.vu" => "tienvn3845@gmail.com" }
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "13.0"
   s.source       = { :git => "https://github.com/Tj3n/TVNExtensions.git", :branch => "master" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -53,7 +53,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Kingfisher' do |kingfisher|
-    kingfisher.dependency 'Kingfisher', "~> 4.10.1"
+    kingfisher.dependency 'Kingfisher', "~> 7.0"
   end
 
 # XCode 10 will have module CommonCrypto

@@ -103,34 +103,34 @@ class NextViewController: UIViewController {
     
     func setupView() {
         destinationImgView.addTo(view)
-        destinationImgView.top(to: view, by: 100)
-        destinationImgView.centerX(to: view)
-        destinationImgView.setWidth(200)
-        destinationImgView.setWidthHeightRatio(ratio: 1)
+            .top(to: view, by: 100)
+            .centerX(to: view)
+            .setWidth(200)
+            .setWidthHeightRatio(ratio: 1)
 
         nextLabel.addTo(view)
-        nextLabel.topToBottom(of: destinationImgView, by: 30)
-        nextLabel.centerX(to: destinationImgView)
+            .topToBottom(of: destinationImgView, by: 30)
+            .centerX(to: destinationImgView)
         
         dismissBtn.addTo(view)
-        dismissBtn.topToBottom(of: nextLabel, by: 30)
-        dismissBtn.centerX(to: destinationImgView)
+            .topToBottom(of: nextLabel, by: 30)
+            .centerX(to: destinationImgView)
         
         leftLabel.addTo(view)
-        leftLabel.centerY(to: destinationImgView)
-        leftLabel.rightToLeft(of: destinationImgView, by: 30)
+            .centerY(to: destinationImgView)
+            .rightToLeft(of: destinationImgView, by: 30)
         
         rightLabel.addTo(view)
-        rightLabel.centerY(to: destinationImgView)
-        rightLabel.leftToRight(of: destinationImgView, by: 30)
+            .centerY(to: destinationImgView)
+            .leftToRight(of: destinationImgView, by: 30)
         
         topLabel.addTo(view)
-        topLabel.centerX(to: destinationImgView)
-        topLabel.bottomToTop(of: destinationImgView, by: 30)
+            .centerX(to: destinationImgView)
+            .bottomToTop(of: destinationImgView, by: 30)
         
         bottomTextfield.addTo(view)
-        bottomTextfield.left(to: view, by: 16)
-        bottomTextfield.right(to: view, by: 16)
+            .left(to: view, by: 16)
+            .right(to: view, by: 16)
         
         //Test auto bottom constraint
 //        let tfBottomConstraint = KeyboardLayoutConstraint(from: bottomTextfield, to: view, constant: 50, isToTop: false, relatedBy: .equal, excludeOriginConstant: true, keyboardActiveAmount: 16)
@@ -152,7 +152,7 @@ class NextViewController: UIViewController {
         //RX
         NotificationCenter.default.rx.keyboardTracking()
             .subscribe(onNext: { [view = self.view] (height, duration) in
-                tfBottomConstraint.constant = 30+height
+                tfBottomConstraint.constraints.first!.constant = 30+height
                 UIView.animate(withDuration: duration, animations: {
                     view?.layoutIfNeeded()
                 })

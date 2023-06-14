@@ -19,7 +19,7 @@ public class KeyboardHandling {
     }()
     
     /// Set this to work in different window level
-    public var windows: [UIWindow?] = [UIApplication.shared.keyWindow]
+    public var windows: [UIWindow?] = [UIApplication.keyWindow]
     
     /// Full size of keyboard height
     public private(set) var keyboardHeight: CGFloat = 0

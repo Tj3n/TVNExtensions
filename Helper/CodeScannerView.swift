@@ -340,7 +340,7 @@ extension CodeScannerView {
         let okAction = UIAlertAction(title: "Settings", style: .default) { (action) in
             guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(settingsURL) {
-                UIApplication.shared.openURL(settingsURL)
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
             }
         }
         alert.addAction(okAction)

@@ -74,6 +74,6 @@ extension UIWindow {
     /// - Parameter animated: replace with animation
     /// - Parameter completion: completion handler
     public class func changeRootViewController(with viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
-        UIApplication.shared.keyWindow?.changeRootViewController(with: viewController, animated: animated, completion: completion)
+        UIApplication.keyWindow?.changeRootViewController(with: viewController, animated: animated, completion: completion)
     }
 }

@@ -97,7 +97,7 @@ extension UILabel {
                 shadowView.layer.shadowPath = shadowPath.cgPath
                 shadowView.alpha = 0
                 
-                let topWindow = UIApplication.shared.keyWindow
+                let topWindow = UIApplication.keyWindow
                 topWindow?.addSubview(shadowView)
                 topWindow?.addSubview(label)
                 topWindow?.bringSubviewToFront(label)

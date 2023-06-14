@@ -33,11 +33,11 @@ class RepoListViewController: UIViewController {
     
     let searchController: UISearchController = {
         var view = UISearchController(searchResultsController: nil)
-        view.dimsBackgroundDuringPresentation = false
+        view.obscuresBackgroundDuringPresentation = false
         return view
     }()
     
-    let indicatorView = UIActivityIndicatorView(style: .gray)
+    let indicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
     
     let footerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
     

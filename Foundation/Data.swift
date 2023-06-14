@@ -17,6 +17,7 @@ extension Data {
         return Data(hash)
     }
     
+    @available(iOS, deprecated: 13.0)
     public func MD5() -> Data {
         var hash = [UInt8](repeating: 0,  count: Int(CC_MD5_DIGEST_LENGTH))
         self.withUnsafeBytes {

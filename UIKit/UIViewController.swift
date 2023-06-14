@@ -37,7 +37,7 @@ public extension UIViewController {
     ///
     /// - Parameter window: default UIApplication.shared.keyWindow
     /// - Returns: top view controller, does not detect childViewController
-    class func getTopViewController(from window: UIWindow? = UIApplication.shared.keyWindow) -> UIViewController? {
+    class func getTopViewController(from window: UIWindow? = UIApplication.keyWindow) -> UIViewController? {
         return getTopViewController(from: window?.rootViewController)
     }
     

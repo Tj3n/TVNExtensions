@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 //MARK: - Routing
-protocol MapViewDirectionable: class where Self: CLLocationManagerDelegate {
+protocol MapViewDirectionable: AnyObject where Self: CLLocationManagerDelegate {
     var mapView: MKMapView { get }
     var steps: [MKRoute.Step] { get set }
     var stepCounter: Int { get set }

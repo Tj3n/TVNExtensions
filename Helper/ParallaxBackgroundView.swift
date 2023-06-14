@@ -27,7 +27,7 @@ public class ParallaxBackgroundView <T: UIImageView> : UIView {
         backgroundImageView = T(image: nil)
         backgroundImageView.contentMode = .scaleAspectFill
         backgroundImageView.addTo(self)
-        backgroundImageViewHeightConstraint = backgroundImageView.setRelativeHeight(to: self)
+        backgroundImageViewHeightConstraint = backgroundImageView.setRelativeHeight(to: self).constraints.first
         backgroundImageView.top(to: self, priority: UILayoutPriority(rawValue: 999))
         backgroundImageView.bottom(to: self)
         backgroundImageView.left(to: self)
