@@ -29,7 +29,8 @@ jobs:
         cd DemoTest
         pod install --repo-update
       shell: bash
-    - name: Build
-      run: xcodebuild -workspace DemoTest.xcworkspace -scheme DemoTest -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14 Pro,'
-    - name: Test
-      run: xcodebuild -workspace DemoTest.xcworkspace -scheme DemoTest -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14 Pro' test
+    - name: Build and test
+      run: |
+        echo "Building and testing"
+        pwd
+        xcodebuild -workspace DemoTest.xcworkspace -scheme DemoTest -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=latest,name=iPhone 14 Pro' build test | xcpretty
