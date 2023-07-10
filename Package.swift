@@ -32,6 +32,9 @@ let package = Package(
     targets: [
         .target(
             name: "TVNExtensions",
+            dependencies: [
+                .product(name: "Kingfisher", package: "Kingfisher", condition: .when(platforms: [.iOS]))
+            ],
             path: "Sources"),
         .target(
             name: "TVNExtensionsRx",
