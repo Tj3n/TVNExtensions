@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import TVNExtensions
 
 extension Reactive where Base: CodeScannerView {
     public var startReading: Observable<String> {

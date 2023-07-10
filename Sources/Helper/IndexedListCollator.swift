@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// The model struct/class should implement this to sort
 public protocol IndexableItem {

@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  #s.source_files  = "Source"
+  #s.source_files  = "Sources"
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -23,15 +23,15 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Lite'
 
   s.subspec 'Foundation' do |sp|
-    sp.source_files = "Foundation"
+    sp.source_files = "Sources/Foundation"
   end
 
   s.subspec 'UIKit' do |sp|
-    sp.source_files = "UIKit"
+    sp.source_files = "Sources/UIKit"
   end
 
   s.subspec 'Helper' do |sp|
-    sp.source_files = "Helper"
+    sp.source_files = "Sources/Helper"
     sp.dependency 'TVNExtensions/UIKit'
     sp.frameworks = "CoreTelephony", "CoreLocation", "LocalAuthentication"
   end

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public let TVNErrorDomain = "com.tvn.errorDomain"
 
@@ -59,7 +60,7 @@ private class ErrorAlertView {
     var alert: UIAlertController?
     
     func showError(_ error: Error?) {
-        DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async {
             guard (error as NSError?)?.code != NSURLErrorCancelled && UIApplication.shared.applicationState == .active else {
                 return
             }
@@ -70,6 +71,6 @@ private class ErrorAlertView {
                 self.alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert, cancelTitle: "OK")
                 self.alert?.show()
             }
-        })
+        }
     }
 }

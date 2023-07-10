@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import CoreLocation
+import TVNExtensions
 
 extension Reactive where Base: LocationHelper {
     public var updateLocation: Single<CLLocation> {
@@ -17,7 +18,7 @@ extension Reactive where Base: LocationHelper {
                 case .success(loc: let loc):
                     observer(.success(loc))
                 case .failed(error: let err, authStatus: _):
-                    observer(.error(err))
+                    observer(.failure(err))
                 }
             })
         

@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import TVNExtensions
 
 extension BiometryHelper: ReactiveCompatible {
     
