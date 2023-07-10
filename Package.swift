@@ -12,7 +12,16 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "TVNExtensions",
-            targets: ["ParticleIOS", "TVNExtensions", "TVNExtensionsRx", "TlvParser"]),
+            targets: ["TVNExtensions"]),
+        .library(
+            name: "TVNExtensionsRx",
+            targets: ["TVNExtensionsRx"]),
+        .library(
+            name: "ParticleIOS",
+            targets: ["ParticleIOS"]),
+        .library(
+            name: "TlvParser",
+            targets: ["TlvParser"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
