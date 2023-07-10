@@ -7,6 +7,7 @@
 
 import UIKit
 import TVNExtensions
+import TVNExtensionsRx
 import RxSwift
 import RxCocoa
 

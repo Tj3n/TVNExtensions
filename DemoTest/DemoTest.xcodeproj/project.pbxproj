@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,8 +19,15 @@
 		8464E2EE222F8BB200EC1405 /* RepoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E7222F8BB100EC1405 /* RepoDetailViewController.swift */; };
 		8464E2EF222F8BB200EC1405 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464E2E8222F8BB200EC1405 /* User.swift */; };
 		848A9B62219C000C0060BE49 /* NextViewControllerAlt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848A9B61219C000C0060BE49 /* NextViewControllerAlt.swift */; };
-		85DE0FC82A5BBEDD006E4A32 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 85DE0FC72A5BBEDD006E4A32 /* RxCocoa */; };
-		85DE0FCA2A5BBEDD006E4A32 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85DE0FC92A5BBEDD006E4A32 /* RxSwift */; };
+		857CA9E92A5BDB6C0080C3A1 /* ParticleIOS in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9E82A5BDB6C0080C3A1 /* ParticleIOS */; };
+		857CA9EB2A5BDB6C0080C3A1 /* TVNExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9EA2A5BDB6C0080C3A1 /* TVNExtensions */; };
+		857CA9ED2A5BDB6C0080C3A1 /* TVNExtensionsRx in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9EC2A5BDB6C0080C3A1 /* TVNExtensionsRx */; };
+		857CA9EF2A5BDB6C0080C3A1 /* TlvParser in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9EE2A5BDB6C0080C3A1 /* TlvParser */; };
+		857CA9F22A5BDBF50080C3A1 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9F12A5BDBF50080C3A1 /* SnapKit */; };
+		857CA9F52A5BDC6C0080C3A1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9F42A5BDC6C0080C3A1 /* RxCocoa */; };
+		857CA9F72A5BDC6C0080C3A1 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9F62A5BDC6C0080C3A1 /* RxSwift */; };
+		857CA9FF2A5BDE630080C3A1 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 857CA9FE2A5BDE630080C3A1 /* RxDataSources */; };
+		857CAA012A5BDF190080C3A1 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 857CAA002A5BDF190080C3A1 /* Differentiator */; };
 		9C17F1B521194F8A001F0137 /* Beautiful People Personal Use.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C17F1B421194F8A001F0137 /* Beautiful People Personal Use.ttf */; };
 		9C435B64207DB8C90015CD46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C435B63207DB8C90015CD46 /* AppDelegate.swift */; };
 		9C435B66207DB8C90015CD46 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C435B65207DB8C90015CD46 /* ViewController.swift */; };
@@ -98,8 +105,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85DE0FCA2A5BBEDD006E4A32 /* RxSwift in Frameworks */,
-				85DE0FC82A5BBEDD006E4A32 /* RxCocoa in Frameworks */,
+				857CA9F52A5BDC6C0080C3A1 /* RxCocoa in Frameworks */,
+				857CA9EF2A5BDB6C0080C3A1 /* TlvParser in Frameworks */,
+				857CA9ED2A5BDB6C0080C3A1 /* TVNExtensionsRx in Frameworks */,
+				857CA9FF2A5BDE630080C3A1 /* RxDataSources in Frameworks */,
+				857CA9F22A5BDBF50080C3A1 /* SnapKit in Frameworks */,
+				857CA9EB2A5BDB6C0080C3A1 /* TVNExtensions in Frameworks */,
+				857CAA012A5BDF190080C3A1 /* Differentiator in Frameworks */,
+				857CA9E92A5BDB6C0080C3A1 /* ParticleIOS in Frameworks */,
+				857CA9F72A5BDC6C0080C3A1 /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,8 +263,15 @@
 			);
 			name = DemoTest;
 			packageProductDependencies = (
-				85DE0FC72A5BBEDD006E4A32 /* RxCocoa */,
-				85DE0FC92A5BBEDD006E4A32 /* RxSwift */,
+				857CA9E82A5BDB6C0080C3A1 /* ParticleIOS */,
+				857CA9EA2A5BDB6C0080C3A1 /* TVNExtensions */,
+				857CA9EC2A5BDB6C0080C3A1 /* TVNExtensionsRx */,
+				857CA9EE2A5BDB6C0080C3A1 /* TlvParser */,
+				857CA9F12A5BDBF50080C3A1 /* SnapKit */,
+				857CA9F42A5BDC6C0080C3A1 /* RxCocoa */,
+				857CA9F62A5BDC6C0080C3A1 /* RxSwift */,
+				857CA9FE2A5BDE630080C3A1 /* RxDataSources */,
+				857CAA002A5BDF190080C3A1 /* Differentiator */,
 			);
 			productName = DemoTest;
 			productReference = 9C435B60207DB8C90015CD46 /* DemoTest.app */;
@@ -298,8 +319,9 @@
 		9C435B58207DB8C90015CD46 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					9C435B5F207DB8C90015CD46 = {
 						CreatedOnToolsVersion = 9.3;
@@ -327,7 +349,10 @@
 			);
 			mainGroup = 9C435B57207DB8C90015CD46;
 			packageReferences = (
-				85DE0FC62A5BBEDD006E4A32 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				857CA9E72A5BDB6C0080C3A1 /* XCRemoteSwiftPackageReference "TVNExtensions" */,
+				857CA9F02A5BDBF50080C3A1 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				857CA9F32A5BDC6C0080C3A1 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				857CA9FB2A5BDE630080C3A1 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 9C435B61207DB8C90015CD46 /* Products */;
 			projectDirPath = "";
@@ -735,7 +760,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		85DE0FC62A5BBEDD006E4A32 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+		857CA9E72A5BDB6C0080C3A1 /* XCRemoteSwiftPackageReference "TVNExtensions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Tj3n/TVNExtensions.git";
+			requirement = {
+				branch = spm;
+				kind = branch;
+			};
+		};
+		857CA9F02A5BDBF50080C3A1 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		857CA9F32A5BDC6C0080C3A1 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
 			requirement = {
@@ -743,18 +784,61 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		857CA9FB2A5BDE630080C3A1 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		85DE0FC72A5BBEDD006E4A32 /* RxCocoa */ = {
+		857CA9E82A5BDB6C0080C3A1 /* ParticleIOS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 85DE0FC62A5BBEDD006E4A32 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			package = 857CA9E72A5BDB6C0080C3A1 /* XCRemoteSwiftPackageReference "TVNExtensions" */;
+			productName = ParticleIOS;
+		};
+		857CA9EA2A5BDB6C0080C3A1 /* TVNExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9E72A5BDB6C0080C3A1 /* XCRemoteSwiftPackageReference "TVNExtensions" */;
+			productName = TVNExtensions;
+		};
+		857CA9EC2A5BDB6C0080C3A1 /* TVNExtensionsRx */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9E72A5BDB6C0080C3A1 /* XCRemoteSwiftPackageReference "TVNExtensions" */;
+			productName = TVNExtensionsRx;
+		};
+		857CA9EE2A5BDB6C0080C3A1 /* TlvParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9E72A5BDB6C0080C3A1 /* XCRemoteSwiftPackageReference "TVNExtensions" */;
+			productName = TlvParser;
+		};
+		857CA9F12A5BDBF50080C3A1 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9F02A5BDBF50080C3A1 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		857CA9F42A5BDC6C0080C3A1 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9F32A5BDC6C0080C3A1 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
 		};
-		85DE0FC92A5BBEDD006E4A32 /* RxSwift */ = {
+		857CA9F62A5BDC6C0080C3A1 /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 85DE0FC62A5BBEDD006E4A32 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			package = 857CA9F32A5BDC6C0080C3A1 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		857CA9FE2A5BDE630080C3A1 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9FB2A5BDE630080C3A1 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
+		857CAA002A5BDF190080C3A1 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 857CA9FB2A5BDE630080C3A1 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

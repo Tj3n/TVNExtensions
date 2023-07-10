@@ -10,12 +10,21 @@
       }
     },
     {
+      "identity" : "snapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SnapKit/SnapKit",
+      "state" : {
+        "revision" : "f222cbdf325885926566172f6f5f06af95473158",
+        "version" : "5.6.0"
+      }
+    },
+    {
       "identity" : "tvnextensions",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Tj3n/TVNExtensions",
+      "location" : "https://github.com/Tj3n/TVNExtensions.git",
       "state" : {
         "branch" : "spm",
-        "revision" : "3838ae7c0e26ce8cb600b7b70afca2fd01b2127f"
+        "revision" : "058df14db3ea95fda3afae9f2a120269ea986298"
       }
     }
   ],

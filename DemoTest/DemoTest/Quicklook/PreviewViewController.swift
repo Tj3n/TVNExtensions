@@ -10,6 +10,7 @@ import QuickLook
 import RxSwift
 import RxCocoa
 import TVNExtensions
+import TVNExtensionsRx
 
 class PreviewViewController: UIViewController {
     

@@ -6,10 +6,12 @@
 //  Copyright © 2019 TienVu. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import RxSwift
 import RxCocoa
 import TVNExtensions
+import TVNExtensionsRx
 
 protocol ViewModelType {
     associatedtype Input
@@ -107,6 +109,7 @@ class RepoListViewModel: ViewModelType {
             .map { (object) in
                 let decoder = JSONDecoder()
                 let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                 decoder.dateDecodingStrategy = .formatted(dateFormatter)
                 let repos = try decoder.decode(Repos.self, from: object.data)
