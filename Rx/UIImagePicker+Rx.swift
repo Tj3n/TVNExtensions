@@ -9,6 +9,7 @@ import Foundation
 import Photos
 import RxSwift
 import RxCocoa
+import UIKit
 
 ///Authorization
 extension PHPhotoLibrary {

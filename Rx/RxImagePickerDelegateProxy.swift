@@ -7,6 +7,8 @@
 
 import Foundation
 import RxCocoa
+import TVNExtensions
+import UIKit
 
 ///RxImagePickerDelegateProxy
 public class RxImagePickerDelegateProxy:

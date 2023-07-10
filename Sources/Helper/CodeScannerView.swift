@@ -70,7 +70,7 @@ public class CodeScannerView: UIView {
     
     weak var captureMetadataOutputObjectsDelegate: AVCaptureMetadataOutputObjectsDelegate?
     private var captureSession: AVCaptureSession?
-    internal var scanCompleteBlock: ((_ message: String?, _ error: CodeScannerViewError?)->())?
+    public var scanCompleteBlock: ((_ message: String?, _ error: CodeScannerViewError?)->())?
     private let q = DispatchQueue(label: "CodeScannerViewQueue")
     private lazy var captureMetadataOutput: AVCaptureMetadataOutput = {
         let captureMetadataOutput = AVCaptureMetadataOutput()

@@ -7,6 +7,7 @@
 
 import Foundation
 import MobileCoreServices
+import UIKit
 
 public enum ImagePickerError: Error {
     case noCameraAvailable

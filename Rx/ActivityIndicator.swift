@@ -5,6 +5,7 @@
 //  Created by TienVu on 2/14/19.
 //
 
+import Foundation
 import RxSwift
 import RxCocoa
 

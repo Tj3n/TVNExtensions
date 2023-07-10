@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum CoordinatorTransitionType {
     case root, modal, push
