@@ -112,7 +112,7 @@ class ViewController: UIViewController {
         scannerView.edgesToSuperView()
         scannerView.rx
             .startReading
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .subscribe { [weak self] (event) in
                 print(event)
                 scannerView.removeFromSuperview()
