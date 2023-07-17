@@ -6,15 +6,10 @@
 //
 
 import Foundation
-import UIKit
 
 public let TVNErrorDomain = "com.tvn.errorDomain"
 
 public extension NSError {
-    func show() {
-        ErrorAlertView.shared.showError(self)
-    }
-    
     var jsonString: String? {
         get {
             let dict = ["code": String(self.code),
@@ -30,10 +25,6 @@ public extension NSError {
 }
 
 public extension Error {
-    func show() {
-        ErrorAlertView.shared.showError(self)
-    }
-    
     var jsonString: String? {
         get {
             let err = self as NSError
@@ -51,26 +42,6 @@ public extension Error {
             }
             
             return nil
-        }
-    }
-}
-
-private class ErrorAlertView {
-    static let shared = ErrorAlertView()
-    var alert: UIAlertController?
-    
-    func showError(_ error: Error?) {
-        DispatchQueue.main.async {
-            guard (error as NSError?)?.code != NSURLErrorCancelled && UIApplication.shared.applicationState == .active else {
-                return
-            }
-            
-            if let alert = self.alert, let _ = alert.presentingViewController {
-                alert.message = error?.localizedDescription
-            } else {
-                self.alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert, cancelTitle: "OK")
-                self.alert?.show()
-            }
         }
     }
 }

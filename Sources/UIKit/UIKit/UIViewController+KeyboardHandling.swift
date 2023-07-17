@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import TVNExtensionsFoundation
 
 extension UIViewController {
     private struct AssociatedKeys {

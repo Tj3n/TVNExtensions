@@ -20,6 +20,7 @@ public struct CryptoHelper {
         return signStr.data(using: .utf8)!.SHA256().toHexString()
     }
     
+    @available(iOS, deprecated: 13.0)
     public static func MD5ToHex(string: String) -> String {
         let data = string.data(using: .utf8)!
         return data.MD5().toHexString()

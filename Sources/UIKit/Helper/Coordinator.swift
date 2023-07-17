@@ -63,5 +63,4 @@ class Coordinator: CoordinatorType {
             fatalError("No Navigation controller and no modal presenting \(currentViewController)")
         }
     }
-    
 }

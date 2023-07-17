@@ -7,6 +7,7 @@
 
 import Foundation
 import MapKit
+import TVNExtensionsFoundation
 
 //MARK: - Routing
 protocol MapViewDirectionable: AnyObject where Self: CLLocationManagerDelegate {

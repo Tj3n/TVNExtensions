@@ -7,7 +7,11 @@
 //
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
 // MARK: Common
 extension String {
@@ -98,9 +102,17 @@ extension String {
         return nil
     }
     
-    public func getSize(attribute: [NSAttributedString.Key: Any], width: CGFloat = UIScreen.main.bounds.size.width, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
+    public func getSize(attribute: [NSAttributedString.Key: Any], width: CGFloat? = nil, height: CGFloat = .greatestFiniteMagnitude) -> CGRect {
         guard self.isNotEmpty else { return .zero }
-        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: attribute, context: nil)
+        var width = width
+        if (width == nil) {
+            #if canImport(UIKit)
+            width = UIScreen.main.bounds.size.width
+            #elseif canImport(AppKit)
+            width = NSScreen.main.bounds.size.width
+            #endif
+        }
+        let sizeOfText = (self as NSString).boundingRect(with: CGSize(width: width!, height: height), options: [NSStringDrawingOptions.usesLineFragmentOrigin, NSStringDrawingOptions.usesFontLeading], attributes: attribute, context: nil)
         return sizeOfText
     }
     
