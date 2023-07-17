@@ -7,13 +7,13 @@
 
 import Foundation
 
-extension NSObject {
+public extension NSObject {
     
     /// Allow stored object in extension, get
     ///
     /// - Parameter key: key
     /// - Returns: value
-    public func getAssociatedObject<T>(key: inout String, type: T.Type) -> T? {
+    func getAssociatedObject<T>(key: inout String, type: T.Type) -> T? {
         guard let value = objc_getAssociatedObject(self, &key) as? T else { return nil }
         return value
     }
@@ -23,7 +23,7 @@ extension NSObject {
     /// - Parameters:
     ///   - key: key
     ///   - value: value
-    public func setAssociatedObject(key: inout String, value: Any?) {
+    func setAssociatedObject(key: inout String, value: Any?) {
         objc_setAssociatedObject(self, &key, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 }

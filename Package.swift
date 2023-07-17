@@ -6,13 +6,16 @@ import PackageDescription
 let package = Package(
     name: "TVNExtensions",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13), .macOS(.v10_14)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "TVNExtensions",
-            targets: ["TVNExtensions"]),
+            name: "TVNExtensionsFoundation",
+            targets: ["TVNExtensionsFoundation"]),
+        .library(
+            name: "TVNExtensionsUIKit",
+            targets: ["TVNExtensionsUIKit"]),
         .library(
             name: "TVNExtensionsRx",
             targets: ["TVNExtensionsRx"]),
@@ -31,15 +34,20 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "TVNExtensions",
+            name: "TVNExtensionsFoundation",
+            path: "Sources/Foundation"),
+        .target(
+            name: "TVNExtensionsUIKit",
             dependencies: [
                 .product(name: "Kingfisher", package: "Kingfisher", condition: .when(platforms: [.iOS]))
             ],
-            path: "Sources"),
+            path: "Sources/UIKit"),
+        
         .target(
             name: "TVNExtensionsRx",
             dependencies:[
-                "TVNExtensions",
+                "TVNExtensionsUIKit",
+                "TVNExtensionsFoundation",
                 "RxSwift",
                 .product(name: "RxCocoa", package: "RxSwift")
             ],
@@ -49,7 +57,10 @@ let package = Package(
             path: "TlvParser"),
         .target(
             name: "ParticleIOS",
-            dependencies: ["TVNExtensions"],
+            dependencies: [
+                "TVNExtensionsFoundation",
+                "TVNExtensionsUIKit"
+            ],
             path: "ParticleIOS"),
     ]
 )

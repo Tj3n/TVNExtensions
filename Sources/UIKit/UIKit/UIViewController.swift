@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SafariServices
+import TVNExtensionsFoundation
 
 public extension UIViewController {
     

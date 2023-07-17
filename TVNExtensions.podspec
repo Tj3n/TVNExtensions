@@ -27,11 +27,11 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'UIKit' do |sp|
-    sp.source_files = "Sources/UIKit"
+    sp.source_files = "Sources/UIKit/UIKit"
   end
 
   s.subspec 'Helper' do |sp|
-    sp.source_files = "Sources/Helper"
+    sp.source_files = "Sources/UIKit/Helper"
     sp.dependency 'TVNExtensions/UIKit'
     sp.frameworks = "CoreTelephony", "CoreLocation", "LocalAuthentication"
   end

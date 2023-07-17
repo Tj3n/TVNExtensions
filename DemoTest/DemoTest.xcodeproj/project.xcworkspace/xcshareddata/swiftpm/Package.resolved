@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "c1f60c63f356d364f4284ba82961acbe7de79bcc",
+        "version" : "7.8.1"
+      }
+    },
+    {
       "identity" : "rxdatasources",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxDataSources",
@@ -33,7 +42,7 @@
       "location" : "https://github.com/Tj3n/TVNExtensions.git",
       "state" : {
         "branch" : "spm",
-        "revision" : "117b1ab7ad7debb5ca7e41eca59abb4e887c80c3"
+        "revision" : "f68cbd367180446bc9c10d73cdc48b754409d0f9"
       }
     }
   ],
